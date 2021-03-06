@@ -16,10 +16,12 @@ export function SignupForm(props) {
   return (
     <BoxContainer>
       <FormContainer>
-        <Input type="text" placeholder="Kullanıcı İsmi" />
+        <Input type="text" placeholder="Kullanıcının Adı" />
+        <Input type="text" placeholder="Kullanıcının Soyadı" />
         <Input type="email" placeholder="Email" />
         <Input type="password" placeholder="Şifre" />
         <Input type="password" placeholder="Şifrenizi tekrar girin" />
+        <Input type="text" placeholder="Telefon Numarası" />
       </FormContainer>
       <Marginer direction="vertical" margin={10} />
       <SubmitButton type="submit">Kayıt Ol</SubmitButton>
@@ -30,6 +32,7 @@ export function SignupForm(props) {
           Giriş Yap.
         </BoldLink>
       </MutedLink>
+      <Marginer direction="vertical" margin="1em" />
     </BoxContainer>
   );
 }

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext,useState} from "react";
 import {
   BoldLink,
   BoxContainer,
@@ -33,22 +33,30 @@ const configGoogle = {
 /** My Facebook login button. 
 const MyGoogleLoginButton = createButton(configGoogle); */
 
-export function LoginForm(props) {
+export function LoginForm(Login, error) {
   const { switchToSignup } = useContext(AccountContext);
+
+  const [details, setDetails] = useState({name: "", email:"", password: ""});
+
+  const submitHandler = e => {
+    e.preventDefault();
+
+    Login(details);
+  }
 
   return (
     <BoxContainer>
-      <FormContainer>
-        <Input type="email" placeholder="Email" />
-        <Input type="password" placeholder="Şifre" />
+      <FormContainer onSubmit={submitHandler}>
+        <Input type="email" id="email" placeholder="Email" onChange={e => setDetails({...details, email: e.target.value})} value={details.email}/>
+        <Input type="password" id="password" placeholder="Şifre" onChange={e => setDetails({...details, password: e.target.value})} value={details.password}/>
       </FormContainer>
       <Marginer direction="vertical" margin={10} />
       <MutedLink href="#">Şifremi unuttum!</MutedLink>
       <Marginer direction="vertical" margin="1.6em" />
-      <SubmitButton type="submit">Giriş</SubmitButton>
+      <SubmitButton type="submit">Giriş </SubmitButton>
       <Marginer direction="vertical" margin="1em" />
       <MutedLink href="#">
-        Üyeliğinizi yoksa {" "}
+        Üyeliğiniz yoksa {" "}
         <BoldLink href="#" onClick={switchToSignup}>
           Kaydol!
         </BoldLink>
@@ -56,6 +64,7 @@ export function LoginForm(props) {
       <Marginer direction="vertical" margin="1em" />
       <FacebookLoginButton />
       <GoogleLoginButton/>
+      <Marginer direction="vertical" margin="1em" />
     </BoxContainer>
   );
 }

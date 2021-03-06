@@ -1,7 +1,7 @@
 import "./App.css";
 import styled from "styled-components";
 import { AccountBox } from "./components/accountBox";
-import img from './img/background.jpg'
+import img from './img/background.jpg';
 
 
 const AppContainer = styled.div`
@@ -26,6 +26,8 @@ const HeaderImg = styled.div`
 `;
 
 function App() {
+
+  
   return (
     <HeaderImg>
       <AppContainer>

@@ -124,6 +124,33 @@ export function AccountBox(props) {
 
   const contextValue = { switchToSignup, switchToSignin };
 
+  const adminUser = {
+    email: "admin@admin.com",
+    password: "admin123"
+  }
+
+  const [user, setUser] = useState({name:"gozde", email:"gozde@gozde.com"});
+  const [error, setError] = useState("");
+
+  const Login = details => {
+    console.log(details);
+    
+    if(details.email === adminUser.email && details.password === adminUser.password){
+      console.log("Logged in");
+      setUser({
+        name: details.name,
+        email:details.email
+      });
+    }
+    else{
+      console.log("Details are not matched");
+    }
+  }
+
+  const Logout = () => {
+    console.log("Logout");
+  }
+
   return (
     <AccountContext.Provider value={contextValue}>
       <BoxContainer>
@@ -149,7 +176,7 @@ export function AccountBox(props) {
           )}
         </TopContainer>
         <InnerContainer>
-          {active === "signin" && <LoginForm />}
+          {active === "signin" && <LoginForm Login={Login} error={error}/>}
           {active === "signup" && <SignupForm />}
         </InnerContainer>
       </BoxContainer>
