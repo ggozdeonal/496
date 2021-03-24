@@ -11,6 +11,11 @@ import CardBody from "components/Card/CardBody.js";
 import CustomInput from "components/CustomInput/CustomInput.js";
 import CardFooter from "components/Card/CardFooter.js";
 import Button from "components/CustomButtons/Button.js";
+import Checkbox from "@material-ui/core/Checkbox";
+// @material-ui/icons
+import Check from "@material-ui/icons/Check";
+//core components
+import stylesc from "assets/jss/material-dashboard-react/checkboxAdnRadioStyle.js";
 
 const styles = {
   cardCategoryWhite: {
@@ -43,12 +48,27 @@ const styles = {
 };
 
 const useStyles = makeStyles(styles);
+const useStylesc = makeStyles(stylesc);
 
 export default function TableList() {
   const classes = useStyles();
+  const classesc = useStylesc();
+  const [checked, setChecked] = React.useState([]);
+  const handleToggle = value => {
+    const currentIndex = checked.indexOf(value);
+    const newChecked = [...checked];
+
+    if (currentIndex === -1) {
+      newChecked.push(value);
+    } else {
+      newChecked.splice(currentIndex, 1);
+    }
+    setChecked(newChecked);
+  };
   return (
     
     <GridContainer>
+    
       <GridItem xs={12} sm={12} md={12}>
         <Card>
           <CardHeader color="warning">
@@ -97,16 +117,48 @@ export default function TableList() {
                     }}
                   />
                 </GridItem>
-                <GridItem xs={12} sm={12} md={4}>
+
+                <GridContainer>
+                <GridItem xs={12} sm={12} md={6}>
                 <CustomInput
-                    labelText="Kimler için"
-                    id="cb"
-                    formControlProps={{
-                      fullWidth: true
-                    }}
-                  />
+                labelText="Evim mağdurlar için musaittir."
+                id="magdur"
+                formControlProps={{
+                  fullWidth: true
+                }}inputProps={{
+                  disabled: true
+                }}
+              /><Checkbox
+                  tabIndex={-1}
+                  onClick={() => handleToggle(1)}
+                  checkedIcon={<Check className={classes.checkedIcon} />}
+                  icon={<Check className={classes.uncheckedIcon} />}
+                  classes={{
+                    checked: classes.checked
+                  }}
+                /></GridItem>
+                <GridItem xs={12} sm={12} md={6}>
+                <CustomInput
+                labelText="Evim evcil hayvanlar için musaittir."
+                id="pets"
+                formControlProps={{
+                  fullWidth: true
+                }}inputProps={{
+                  disabled: true
+                }}
+              />
+                <Checkbox
+                  tabIndex={-1}
+                  onClick={() => handleToggle(1)}
+                  checkedIcon={<Check className={classes.checkedIcon} />}
+                  icon={<Check className={classes.uncheckedIcon} />}
+                  classes={{
+                    checked: classes.checked
+                  }}
+                />
                 </GridItem>
-            
+                
+              </GridContainer>
       
               </GridContainer>
 
