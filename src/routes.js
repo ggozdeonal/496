@@ -36,7 +36,7 @@ const dashboardRoutes = [
   },
   {
     path: "/table",
-    name: "İlanlar",
+    name: "İlan Ekle",
     rtlName: "قائمة الجدول",
     icon: "content_paste",
     component: TableList,
@@ -44,7 +44,15 @@ const dashboardRoutes = [
   },
   {
     path: "/typography",
-    name: "Typography",
+    name: "İlanları Listele",
+    rtlName: "طباعة",
+    icon: LibraryBooks,
+    component: Typography,
+    layout: "/admin"
+  },
+  {
+    path: "/yazi",
+    name: "typography",
     rtlName: "طباعة",
     icon: LibraryBooks,
     component: Typography,

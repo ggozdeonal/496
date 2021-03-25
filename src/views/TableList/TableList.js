@@ -14,8 +14,13 @@ import Button from "components/CustomButtons/Button.js";
 import Checkbox from "@material-ui/core/Checkbox";
 // @material-ui/icons
 import Check from "@material-ui/icons/Check";
+import Radio from "@material-ui/core/Radio";
+// @material-ui/icons
+import FiberManualRecord from "@material-ui/icons/FiberManualRecord";
+
 //core components
 import stylesc from "assets/jss/material-dashboard-react/checkboxAdnRadioStyle.js";
+
 
 const styles = {
   cardCategoryWhite: {
@@ -54,6 +59,7 @@ export default function TableList() {
   const classes = useStyles();
   const classesc = useStylesc();
   const [checked, setChecked] = React.useState([]);
+  const [selectedValue, setSelectedValue] = React.useState(null);
   const handleToggle = value => {
     const currentIndex = checked.indexOf(value);
     const newChecked = [...checked];
@@ -106,6 +112,7 @@ export default function TableList() {
                     }}
                   />
                 </GridItem>
+
               </GridContainer>
               <GridContainer>
                 <GridItem xs={12} sm={12} md={12}>
@@ -118,7 +125,8 @@ export default function TableList() {
                   />
                 </GridItem>
 
-                <GridContainer>
+              <GridContainer>
+              </GridContainer>
                 <GridItem xs={12} sm={12} md={6}>
                 <CustomInput
                 labelText="Evim mağdurlar için musaittir."
@@ -131,10 +139,10 @@ export default function TableList() {
               /><Checkbox
                   tabIndex={-1}
                   onClick={() => handleToggle(1)}
-                  checkedIcon={<Check className={classes.checkedIcon} />}
-                  icon={<Check className={classes.uncheckedIcon} />}
+                  checkedIcon={<Check className={classesc.checkedIcon} />}
+                  icon={<Check className={classesc.uncheckedIcon} />}
                   classes={{
-                    checked: classes.checked
+                    checked: classesc.checked
                   }}
                 /></GridItem>
                 <GridItem xs={12} sm={12} md={6}>
@@ -150,15 +158,15 @@ export default function TableList() {
                 <Checkbox
                   tabIndex={-1}
                   onClick={() => handleToggle(1)}
-                  checkedIcon={<Check className={classes.checkedIcon} />}
-                  icon={<Check className={classes.uncheckedIcon} />}
+                  checkedIcon={<Check className={classesc.checkedIcon} />}
+                  icon={<Check className={classesc.uncheckedIcon} />}
                   classes={{
-                    checked: classes.checked
+                    checked: classesc.checked
                   }}
                 />
                 </GridItem>
                 
-              </GridContainer>
+              
       
               </GridContainer>
 
@@ -220,12 +228,49 @@ export default function TableList() {
                 </GridItem>
                 <GridItem xs={12} sm={12} md={6}>
                   <CustomInput
-                    labelText="Etkinlik Tipi"
+                    labelText="Bağış / Erzak / Buluşma"
                     id="type"
                     formControlProps={{
                       fullWidth: true
+                    }}inputProps={{
+                      disabled: true
                     }}
-                  />
+                    
+                  /><Radio
+                  checked={selectedValue === "bagis"}
+                  onChange={() => setSelectedValue("bagis")}
+                  value="bagis"
+                  name="radiobutton1"
+                  aria-label="Bagis"
+                  icon={<FiberManualRecord className={classesc.radioUnchecked} />}
+                  checkedIcon={<FiberManualRecord className={classesc.radioChecked} />}
+                  classes={{
+                    checked: classesc.radio
+                  }}
+                /><Radio
+                checked={selectedValue === "erzak"}
+                onChange={() => setSelectedValue("erzak")}
+                value="erzak"
+                name="radiobutton2"
+                aria-label="Erzak"
+                icon={<FiberManualRecord className={classesc.radioUnchecked} />}
+                checkedIcon={<FiberManualRecord className={classesc.radioChecked} />}
+                classes={{
+                  checked: classesc.radio
+                }}
+              />
+                <Radio
+                  checked={selectedValue === "bulusma"}
+                  onChange={() => setSelectedValue("bulusma")}
+                  value="bulusma"
+                  name="radiobutton3"
+                  aria-label="Bulusma"
+                  icon={<FiberManualRecord className={classesc.radioUnchecked} />}
+                  checkedIcon={<FiberManualRecord className={classesc.radioChecked} />}
+                  classes={{
+                    checked: classesc.radio
+                  }}
+                />
                 </GridItem>
                 <GridItem xs={12} sm={12} md={12}>
                   <CustomInput
@@ -337,27 +382,6 @@ export default function TableList() {
         </Card>
       </GridItem>
   
-      <GridItem xs={12} sm={12} md={12}>
-        <Card>
-          <CardHeader color="warning">
-            <h4 className={classes.cardTitleWhite}>İlan Filtrele</h4>
-            <p className={classes.cardCategoryWhite}>
-              Here is a subtitle for this table
-            </p>
-          </CardHeader>
-          <CardBody>
-            <Table
-              tableHeaderColor="primary"
-              tableHead={["Name", "Country", "City"]}
-              tableData={[
-                ["Dakota Rice", "Niger", "Oud-Turnhout"],
-                ["Minerva Hooper", "Curaçao", "Sinaai-Waas"],
-      
-              ]}
-            />
-          </CardBody>
-        </Card>
-      </GridItem>
       
     </GridContainer>
   );
