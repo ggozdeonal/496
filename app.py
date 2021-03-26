@@ -34,7 +34,7 @@ def login():
 
     if userdb.get(email):
         if userdb.get(email)['password'] == password:
-            return jsonify({"status":"SUCCESS","message":"login is successful","user":{"user_id":"2","name":"Işıl","surname":"Güneş","email":"igunes@gmail.com","phone":"+905435586504"},"session":{"start_time":"Thu Mar 18 2021 22:09:41 GMT+0300 (GMT+03:00)","expire_time":"Fri Mar 19 2021 10:09:41 GMT+0300 (GMT+03:00)","session_key":"admin"}}), 200
+            return jsonify({'token': 'fake-jwt-token', "status":"SUCCESS","message":"login is successful","user":{"user_id":"2","name":"Işıl","surname":"Güneş","email":"igunes@gmail.com","phone":"+905435586504"},"session":{"start_time":"Thu Mar 18 2021 22:09:41 GMT+0300 (GMT+03:00)","expire_time":"Fri Mar 19 2021 10:09:41 GMT+0300 (GMT+03:00)","session_key":"admin"}}), 200
         return jsonify({"status":"SUCCESS","message":"login has failed"}), 400
     return jsonify({"status":"SUCCESS","message":"login has failed"}), 400
 
