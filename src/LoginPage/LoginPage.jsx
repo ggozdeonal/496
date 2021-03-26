@@ -38,30 +38,51 @@ function LoginPage() {
 
     return (
         <div className="col-lg-8 offset-lg-2">
-            <h2>Login</h2>
-            <form name="form" onSubmit={handleSubmit}>
-                <div className="form-group">
-                    <label>Email</label>
-                    <input type="text" name="email" value={email} onChange={handleChange} className={'form-control' + (submitted && !email ? ' is-invalid' : '')} />
-                    {submitted && !email &&
-                        <div className="invalid-feedback">Email is required</div>
-                    }
-                </div>
-                <div className="form-group">
-                    <label>Password</label>
-                    <input type="password" name="password" value={password} onChange={handleChange} className={'form-control' + (submitted && !password ? ' is-invalid' : '')} />
-                    {submitted && !password &&
-                        <div className="invalid-feedback">Password is required</div>
-                    }
-                </div>
-                <div className="form-group">
-                    <button className="btn btn-primary">
-                        {loggingIn && <span className="spinner-border spinner-border-sm mr-1"></span>}
-                        Login
-                    </button>
-                    <Link to="/register" className="btn btn-link">Register</Link>
-                </div>
-            </form>
+            <div className="card bg-light">
+                <article className="card-body mx-auto">
+                    <h4 className="card-title mt-3 text-center">Create Account</h4>
+                    <p className="text-center">Get started with your free account</p>
+                    <p>
+                        <a href="" className="btn btn-block btn-twitter"> <i className="fab fa-twitter"></i> Login via
+                            Twitter</a>
+                        <a href="" className="btn btn-block btn-facebook"> <i className="fab fa-facebook-f"></i> Login
+                            via facebook</a>
+                    </p>
+                    <p className="divider-text">
+                        <span className="bg-light">OR</span>
+                    </p>
+                    <form>
+                        <div className="form-group input-group">
+                            <div className="input-group-prepend">
+                                <span className="input-group-text"> <i className="fa fa-user"></i> </span>
+                            </div>
+                            <input name="" className="form-control" placeholder="Full name" type="text"/>
+                        </div>
+                        <div className="form-group input-group">
+                            <div className="input-group-prepend">
+                                <span className="input-group-text"> <i className="fa fa-envelope"></i> </span>
+                            </div>
+                            <input name="" className="form-control" placeholder="Email address" type="email"/>
+                        </div>
+                        <div className="form-group input-group">
+                            <div className="input-group-prepend">
+                                <span className="input-group-text"> <i className="fa fa-lock"></i> </span>
+                            </div>
+                            <input className="form-control" placeholder="Create password" type="password"/>
+                        </div>
+                        <div className="form-group input-group">
+                            <div className="input-group-prepend">
+                                <span className="input-group-text"> <i className="fa fa-lock"></i> </span>
+                            </div>
+                            <input className="form-control" placeholder="Repeat password" type="password"/>
+                        </div>
+                        <div className="form-group">
+                            <button type="submit" className="btn btn-primary btn-block"> Create Account</button>
+                        </div>
+                        <p className="text-center">Have an account? <a href="">Log In</a></p>
+                    </form>
+                </article>
+            </div>
         </div>
     );
 }
