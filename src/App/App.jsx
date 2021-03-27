@@ -34,6 +34,7 @@ function App() {
 
             <div className="row">
                 <div className="col-sm-2">
+                    {localStorage.getItem('user') &&
                     <Navigation
                         // you can use your own router's api to get pathname
                         activeItemId="/dashboard"
@@ -43,37 +44,58 @@ function App() {
                         }}
                         items={[
                             {
-                                title: 'Dashboard',
+                                title: 'Anasayfa',
                                 itemId: '/dashboard',
                                 // you can use your own custom Icon component as well
                                 // icon is optional
                             },
                             {
-                                title: 'Management',
+                                title: 'Ev',
                                 itemId: '/management',
                                 subNav: [
                                     {
-                                        title: 'Projects',
+                                        title: 'Evleri Listele',
                                         itemId: '/management/projects',
                                     },
                                     {
-                                        title: 'Members',
-                                        itemId: '/management/members',
+                                        title: 'Ev Ekle',
+                                        itemId: '/management/members1',
+                                    },
+                                    {
+                                        title: 'Evi Sil',
+                                        itemId: '/management/members2',
+                                    },
+                                    {
+                                        title: 'Evi Guncelle',
+                                        itemId: '/management/members3',
                                     },
                                 ],
                             },
                             {
-                                title: 'Another Item',
+                                title: 'Etkinlik',
                                 itemId: '/another',
                                 subNav: [
                                     {
-                                        title: 'Teams',
+                                        title: 'Etkinlikleri Listele',
                                         itemId: '/management/teams',
+                                    },
+                                    {
+                                        title: 'Etkinlik Ekle',
+                                        itemId: '/management/teams1',
+                                    },
+                                    {
+                                        title: 'Etkinligi Sil',
+                                        itemId: '/management/teams2',
+                                    },
+                                    {
+                                        title: 'Etkinligi Guncelle',
+                                        itemId: '/management/teams3',
                                     },
                                 ],
                             },
                         ]}
                     />
+                    }
 
                     {alert.message &&
                     <div className={`alert ${alert.type}`}>{alert.message}</div>
