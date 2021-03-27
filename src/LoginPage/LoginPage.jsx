@@ -39,7 +39,7 @@ function LoginPage() {
     return (
         <div className="col-lg-8 offset-lg-2">
             <div className="card bg-light">
-                <article className="card-body mx-auto">
+                <article className="card-body col-lg-6 offset-lg-3">
                     <h4 className="card-title mt-3 text-center">Giris Yap</h4>
                     <p className="text-center">Hesabiniza giris yapin</p>
                     <p>
