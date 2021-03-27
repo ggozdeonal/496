@@ -37,51 +37,63 @@ function RegisterPage() {
 
     return (
         <div className="col-lg-8 offset-lg-2">
-            <h2>Register</h2>
-            <form name="form" onSubmit={handleSubmitRegister}>
-                <div className="form-group">
-                    <label>Name</label>
-                    <input type="text" name="name" value={user.name} onChange={handleChange} className={'form-control' + (submitted && !user.name ? ' is-invalid' : '')} />
-                    {submitted && !user.name &&
-                        <div className="invalid-feedback">Name is required</div>
-                    }
-                </div>
-                <div className="form-group">
-                    <label>Surname</label>
-                    <input type="text" name="surname" value={user.surname} onChange={handleChange} className={'form-control' + (submitted && !user.surname ? ' is-invalid' : '')} />
-                    {submitted && !user.surname &&
-                        <div className="invalid-feedback">Surname is required</div>
-                    }
-                </div>
-                <div className="form-group">
-                    <label>Password</label>
-                    <input type="password" name="password" value={user.password} onChange={handleChange} className={'form-control' + (submitted && !user.password ? ' is-invalid' : '')} />
-                    {submitted && !user.password &&
-                        <div className="invalid-feedback">Password is required</div>
-                    }
-                </div>
-                <div className="form-group">
-                    <label>Email</label>
-                    <input type="text" name="email" value={user.email} onChange={handleChange} className={'form-control' + (submitted && !user.email ? ' is-invalid' : '')} />
-                    {submitted && !user.email &&
-                    <div className="invalid-feedback">Email is required</div>
-                    }
-                </div>
-                <div className="form-group">
-                    <label>Phone</label>
-                    <input type="text" name="phone" value={user.phone} onChange={handleChange} className={'form-control' + (submitted && !user.phone ? ' is-invalid' : '')} />
-                    {submitted && !user.phone &&
-                    <div className="invalid-feedback">Phone is required</div>
-                    }
-                </div>
-                <div className="form-group">
-                    <button className="btn btn-primary">
-                        {registering && <span className="spinner-border spinner-border-sm mr-1"></span>}
-                        Register
-                    </button>
-                    <Link to="/login" className="btn btn-link">Cancel</Link>
-                </div>
-            </form>
+            <div className="card bg-light">
+                <article className="card-body mx-auto">
+                    <h4 className="card-title mt-3 text-center">Hesap Olustur</h4>
+                    <p className="text-center">Ucretsiz bir hesap olusturun</p>
+                    <form name="registerForm" onSubmit={handleSubmitRegister}>
+                        <div className="form-group input-group">
+                            <div className="input-group-prepend">
+                                <span className="input-group-text"> <i className="fa fa-user"></i> </span>
+                            </div>
+                            <input type="text" name="name" placeholder="Isim" value={user.name} onChange={handleChange} className={'form-control' + (submitted && !user.name ? ' is-invalid' : '')} />
+                            {submitted && !user.name &&
+                            <div className="invalid-feedback">Name is required</div>
+                            }
+                        </div>
+                        <div className="form-group input-group">
+                            <div className="input-group-prepend">
+                                <span className="input-group-text"> <i className="fa fa-user"></i> </span>
+                            </div>
+                            <input type="text" name="surname" placeholder="Soyisim" value={user.surname} onChange={handleChange} className={'form-control' + (submitted && !user.surname ? ' is-invalid' : '')} />
+                            {submitted && !user.surname &&
+                            <div className="invalid-feedback">Surname is required</div>
+                            }
+                        </div>
+                        <div className="form-group input-group">
+                            <div className="input-group-prepend">
+                                <span className="input-group-text"> <i className="fa fa-envelope"></i> </span>
+                            </div>
+                            <input type="text" name="email" placeholder="E-Posta" value={user.email} onChange={handleChange} className={'form-control' + (submitted && !user.email ? ' is-invalid' : '')} />
+                            {submitted && !user.email &&
+                            <div className="invalid-feedback">Email is required</div>
+                            }
+                        </div>
+                        <div className="form-group input-group">
+                            <div className="input-group-prepend">
+                                <span className="input-group-text"> <i className="fa fa-lock"></i> </span>
+                            </div>
+                            <input type="password" name="password" placeholder="Parola" value={user.password} onChange={handleChange} className={'form-control' + (submitted && !user.password ? ' is-invalid' : '')} />
+                            {submitted && !user.password &&
+                            <div className="invalid-feedback">Password is required</div>
+                            }
+                        </div>
+                        <div className="form-group input-group">
+                            <div className="input-group-prepend">
+                                <span className="input-group-text"> <i className="fa fa-phone"></i> </span>
+                            </div>
+                            <input type="text" name="phone" placeholder="Telefon" value={user.phone} onChange={handleChange} className={'form-control' + (submitted && !user.phone ? ' is-invalid' : '')} />
+                            {submitted && !user.phone &&
+                            <div className="invalid-feedback">Phone is required</div>
+                            }
+                        </div>
+                        <div className="form-group">
+                            <button type="submit" className="btn btn-primary btn-block">Kayit Ol</button>
+                        </div>
+                        <p className="text-center">Bir hesabiniz mi var? <Link to="/login" className="btn btn-link">Giris Yap</Link></p>
+                    </form>
+                </article>
+            </div>
         </div>
     );
 }

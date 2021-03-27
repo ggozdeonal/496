@@ -40,46 +40,40 @@ function LoginPage() {
         <div className="col-lg-8 offset-lg-2">
             <div className="card bg-light">
                 <article className="card-body mx-auto">
-                    <h4 className="card-title mt-3 text-center">Create Account</h4>
-                    <p className="text-center">Get started with your free account</p>
+                    <h4 className="card-title mt-3 text-center">Giris Yap</h4>
+                    <p className="text-center">Hesabiniza giris yapin</p>
                     <p>
-                        <a href="" className="btn btn-block btn-twitter"> <i className="fab fa-twitter"></i> Login via
-                            Twitter</a>
-                        <a href="" className="btn btn-block btn-facebook"> <i className="fab fa-facebook-f"></i> Login
-                            via facebook</a>
+                        <a href="" className="btn btn-block btn-twitter"> <i className="fab fa-twitter"></i> Twitter ile Giris</a>
+                        <a href="" className="btn btn-block btn-facebook"> <i className="fab fa-facebook-f"></i> Facebook ile Giris</a>
                     </p>
                     <p className="divider-text">
-                        <span className="bg-light">OR</span>
+                        <span className="bg-light"> VEYA </span>
                     </p>
-                    <form>
-                        <div className="form-group input-group">
-                            <div className="input-group-prepend">
-                                <span className="input-group-text"> <i className="fa fa-user"></i> </span>
-                            </div>
-                            <input name="" className="form-control" placeholder="Full name" type="text"/>
-                        </div>
+                    <form name="loginForm" onSubmit={handleSubmit}>
                         <div className="form-group input-group">
                             <div className="input-group-prepend">
                                 <span className="input-group-text"> <i className="fa fa-envelope"></i> </span>
                             </div>
-                            <input name="" className="form-control" placeholder="Email address" type="email"/>
+                            <input type="text" name="email" placeholder="E-Posta" value={email} onChange={handleChange} className={'form-control' + (submitted && !email ? ' is-invalid' : '')} />
+                            {submitted && !email &&
+                            <div className="invalid-feedback">Email is required</div>
+                            }
                         </div>
                         <div className="form-group input-group">
                             <div className="input-group-prepend">
                                 <span className="input-group-text"> <i className="fa fa-lock"></i> </span>
                             </div>
-                            <input className="form-control" placeholder="Create password" type="password"/>
-                        </div>
-                        <div className="form-group input-group">
-                            <div className="input-group-prepend">
-                                <span className="input-group-text"> <i className="fa fa-lock"></i> </span>
-                            </div>
-                            <input className="form-control" placeholder="Repeat password" type="password"/>
+                            <input type="password" name="password" placeholder="Parola" value={password} onChange={handleChange} className={'form-control' + (submitted && !password ? ' is-invalid' : '')} />
+                            {submitted && !password &&
+                            <div className="invalid-feedback">Password is required</div>
+                            }
                         </div>
                         <div className="form-group">
-                            <button type="submit" className="btn btn-primary btn-block"> Create Account</button>
+                            <button type="submit" className="btn btn-primary btn-block">
+                                {loggingIn && <span className="spinner-border spinner-border-sm mr-1"></span>}
+                                Giris Yap </button>
                         </div>
-                        <p className="text-center">Have an account? <a href="">Log In</a></p>
+                        <p className="text-center">Bir hesabiniz yok mu? <Link to="/register" className="btn btn-link">Kayit Ol</Link></p>
                     </form>
                 </article>
             </div>
