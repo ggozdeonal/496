@@ -96,14 +96,13 @@ function App() {
                         ]}
                     />
                     }
-
-                    {alert.message &&
-                    <div className={`alert ${alert.type}`}>{alert.message}</div>
-                    }
                 </div>
 
                 <div className="col-sm-8">
                     <div className="container">
+                        {alert.message &&
+                        <div className={`alert ${alert.type}`}>{alert.message}</div>
+                        }
                         <Router history={history}>
                             <Switch>
                                 <PrivateRoute exact path="/" component={HomePage} />
