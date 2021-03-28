@@ -43,7 +43,7 @@ function LoginPage() {
                     <h4 className="card-title mt-3 text-center">Giris Yap</h4>
                     <p className="text-center">Hesabiniza giris yapin</p>
                     <p>
-                        <a href="" className="btn btn-block btn-twitter"> <i className="fab fa-twitter"></i> Twitter ile Giris</a>
+                        <a href="" className="btn btn-block btn-google"> <i className="fab fa-google"></i> Google ile Giris</a>
                         <a href="" className="btn btn-block btn-facebook"> <i className="fab fa-facebook-f"></i> Facebook ile Giris</a>
                     </p>
                     <p className="divider-text">
