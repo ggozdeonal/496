@@ -13,6 +13,7 @@ import UserProfile from "views/UserProfile/UserProfile.js";
 import TableList from "views/TableList/TableList.js";
 import Typography from "views/Typography/Typography.js";
 import Icons from "views/Icons/Icons.js";
+import Icon from "@material-ui/core/Icon";
 import Maps from "views/Maps/Maps.js";
 import NotificationsPage from "views/Notifications/Notifications.js";
 // core components/views for RTL layout
@@ -29,7 +30,7 @@ const dashboardRoutes = [
   {
     path: "/user",
     name: "Profil",
-   
+
     icon: Person,
     component: UserProfile,
     layout: "/admin"
@@ -37,30 +38,42 @@ const dashboardRoutes = [
   {
     path: "/table",
     name: "İlan Ekle",
-
+  
     icon: "content_paste",
     component: TableList,
     layout: "/admin"
   },
   {
     path: "/typography",
-    name: "İlanları Listele",
-  
+    name: "-Etkinlik İlanları",
+
     icon: LibraryBooks,
     component: Typography,
     layout: "/admin"
   },
- 
-  
   {
-    path: "/icons",
-    name: "Icons",
-   
-    icon: BubbleChart,
-    component: Icons,
+    path: "/notifications",
+    name: "-Kayıp Pet İlanları",
+    icon: LibraryBooks,
+    component: NotificationsPage,
+    layout: "/admin"
+  },
+  {
+    path: "/maps",
+    name: "-Ev İlanları",
+    icon: LibraryBooks,
+    component: NotificationsPage,
     layout: "/admin"
   },
 
+  {
+    path: "/icons",
+    name: "Icons",
+    icon: BubbleChart,
+    component: Icons,
+    layout: "/admin"
+  }
+ 
 ];
 
 export default dashboardRoutes;

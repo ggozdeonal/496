@@ -107,7 +107,7 @@ export default function TypographyPage() {
     <GridItem xs={12} sm={12} md={12}>
     <Card>
       <CardHeader color="warning">
-        <h4 className={classes.cardTitleWhite}>İlanları Listele</h4>
+        <h4 className={classes.cardTitleWhite}>Etkinlik İlanlarını Listele</h4>
         <p className={classes.cardCategoryWhite}>
           İlan türünü, filtrelenmek istenen şehri ve semti seçiniz. 
         </p>
@@ -155,12 +155,7 @@ export default function TypographyPage() {
               <Paper>
                 <ClickAwayListener onClickAway={handleClose1}>
                   <MenuList role="menu">
-                    <MenuItem
-                      onClick={handleClose1}
-                      className={classesd.dropdownItem}
-                    >
-                      Ev İlanları
-                    </MenuItem>
+                
                     <MenuItem
                       onClick={handleClose1}
                       className={classesd.dropdownItem}
@@ -179,12 +174,7 @@ export default function TypographyPage() {
                     >
                       Etkinlik İlanları-Erzak Yardımı
                     </MenuItem>
-                    <MenuItem
-                      onClick={handleClose1}
-                      className={classesd.dropdownItem}
-                    >
-                      Kayıp Evcil Hayvan İlanları
-                    </MenuItem>
+                  
                   </MenuList>
                 </ClickAwayListener>
               </Paper>
