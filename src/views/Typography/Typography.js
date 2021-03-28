@@ -115,78 +115,79 @@ export default function TypographyPage() {
       <CardBody>
       
       <GridContainer>
-      <GridItem xs={12} sm={12} md={4}>
-          
-          
-      <div className={classesd.manager}>
-        <Button
-          color={window.innerWidth > 959 ? "transparent" : "white"}
-          justIcon={window.innerWidth > 959}
-          simple={!(window.innerWidth > 959)}
-          aria-owns={open1 ? "menu-list-grow1" : null}
-          aria-haspopup="true"
-          onClick={handleToggle1}
-          className={classesd.buttonLink}
-        >
-        
-          <span className={classesd.typo}><Muted>İlan Türü</Muted></span>
-        
-        </Button>
-        <Poppers
-          open={Boolean(open1)}
-          anchorEl={open1}
-          transition
-          disablePortal
-          className={
-            classNames({ [classesd.popperClose]: !open1 }) +
-            " " +
-            classesd.pooperNav
-          }
-        >
-          {({ TransitionProps, placement }) => (
-            <Grow
-              {...TransitionProps}
-              id="menu-list-grow1"
-              style={{
-                transformOrigin:
-                  placement === "bottom" ? "center top" : "center bottom"
-              }}
-            >
-              <Paper>
-                <ClickAwayListener onClickAway={handleClose1}>
-                  <MenuList role="menu">
-                
-                    <MenuItem
-                      onClick={handleClose1}
-                      className={classesd.dropdownItem}
-                    >
-                      Etkinlik İlanları-Buluşma
-                    </MenuItem>
-                    <MenuItem
-                      onClick={handleClose1}
-                      className={classesd.dropdownItem}
-                    >
-                      Etkinlik İlanları-Bağış
-                    </MenuItem>
-                    <MenuItem
-                      onClick={handleClose1}
-                      className={classesd.dropdownItem}
-                    >
-                      Etkinlik İlanları-Erzak Yardımı
-                    </MenuItem>
-                  
-                  </MenuList>
-                </ClickAwayListener>
-              </Paper>
-            </Grow>
-          )}
-        </Poppers>
-      </div>
-    
-        </GridItem>
-        
-        <GridItem xs={12} sm={12} md={4}>
       
+        
+    
+        <GridItem xs={12} sm={12} md={4}>
+          
+          
+          <div className={classesd.manager}>
+            <Button
+              color={window.innerWidth > 959 ? "transparent" : "white"}
+              justIcon={window.innerWidth > 959}
+              simple={!(window.innerWidth > 959)}
+              aria-owns={open1 ? "menu-list-grow1" : null}
+              aria-haspopup="true"
+              onClick={handleToggle1}
+              className={classesd.buttonLink}
+            >
+            
+              <span className={classesd.typo}><Muted>İlan</Muted></span>
+            
+            </Button>
+            <Poppers
+              open={Boolean(open1)}
+              anchorEl={open1}
+              transition
+              disablePortal
+              className={
+                classNames({ [classesd.popperClose]: !open1 }) +
+                " " +
+                classesd.pooperNav
+              }
+            >
+              {({ TransitionProps, placement }) => (
+                <Grow
+                  {...TransitionProps}
+                  id="menu-list-grow1"
+                  style={{
+                    transformOrigin:
+                      placement === "bottom" ? "center top" : "center bottom"
+                  }}
+                >
+                  <Paper>
+                    <ClickAwayListener onClickAway={handleClose1}>
+                      <MenuList role="menu">
+                    
+                        <MenuItem
+                          onClick={handleClose1}
+                          className={classesd.dropdownItem}
+                        >
+                          Etkinlik-Buluşma
+                        </MenuItem>
+                        <MenuItem
+                          onClick={handleClose1}
+                          className={classesd.dropdownItem}
+                        >
+                          Etkinlik-Bağış
+                        </MenuItem>
+                        <MenuItem
+                          onClick={handleClose1}
+                          className={classesd.dropdownItem}
+                        >
+                          Etkinlik-Erzak Yardımı
+                        </MenuItem>
+                      
+                      </MenuList>
+                    </ClickAwayListener>
+                  </Paper>
+                </Grow>
+              )}
+            </Poppers>
+          </div>
+        
+            </GridItem>
+            <GridItem xs={12} sm={12} md={4}>
       <div className={classesd.manager}>
         <Button
           color={window.innerWidth > 959 ? "transparent" : "white"}

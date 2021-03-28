@@ -369,7 +369,7 @@ export default function TableList() {
           <CardHeader color="primary">
             <h4 className={classes.cardTitleWhite}>Kayıp Evcil Hayvan İlanı Ekle</h4>
             <p className={classes.cardCategoryWhite}>
-              Here is a subtitle for this table
+              Kayıp EVcil Hayvan İlanı için gerekli bilgileri giriniz.
             </p>
           </CardHeader>
           <CardBody>
