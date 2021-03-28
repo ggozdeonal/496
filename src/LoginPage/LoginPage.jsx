@@ -69,7 +69,7 @@ function LoginPage() {
                             }
                         </div>
                         <div className="form-group">
-                            <button type="submit" className="btn btn-primary btn-block">
+                            <button type="submit" className="btn btn-warning btn-block">
                                 {loggingIn && <span className="spinner-border spinner-border-sm mr-1"></span>}
                                 Giris Yap </button>
                         </div>

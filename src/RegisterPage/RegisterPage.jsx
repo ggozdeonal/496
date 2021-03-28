@@ -88,7 +88,7 @@ function RegisterPage() {
                             }
                         </div>
                         <div className="form-group">
-                            <button type="submit" className="btn btn-primary btn-block">Kayit Ol</button>
+                            <button type="submit" className="btn btn-warning btn-block">Kayit Ol</button>
                         </div>
                         <p className="text-center">Bir hesabiniz mi var? <Link to="/login" className="btn btn-link">Giris Yap</Link></p>
                     </form>

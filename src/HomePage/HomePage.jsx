@@ -39,7 +39,6 @@ function HomePage() {
 
     return (
         <div className="col-lg-8 offset-lg-2">
-
             <div className="card bg-light">
                 <article className="card-body col-lg-6 offset-lg-3">
                     <h4 className="card-title mt-3 text-center">Ev Ekle</h4>
@@ -120,7 +119,7 @@ function HomePage() {
                         </div>
                         <div className="form-group">
                             <button type="submit" className="btn btn-primary btn-block">Temizle</button>
-                            <button type="submit" className="btn btn-primary btn-block">Evi Kaydet</button>
+                            <button type="submit" className="btn btn-warning btn-block">Evi Kaydet</button>
                         </div>
                     </form>
                 </article>
