@@ -4,7 +4,6 @@ import { makeStyles } from "@material-ui/core/styles";
 // core components
 import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";
-import Table from "components/Table/Table.js";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
@@ -20,6 +19,7 @@ import FiberManualRecord from "@material-ui/icons/FiberManualRecord";
 
 //core components
 import stylesc from "assets/jss/material-dashboard-react/checkboxAdnRadioStyle.js";
+import Icon from "@material-ui/core/Icon";
 
 
 const styles = {
@@ -80,7 +80,7 @@ export default function TableList() {
           <CardHeader color="warning">
             <h4 className={classes.cardTitleWhite}>Ev İlanı Ekle</h4>
             <p className={classes.cardCategoryWhite}>
-              Here is a subtitle for this table
+              Ev ilanı için gerekli bilgileri giriniz.
             </p>
           </CardHeader>
           <CardBody>
@@ -183,7 +183,7 @@ export default function TableList() {
           <CardHeader color="success">
             <h4 className={classes.cardTitleWhite}>Etkinlik İlanı Ekle</h4>
             <p className={classes.cardCategoryWhite}>
-              Here is a subtitle for this table
+              Etkinlik türünü seçtikten sonra alt satırlardaki aktif alanları doldurunuz.
             </p>
           </CardHeader>
           <CardBody>
@@ -299,7 +299,25 @@ export default function TableList() {
                     }}
                   />
                 </GridItem>
+          
                 <GridItem xs={12} sm={12} md={4}>
+                  <CustomInput
+                    labelText="Para Birimi"
+                    id="currency"
+                    formControlProps={{
+                      fullWidth: true
+                    }}
+                  />
+                </GridItem>
+                <GridItem xs={12} sm={12} md={4}>
+                  <CustomInput
+                    labelText="Bağış Miktarı"
+                    id="amount"
+                    formControlProps={{
+                      fullWidth: true
+                    }}
+                  />
+                </GridItem>      <GridItem xs={12} sm={12} md={4}>
                   <CustomInput
                     labelText="Semt"
                     id="state"
@@ -307,6 +325,31 @@ export default function TableList() {
                       fullWidth: true
                     }}
                   />
+                </GridItem>
+                <GridItem xs={12} sm={12} md={4}>
+                  <CustomInput
+                    labelText="Acil"
+                    id="emergency"
+                    formControlProps={{
+                      fullWidth: true
+                    }}
+                    inputProps={{
+                      disabled: true
+                    }}
+                  />
+              
+                    <Checkbox
+                      tabIndex={-1}
+                      onClick={() => handleToggle(1)}
+                      checkedIcon={<Check className={classesc.checkedIcon} />}
+                      icon={<Check className={classesc.uncheckedIcon} />}
+                      classes={{
+                        checked: classesc.checked
+                      }}
+                      
+                      
+
+                    />
                 </GridItem>
 
               
@@ -369,12 +412,11 @@ export default function TableList() {
                     }}
                   />
                 </GridItem>
-              
-            
-      
+               
+             
               </GridContainer>
-
-       
+              
+              <Button color="rose" round><Icon>add_photo_alternate</Icon> Fotoğraf Ekle</Button>
             </CardBody>
             <CardFooter>
               <Button color="primary">Kayıp Evcil Hayvan İlanı Ekle</Button>
