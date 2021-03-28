@@ -15,13 +15,13 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Grow from "@material-ui/core/Grow";
 import Paper from "@material-ui/core/Paper";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
-import Hidden from "@material-ui/core/Hidden";
 import Poppers from "@material-ui/core/Popper";
 // @material-ui/icons
-import Notifications from "@material-ui/icons/Notifications";
 //core components
 import Button from "components/CustomButtons/Button.js";
 import classNames from "classnames";
+
+import background from "assets/img/dog.jpg";
 
 const styles = {
   cardCategoryWhite: {
@@ -59,6 +59,7 @@ const useStylesd = makeStyles(stylesd);
 export default function TypographyPage() {
   const classes = useStyles();
   const classesd = useStylesd();
+
 
   const [open, setOpen] = React.useState(null);
   const handleToggle = event => {
@@ -102,8 +103,11 @@ export default function TypographyPage() {
   };
 
   return (
-    <div>
+    
+   
+      
     <GridContainer>
+    
     <GridItem xs={12} sm={12} md={12}>
     <Card>
       <CardHeader color="warning">
@@ -294,20 +298,26 @@ export default function TypographyPage() {
         </GridItem>
         </GridContainer>
 
-
+        <div style={{ backgroundImage: `url(${background})` }}>
         <Table
           tableHeaderColor="primary"
           tableHead={["İletişim", "Şehir", "Semt"]}
           tableData={[
             ["bılıkbılık", "Ankara", "Yenimahalle"],
             ["gdgd", "Csfa", "df"],
-  
+            ["gdgd", "Csfa", "df"],
+            ["gdgd", "Csfa", "df"],
+            ["gdgd", "Csfa", "df"],
+            ["gdgd", "Csfa", "df"],
+            ["gdgd", "Csfa", "df"],
+ 
+
           ]}
-        />
+        /></div>
       </CardBody>
     </Card>
   </GridItem>
   </GridContainer>
-  </div>
+  
   );
 }
