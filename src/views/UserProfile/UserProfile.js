@@ -12,6 +12,7 @@ import CardHeader from "components/Card/CardHeader.js";
 import CardAvatar from "components/Card/CardAvatar.js";
 import CardBody from "components/Card/CardBody.js";
 import CardFooter from "components/Card/CardFooter.js";
+import Icon from "@material-ui/core/Icon";
 
 import avatar from "assets/img/faces/marc.jpg";
 
@@ -89,11 +90,24 @@ export default function UserProfile() {
                   />
                 </GridItem>
               </GridContainer>
+              <GridContainer>
+                <GridItem xs={12} sm={12} md={4}>
+                  <CustomInput
+                    labelText="Şifre"
+                    id="sifre"
+                    formControlProps={{
+                      fullWidth: true
+                    }}
+                  />
+                </GridItem>
+                
+              </GridContainer>
 
        
             </CardBody>
             <CardFooter>
               <Button color="warning">Profili Güncelle</Button>
+              <Button color="danger"><Icon>dangerous</Icon>Üyeliğimi Sil</Button>
             </CardFooter>
           </Card>
         </GridItem>
