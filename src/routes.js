@@ -4,8 +4,9 @@ import Dashboard from "@material-ui/icons/Dashboard";
 import Person from "@material-ui/icons/Person";
 import LibraryBooks from "@material-ui/icons/LibraryBooks";
 import BubbleChart from "@material-ui/icons/BubbleChart";
-import LocationOn from "@material-ui/icons/LocationOn";
-import Notifications from "@material-ui/icons/Notifications";
+import Home from "@material-ui/icons/House";
+import Events from "@material-ui/icons/Event";
+import Pets from "@material-ui/icons/Pets";
 
 // core components/views for Admin layout
 import DashboardPage from "views/Dashboard/Dashboard.js";
@@ -47,21 +48,21 @@ const dashboardRoutes = [
     path: "/typography",
     name: "-Etkinlik İlanları",
 
-    icon: LibraryBooks,
+    icon: Events,
     component: Typography,
     layout: "/admin"
   },
   {
     path: "/notifications",
     name: "-Kayıp Pet İlanları",
-    icon: LibraryBooks,
+    icon: Pets,
     component: NotificationsPage,
     layout: "/admin"
   },
   {
     path: "/maps",
     name: "-Ev İlanları",
-    icon: LibraryBooks,
+    icon: Home,
     component: Maps,
     layout: "/admin"
   },
