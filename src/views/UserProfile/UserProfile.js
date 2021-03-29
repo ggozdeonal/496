@@ -13,6 +13,15 @@ import CardAvatar from "components/Card/CardAvatar.js";
 import CardBody from "components/Card/CardBody.js";
 import CardFooter from "components/Card/CardFooter.js";
 import Icon from "@material-ui/core/Icon";
+import Home from "@material-ui/icons/House";
+import Events from "@material-ui/icons/Event";
+import Pets from "@material-ui/icons/Pets";
+// core components
+import Tabs from "components/CustomTabs/CustomTabs.js";
+import Tasks from "components/Tasks/Tasks.js";
+
+
+import { evilanlari, etkinlikilanlari, kayippetilanlari } from "variables/general.js";
 
 import avatar from "assets/img/faces/marc.jpg";
 
@@ -46,7 +55,7 @@ export default function UserProfile() {
           <Card>
             <CardHeader color="warning">
               <h4 className={classes.cardTitleWhite}>Profilini Duzenle</h4>
-              <p className={classes.cardCategoryWhite}>Profilini tamamla</p>
+              <p className={classes.cardCategoryWhite}>Profil bilgilerini düzenle.</p>
             </CardHeader>
             <CardBody>
           
@@ -113,6 +122,50 @@ export default function UserProfile() {
         </GridItem>
      
       </GridContainer>
+      
+      <Tabs
+      title="İlanlarım:"
+      headerColor="success"
+      tabs={[
+        {
+          tabName: "Ev İlanlarım",
+          tabIcon: Home,
+          tabContent: (
+            <Tasks
+              checkedIndexes={[0, 1]}
+              tasksIndexes={[0, 1]}
+              tasks={evilanlari}
+            />
+          )
+        },
+        {
+          tabName: "Etkinlik İlanlarım",
+          tabIcon: Events,
+          tabContent: (
+            <Tasks
+              checkedIndexes={[0]}
+              tasksIndexes={[0, 1]}
+              tasks={etkinlikilanlari}
+            />
+          )
+        },
+        {
+          tabName: "Kayıp Pet İlanlarım",
+          tabIcon: Pets,
+          tabContent: (
+            <Tasks
+              checkedIndexes={[1]}
+              tasksIndexes={[0, 1, 2]}
+              tasks={kayippetilanlari}
+            />
+          )
+        }
+      ]}
+    />
+
+
+
+     
     </div>
   );
 }
