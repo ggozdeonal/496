@@ -16,7 +16,7 @@ import Grow from "@material-ui/core/Grow";
 import Paper from "@material-ui/core/Paper";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import Poppers from "@material-ui/core/Popper";
-
+import Icon from "@material-ui/core/Icon";
 import Button from "components/CustomButtons/Button.js";
 import classNames from "classnames";
 import background from "assets/img/home.png";
@@ -105,7 +105,7 @@ export default function HomeAnnPage() {
     <GridItem xs={12} sm={12} md={12}>
     <Card>
       <CardHeader color="warning">
-        <h4 className={classes.cardTitleWhite}>Ev İlanlarını Listele</h4>
+        <h4 className={classes.cardTitleWhite}>Ev İlanlarını Listele<Icon>filter_alt</Icon></h4>
         <p className={classes.cardCategoryWhite}>
           Filtrelenmek istenen şehri ve semti seçiniz. 
         </p>

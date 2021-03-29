@@ -20,7 +20,7 @@ import Poppers from "@material-ui/core/Popper";
 //core components
 import Button from "components/CustomButtons/Button.js";
 import classNames from "classnames";
-
+import Icon from "@material-ui/core/Icon";
 import background from "assets/img/dog.jpg";
 
 const styles = {
@@ -111,7 +111,7 @@ export default function TypographyPage() {
     <GridItem xs={12} sm={12} md={12}>
     <Card>
       <CardHeader color="warning">
-        <h4 className={classes.cardTitleWhite}>Kayıp Evcil Hayvan İlanlarını Listele</h4>
+        <h4 className={classes.cardTitleWhite}>Kayıp Evcil Hayvan İlanlarını Listele<Icon>filter_alt</Icon></h4>
         <p className={classes.cardCategoryWhite}>
           Filtrelenmek istenen şehri ve semti seçiniz. 
         </p>

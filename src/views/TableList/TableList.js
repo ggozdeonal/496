@@ -87,8 +87,8 @@ export default function TableList() {
           <GridContainer>
                 <GridItem xs={12} sm={12} md={4}>
                   <CustomInput
-                    labelText="Ev Sahibi"
-                    id="home_owner"
+                    labelText="Ev Adı"
+                    id="home_name"
                     formControlProps={{
                       fullWidth: true
                     }}
@@ -127,7 +127,25 @@ export default function TableList() {
 
               <GridContainer>
               </GridContainer>
-                <GridItem xs={12} sm={12} md={6}>
+              <GridItem xs={12} sm={12} md={4}>
+                <CustomInput
+                labelText="Evim görünür olabilir."
+                id="visibility"
+                formControlProps={{
+                  fullWidth: true
+                }}inputProps={{
+                  disabled: true
+                }}
+              /><Checkbox
+                  tabIndex={-1}
+                  onClick={() => handleToggle(1)}
+                  checkedIcon={<Check className={classesc.checkedIcon} />}
+                  icon={<Check className={classesc.uncheckedIcon} />}
+                  classes={{
+                    checked: classesc.checked
+                  }}
+                /></GridItem>
+                <GridItem xs={12} sm={12} md={4}>
                 <CustomInput
                 labelText="Evim mağdurlar için musaittir."
                 id="magdur"
@@ -145,7 +163,7 @@ export default function TableList() {
                     checked: classesc.checked
                   }}
                 /></GridItem>
-                <GridItem xs={12} sm={12} md={6}>
+                <GridItem xs={12} sm={12} md={4}>
                 <CustomInput
                 labelText="Evim evcil hayvanlar için musaittir."
                 id="pets"
@@ -369,14 +387,14 @@ export default function TableList() {
           <CardHeader color="primary">
             <h4 className={classes.cardTitleWhite}>Kayıp Evcil Hayvan İlanı Ekle</h4>
             <p className={classes.cardCategoryWhite}>
-              Kayıp EVcil Hayvan İlanı için gerekli bilgileri giriniz.
+              Kayıp evcil hayvan ilanı için gerekli bilgileri giriniz.
             </p>
           </CardHeader>
           <CardBody>
           <GridContainer>
                 <GridItem xs={12} sm={12} md={4}>
                   <CustomInput
-                    labelText="İlan Sahibi"
+                    labelText="İlan Başlığı"
                     id="owner"
                     formControlProps={{
                       fullWidth: true
@@ -403,10 +421,20 @@ export default function TableList() {
                 </GridItem>
               </GridContainer>
               <GridContainer>
+                
                 <GridItem xs={12} sm={12} md={4}>
                   <CustomInput
                     labelText="İletişim"
                     id="tel-no"
+                    formControlProps={{
+                      fullWidth: true
+                    }}
+                  />
+                </GridItem>
+                <GridItem xs={12} sm={12} md={8}>
+                  <CustomInput
+                    labelText="Açıklama"
+                    id="desc"
                     formControlProps={{
                       fullWidth: true
                     }}

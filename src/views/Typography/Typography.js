@@ -15,11 +15,10 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Grow from "@material-ui/core/Grow";
 import Paper from "@material-ui/core/Paper";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
-import Hidden from "@material-ui/core/Hidden";
+
 import Poppers from "@material-ui/core/Popper";
-// @material-ui/icons
-import Notifications from "@material-ui/icons/Notifications";
-//core components
+import Icon from "@material-ui/core/Icon";
+
 import Button from "components/CustomButtons/Button.js";
 import classNames from "classnames";
 
@@ -107,7 +106,7 @@ export default function TypographyPage() {
     <GridItem xs={12} sm={12} md={12}>
     <Card>
       <CardHeader color="warning">
-        <h4 className={classes.cardTitleWhite}>Etkinlik İlanlarını Listele</h4>
+        <h4 className={classes.cardTitleWhite}>Etkinlik İlanlarını Listele<Icon>filter_alt</Icon></h4>
         <p className={classes.cardCategoryWhite}>
           İlan türünü, filtrelenmek istenen şehri ve semti seçiniz. 
         </p>
