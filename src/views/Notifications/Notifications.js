@@ -298,7 +298,7 @@ export default function TypographyPage() {
         </GridItem>
         </GridContainer>
 
-        <div style={{ backgroundImage: `url(${background})` }}>
+        <div style={{ backgroundImage: `url(${background})`,  backgroundRepeat: 'no-repeat', }}>
         <Table
           tableHeaderColor="primary"
           tableHead={["İletişim", "Şehir", "Semt"]}
@@ -310,6 +310,7 @@ export default function TypographyPage() {
             ["gdgd", "Csfa", "df"],
             ["gdgd", "Csfa", "df"],
             ["gdgd", "Csfa", "df"],
+    
  
 
           ]}

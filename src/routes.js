@@ -62,7 +62,7 @@ const dashboardRoutes = [
     path: "/maps",
     name: "-Ev İlanları",
     icon: LibraryBooks,
-    component: NotificationsPage,
+    component: Maps,
     layout: "/admin"
   },
 
