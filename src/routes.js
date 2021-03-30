@@ -4,60 +4,61 @@ import Home from "@material-ui/icons/House";
 import Events from "@material-ui/icons/Event";
 import Pets from "@material-ui/icons/Pets";
 import DashboardPage from "views/Dashboard/Dashboard.js";
-import UserProfile from "views/UserProfile/UserProfile.js";
-import TableList from "views/TableList/TableList.js";
-import Typography from "views/Typography/Typography.js";
-import Icons from "views/Icons/Icons.js";
-import NotificationsPage from "views/Notifications/Notifications.js";
+import Anasayfa from "views/Anasayfa/Anasayfa.js";
+import Profil from "views/Profil/Profil.js";
+import Ilan_ekle from "views/Ilan_ekle/Ilan_ekle.js";
+import Etkinlik_ilanlari from "views/Etkinlik_ilanlari/Etkinlik_ilanlari.js";
+import Ev_ilanlari from "views/Ev_ilanlari/Ev_ilanlari.js";
+import Kayip_evcil_hayvan_ilanlari from "views/Kayip_evcil_hayvan_ilanlari/Kayip_evcil_hayvan_ilanlari.js";
 
 
 const dashboardRoutes = [
   {
-    path: "/dashboard",
+    path: "/anasayfa",
     name: "Ana Sayfa",
    
     icon: Dashboard,
-    component: DashboardPage,
+    component: Anasayfa,
     layout: "/admin"
   },
   {
-    path: "/user",
+    path: "/profil",
     name: "Profil",
 
     icon: Person,
-    component: UserProfile,
+    component: Profil,
     layout: "/admin"
   },
   {
-    path: "/table",
+    path: "/ilan_ekle",
     name: "İlan Ekle",
   
     icon: "content_paste",
-    component: TableList,
+    component: Ilan_ekle,
     layout: "/admin"
   },
   
   {
-    path: "/icons",
+    path: "/ev_ilanlari",
     name: "Ev İlanları",
     icon: Home,
-    component: Icons,
+    component: Ev_ilanlari,
     layout: "/admin"
   },
   {
-    path: "/typography",
+    path: "/etkinlik_ilanlari",
     name: "Etkinlik İlanları",
 
     icon: Events,
-    component: Typography,
+    component: Etkinlik_ilanlari,
     layout: "/admin"
   },
 
   {
-    path: "/notifications",
+    path: "/kayip_evcil_hayvan_ilanlari",
     name: "Kayıp Pet İlanları",
     icon: Pets,
-    component: NotificationsPage,
+    component: Kayip_evcil_hayvan_ilanlari,
     layout: "/admin"
   }
  
