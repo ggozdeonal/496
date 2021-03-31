@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { userActions } from '../_actions';
 
 function HomePage() {
-    const home = useState({
+    const [home, setHome] = useState({
         homeName: '',
         isVisible: '',
         country: '',
@@ -25,10 +25,10 @@ function HomePage() {
 
     function handleChange(e) {
         const { name, value } = e.target;
-        setUser(home => ({ ...home, [name]: value }));
+        setHome(home => ({ ...home, [name]: value }));
     }
 
-    function handleAddHome(id) {
+    function handleAddHome(e) {
         e.preventDefault();
 
         setSubmitted(true);

@@ -23,6 +23,7 @@ function App() {
         history.listen((location, action) => {
             // clear alert on location change
             dispatch(alertActions.clear());
+            console.log("111");
         });
     }, []);
 
@@ -40,7 +41,7 @@ function App() {
                         activeItemId="/dashboard"
                         onSelect={({itemId}) => {
                             // maybe push to the route
-                            history.push("/register'");
+                            console.log({itemId});
                         }}
                         items={[
                             {
@@ -92,6 +93,10 @@ function App() {
                                         itemId: '/management/teams3',
                                     },
                                 ],
+                            },
+                            {
+                                title: 'Cikis Yap',
+                                itemId: '/login',
                             },
                         ]}
                     />
