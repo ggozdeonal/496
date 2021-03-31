@@ -8,6 +8,7 @@ export const userActions = {
     logout,
     register,
     getAll,
+    addHome,
     delete: _delete
 };
 
@@ -35,6 +36,7 @@ function login(username, password, from) {
 
 function logout() {
     userService.logout();
+    localStorage.clear();
     return { type: userConstants.LOGOUT };
 }
 
@@ -65,12 +67,12 @@ function addHome(user) {
     return dispatch => {
         dispatch(request(user));
 
-        userService.register(user)
+        userService.addHome(user)
             .then(
                 user => {
                     dispatch(success());
-                    history.push('/login');
-                    dispatch(alertActions.success('Registration successful'));
+                    history.push('/login'); // TODO gozde
+                    dispatch(alertActions.success('Home addition successful'));
                 },
                 error => {
                     dispatch(failure(error.toString()));
