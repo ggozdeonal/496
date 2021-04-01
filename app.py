@@ -8,6 +8,49 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 
 # default entry
 userdb = {'aa': {'name': 'baby', 'surname': 'yoda', 'password': 'ss', 'phone': '999888777'}}
+# homes = [
+# {
+    # home_id: "1",
+    # home_owner: "1",
+    # country: "Turkey",
+    # state: "İstanbul",
+    # city: "Sarıyer",
+    # neighbourhood: "Zekeriyaköy Mah. X Cad. Y Sok. No: 1/2",
+    # latitude: "41.201170",
+    # longitude: "29.032128"
+# },
+# {
+    # home_id: "2",
+    # home_owner: "2",
+    # country: "Turkey",
+    # state: "Kastamonu",
+    # city: "Merkez",
+    # neighbourhood: "Aktekke Mah. X Cad. Y Sok. No: 1/2",
+    # latitude: "41.381227",
+    # longitude: "33.782458"
+# },
+# {
+    # home_id: "3",
+    # home_owner: "1",
+    # country: "Turkey",
+    # state: "İstanbul",
+    # city: "Beykoz",
+    # neighbourhood: "İncirköy Mah. X Cad. Y Sok. No: 1/2",
+    # latitude: "41.121082",
+    # longitude: "29.122104"
+# },
+# {
+    # home_id: "4",
+    # home_owner: "3",
+    # country: "Turkey",
+    # state: "Akdeniz Bölgesi",
+    # city: "Mersin",
+    # neighbourhood: "Selçuklar Mah. X Cad. Y Sok. No: 1/2 Toroslar",
+    # latitude: "36.821536",
+    # longitude: "34.624811"
+# }
+# ]
+
 
 @app.route('/api/users', methods=['POST'])
 @cross_origin()
@@ -39,6 +82,24 @@ def login():
         return jsonify({"status":"SUCCESS","message":"login has failed"}), 400
     return jsonify({"status":"SUCCESS","message":"login has failed"}), 400
 
+
+@app.route('/api/users/update', methods=['POST'])
+@cross_origin()
+def update():
+    register_data = request.get_json()
+    name = register_data.get('name')
+    surname = register_data.get('surname')
+    password = register_data.get('password')
+    email = register_data.get('email')
+    phone = register_data.get('phone')
+
+    if not userdb.get(email):
+        userdb.pop(email, None)
+        userdb[email] = {'name': name, 'surname': surname, 'password': password, 'phone': phone}
+        print(userdb)
+        return jsonify({"status":"SUCCESS","message":"new user is added","user":{"user_id":"20","name":"Ali","surname":"Yılmaz","email":"example@gmail.com","phone":"+905065065566"}}), 200
+    return jsonify({"status":"FAILURE","message":"request body fields are not true"}), 400
+    
 
 @app.route('/api/users/<user_id>/homes', methods=['POST'])
 @cross_origin()
