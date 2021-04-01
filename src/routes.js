@@ -3,7 +3,6 @@ import Person from "@material-ui/icons/Person";
 import Home from "@material-ui/icons/House";
 import Events from "@material-ui/icons/Event";
 import Pets from "@material-ui/icons/Pets";
-import DashboardPage from "views/Dashboard/Dashboard.js";
 import Anasayfa from "views/Anasayfa/Anasayfa.js";
 import Profil from "views/Profil/Profil.js";
 import Ilan_ekle from "views/Ilan_ekle/Ilan_ekle.js";
@@ -53,15 +52,15 @@ const dashboardRoutes = [
     component: Etkinlik_ilanlari,
     layout: "/admin"
   },
+  
 
   {
     path: "/kayip_evcil_hayvan_ilanlari",
-    name: "Kayıp Pet İlanları",
+    name: "Kayıp İlanları",
     icon: Pets,
     component: Kayip_evcil_hayvan_ilanlari,
     layout: "/admin"
   }
- 
   
   
  
