@@ -35,6 +35,35 @@ function logout() {
     localStorage.removeItem('user');
 }
 
+function register(user) {
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(user)
+    };
+
+    // TODO: gozde update url
+    return fetch(`http://127.0.0.1:5000/api/users`, requestOptions).then(handleResponse);
+}
+
+function update(user) {
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(user)
+    };
+
+    // TODO: gozde update url
+    return fetch(`http://127.0.0.1:5000/api/users/update`, requestOptions)
+        .then(handleResponse)
+        .then(user => {
+            // store user details and jwt token in local storage to keep user logged in between page refreshes
+            localStorage.setItem('user', JSON.stringify(user));
+
+            return user;
+        });
+}
+
 function getAll() {
     const requestOptions = {
         method: 'GET',
@@ -53,17 +82,6 @@ function getById(id) {
     return fetch(`${config.apiUrl}/users/${id}`, requestOptions).then(handleResponse);
 }
 
-function register(user) {
-    const requestOptions = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(user)
-    };
-
-    // TODO: gozde update url
-    return fetch(`http://127.0.0.1:5000/api/users`, requestOptions).then(handleResponse);
-}
-
 function addHome(home) {
     const requestOptions = {
         method: 'POST',
@@ -77,16 +95,6 @@ function addHome(home) {
     user_id = user_id['user']['user_id'];
     // TODO: gozde update url
     return fetch(`http://127.0.0.1:5000/api/users/${user_id}/homes`, requestOptions).then(handleResponse);
-}
-
-function update(user) {
-    const requestOptions = {
-        method: 'PUT',
-        headers: { ...authHeader(), 'Content-Type': 'application/json' },
-        body: JSON.stringify(user)
-    };
-
-    return fetch(`${config.apiUrl}/users/${user.id}`, requestOptions).then(handleResponse);;
 }
 
 // prefixed function name with underscore because delete is a reserved word in javascript
