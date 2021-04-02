@@ -59,7 +59,8 @@ export default function Ilan_ekle_sayfasi() {
   const classes = useStyles();
   const classesc = useStylesc();
   const [checked, setChecked] = React.useState([]);
-  const [selectedValue, setSelectedValue] = React.useState(null);
+  const [eventSelectedValue, setEventSelectedValue] = React.useState(null);
+  const [annSelectedValue, setAnnSelectedValue] = React.useState(null);
   const handleToggle = value => {
     const currentIndex = checked.indexOf(value);
     const newChecked = [...checked];
@@ -226,8 +227,8 @@ export default function Ilan_ekle_sayfasi() {
                     }}
                     
                   /><Radio
-                  checked={selectedValue === "bagis"}
-                  onChange={() => setSelectedValue("bagis")}
+                  checked={eventSelectedValue === "bagis"}
+                  onChange={() => setEventSelectedValue("bagis")}
                   value="bagis"
                   name="radiobutton1"
                   aria-label="Bagis"
@@ -237,8 +238,8 @@ export default function Ilan_ekle_sayfasi() {
                     checked: classesc.radio
                   }}
                 /><Radio
-                checked={selectedValue === "erzak"}
-                onChange={() => setSelectedValue("erzak")}
+                checked={eventSelectedValue === "erzak"}
+                onChange={() => setEventSelectedValue("erzak")}
                 value="erzak"
                 name="radiobutton2"
                 aria-label="Erzak"
@@ -249,8 +250,8 @@ export default function Ilan_ekle_sayfasi() {
                 }}
               />
                 <Radio
-                  checked={selectedValue === "bulusma"}
-                  onChange={() => setSelectedValue("bulusma")}
+                  checked={eventSelectedValue === "bulusma"}
+                  onChange={() => setEventSelectedValue("bulusma")}
                   value="bulusma"
                   name="radiobutton3"
                   aria-label="Bulusma"
@@ -262,12 +263,16 @@ export default function Ilan_ekle_sayfasi() {
                 />
                 </GridItem>
                 <GridItem xs={12} sm={12} md={4}>
-                  <CustomInput
-                    labelText="Başlangıç Tarihi"
+                  <CustomInput 
                     id="event_start"
+                    labelText="Başlangıç Tarihi"
                     formControlProps={{
                       fullWidth: true
                     }}
+                    inputProps={{
+                      //this.state.buttonDisabled ? disabled: true
+                    }}
+
                   />
                 </GridItem>
                 <GridItem xs={12} sm={12} md={4}>
@@ -286,8 +291,9 @@ export default function Ilan_ekle_sayfasi() {
                     labelText="Etkinlik Başlığı"
                     id="title"
                     formControlProps={{
-                      fullWidth: true
+                      fullWidth: true 
                     }}
+                    
                   />
                 </GridItem>
                 
@@ -307,6 +313,9 @@ export default function Ilan_ekle_sayfasi() {
                     formControlProps={{
                       fullWidth: true
                     }}
+                    inputProps={{
+                      disabled: (eventSelectedValue === "bagis")
+                     }}
                   />
                 </GridItem>
                 <GridItem xs={12} sm={12} md={4}>
@@ -316,9 +325,36 @@ export default function Ilan_ekle_sayfasi() {
                     formControlProps={{
                       fullWidth: true
                     }}
+                    inputProps={{
+                      disabled: (eventSelectedValue === "bagis")
+                     }}
                   />
                 </GridItem>
           
+                <GridItem xs={12} sm={12} md={4}>
+                  <CustomInput
+                    labelText="Semt"
+                    id="state"
+                    formControlProps={{
+                      fullWidth: true
+                    }}
+                    inputProps={{
+                      disabled: (eventSelectedValue === "bagis")
+                     }}
+                  />
+                </GridItem>
+                <GridItem xs={12} sm={12} md={12}>
+                  <CustomInput
+                    labelText="Adres"
+                    id="adres"
+                    formControlProps={{
+                      fullWidth: true
+                    }}
+                    inputProps={{
+                      disabled: (eventSelectedValue === "bagis")
+                     }}
+                  />
+                </GridItem>      
                 <GridItem xs={12} sm={12} md={4}>
                   <CustomInput
                     labelText="Para Birimi"
@@ -326,6 +362,9 @@ export default function Ilan_ekle_sayfasi() {
                     formControlProps={{
                       fullWidth: true
                     }}
+                    inputProps={{
+                      disabled: (eventSelectedValue !== "bagis")
+                     }}
                   />
                 </GridItem>
                 <GridItem xs={12} sm={12} md={4}>
@@ -335,14 +374,9 @@ export default function Ilan_ekle_sayfasi() {
                     formControlProps={{
                       fullWidth: true
                     }}
-                  />
-                </GridItem>      <GridItem xs={12} sm={12} md={4}>
-                  <CustomInput
-                    labelText="Semt"
-                    id="state"
-                    formControlProps={{
-                      fullWidth: true
-                    }}
+                    inputProps={{
+                      disabled: (eventSelectedValue !== "bagis")
+                     }}
                   />
                 </GridItem>
                 <GridItem xs={12} sm={12} md={4}>
@@ -365,6 +399,9 @@ export default function Ilan_ekle_sayfasi() {
                       classes={{
                         checked: classesc.checked
                       }}
+                      inputProps={{
+                        disabled: (eventSelectedValue !== "bulusma")
+                       }}
                       
                       
 
@@ -422,8 +459,8 @@ export default function Ilan_ekle_sayfasi() {
                     }}
                     
                   /><Radio
-                  checked={selectedValue === "insan"}
-                  onChange={() => setSelectedValue("insan")}
+                  checked={annSelectedValue === "insan"}
+                  onChange={() => setAnnSelectedValue("insan")}
                   value="insan"
                   name="radiobutton4"
                   aria-label="insan"
@@ -433,8 +470,8 @@ export default function Ilan_ekle_sayfasi() {
                     checked: classesc.radio
                   }}
                 /><Radio
-                checked={selectedValue === "evcilhayvan"}
-                onChange={() => setSelectedValue("evcilhayvan")}
+                checked={annSelectedValue === "evcilhayvan"}
+                onChange={() => setAnnSelectedValue("evcilhayvan")}
                 value="evcilhayvan"
                 name="radiobutton5"
                 aria-label="evcilhayvan"
