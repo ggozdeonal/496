@@ -20,6 +20,9 @@ import CustomInput from "components/CustomInput/CustomInput.js";
 import Button from "components/CustomButtons/Button.js";
 
 import styles from "assets/jss/material-dashboard-react/components/headerLinksStyle.js";
+import { userActions } from '../../_actions';
+import { history } from '../../_helpers';
+import {useDispatch} from 'react-redux';
 
 const useStyles = makeStyles(styles);
 
@@ -44,8 +47,11 @@ export default function AdminNavbarLinks() {
       setOpenProfile(event.currentTarget);
     }
   };
+  const dispatch = useDispatch();
   const handleCloseProfile = () => {
     setOpenProfile(null);
+    dispatch(userActions.logout());
+    history.push("/");
   };
   return (
     <div>
