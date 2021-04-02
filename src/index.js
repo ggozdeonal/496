@@ -1,6 +1,5 @@
 //import React from "react";
 import ReactDOM from "react-dom";
-import { createBrowserHistory } from "history";
 import { Router, Route, Switch, Redirect } from "react-router-dom";
 import { Provider } from 'react-redux';
 
@@ -13,6 +12,7 @@ import { alertActions } from './_actions';
 import { PrivateRoute } from './_components';
 import { LoginPage } from './LoginPage';
 import { RegisterPage } from './RegisterPage';
+import routes from "routes.js";
 
 // core components
 import Admin from "layouts/Admin.js";
@@ -22,14 +22,21 @@ import "assets/css/material-dashboard-react.css";
 
 //import "assets/css/bauphi.css";
 
-const hist = createBrowserHistory();
-
 ReactDOM.render(
+
   <Provider store={store}>
-    <Router history={hist}>
+    <Router history={history}>
       <Switch>
         <PrivateRoute exact path="/" component={Admin} />
-        <Route path="/admin" component={Admin} />
+        {routes.map((prop, key) => {
+        return (
+          <PrivateRoute
+            exact path={prop.path}
+            component={Admin}
+            key={key}
+          />
+        );
+        })}
         <Route path="/login" component={LoginPage} />
         <Route path="/register" component={RegisterPage} />
         <Redirect from="*" to="/" />
