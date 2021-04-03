@@ -58,20 +58,13 @@ const useStylesc = makeStyles(stylesc);
 export default function Ilan_ekle_sayfasi() {
   const classes = useStyles();
   const classesc = useStylesc();
-  const [checked, setChecked] = React.useState([]);
+  const [visibilityChecked, setVisibilityChecked] =  React.useState(false);
+  const [magdurChecked, setMagdurChecked] = React.useState([]);
+  const [evcilChecked, setEvcilChecked] = React.useState([]);
+  const [acilChecked, setAcilChecked] = React.useState([]);
   const [eventSelectedValue, setEventSelectedValue] = React.useState(null);
   const [annSelectedValue, setAnnSelectedValue] = React.useState(null);
-  const handleToggle = value => {
-    const currentIndex = checked.indexOf(value);
-    const newChecked = [...checked];
 
-    if (currentIndex === -1) {
-      newChecked.push(value);
-    } else {
-      newChecked.splice(currentIndex, 1);
-    }
-    setChecked(newChecked);
-  };
   return (
     
     <GridContainer>
@@ -148,11 +141,11 @@ export default function Ilan_ekle_sayfasi() {
                 }}
               /><Checkbox
                   tabIndex={-1}
-                  onClick={() => handleToggle(1)}
+                  onClick={() => setVisibilityChecked(!visibilityChecked)}
                   checkedIcon={<Check className={classesc.checkedIcon} />}
                   icon={<Check className={classesc.uncheckedIcon} />}
                   classes={{
-                    checked: classesc.checked
+                    visibilityChecked: classesc.checked
                   }}
                 /></GridItem>
                 <GridItem xs={12} sm={12} md={4}>
@@ -166,11 +159,11 @@ export default function Ilan_ekle_sayfasi() {
                 }}
               /><Checkbox
                   tabIndex={-1}
-                  onClick={() => handleToggle(1)}
+                  onClick={() => setMagdurChecked(!magdurChecked)}
                   checkedIcon={<Check className={classesc.checkedIcon} />}
                   icon={<Check className={classesc.uncheckedIcon} />}
                   classes={{
-                    checked: classesc.checked
+                    magdurChecked: classesc.checked
                   }}
                 /></GridItem>
                 <GridItem xs={12} sm={12} md={4}>
@@ -185,11 +178,11 @@ export default function Ilan_ekle_sayfasi() {
               />
                 <Checkbox
                   tabIndex={-1}
-                  onClick={() => handleToggle(1)}
+                  onClick={() => setEvcilChecked(!evcilChecked)}
                   checkedIcon={<Check className={classesc.checkedIcon} />}
                   icon={<Check className={classesc.uncheckedIcon} />}
                   classes={{
-                    checked: classesc.checked
+                    evcilChecked: classesc.checked
                   }}
                 />
                 </GridItem>
@@ -269,9 +262,7 @@ export default function Ilan_ekle_sayfasi() {
                     formControlProps={{
                       fullWidth: true
                     }}
-                    inputProps={{
-                      //this.state.buttonDisabled ? disabled: true
-                    }}
+                   
 
                   />
                 </GridItem>
@@ -393,11 +384,11 @@ export default function Ilan_ekle_sayfasi() {
               
                     <Checkbox
                       tabIndex={-1}
-                      onClick={() => handleToggle(1)}
+                      onClick={() => setAcilChecked(!acilChecked)}
                       checkedIcon={<Check className={classesc.checkedIcon} />}
                       icon={<Check className={classesc.uncheckedIcon} />}
                       classes={{
-                        checked: classesc.checked
+                        acilChecked: classesc.checked
                       }}
                       inputProps={{
                         disabled: (eventSelectedValue !== "bulusma")
