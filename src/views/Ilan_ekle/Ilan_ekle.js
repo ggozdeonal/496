@@ -118,36 +118,38 @@ export default function Ilan_ekle_sayfasi() {
 
               </GridContainer>
               <GridContainer>
-                <GridItem xs={12} sm={12} md={12}>
+                <GridItem xs={12} sm={12} md={8}>
                   <CustomInput
                     labelText="Adres"
                     id="neighbourh"
+                  
                     formControlProps={{
                       fullWidth: true
                     }}
                   />
                 </GridItem>
-
-              <GridContainer>
-              </GridContainer>
-              <GridItem xs={12} sm={12} md={4}>
+                <GridItem xs={12} sm={12} md={2}>
                 <CustomInput
-                labelText="Evim görünür olabilir."
-                id="visibility"
+                labelText="Enlem"
+                id="enlem"
                 formControlProps={{
                   fullWidth: true
                 }}inputProps={{
                   disabled: true
                 }}
-              /><Checkbox
-                  tabIndex={-1}
-                  onClick={() => setVisibilityChecked(!visibilityChecked)}
-                  checkedIcon={<Check className={classesc.checkedIcon} />}
-                  icon={<Check className={classesc.uncheckedIcon} />}
-                  classes={{
-                    visibilityChecked: classesc.checked
-                  }}
-                /></GridItem>
+              /></GridItem>
+               <GridItem xs={12} sm={12} md={2}>
+                <CustomInput
+                labelText="Boylam"
+                id="boylam"
+                formControlProps={{
+                  fullWidth: true
+                }}inputProps={{
+                  disabled: true
+                }}
+              /></GridItem>
+              </GridContainer>
+              <GridContainer>
                 <GridItem xs={12} sm={12} md={4}>
                 <CustomInput
                 labelText="Evim mağdurlar için musaittir."
@@ -157,7 +159,8 @@ export default function Ilan_ekle_sayfasi() {
                 }}inputProps={{
                   disabled: true
                 }}
-              /><Checkbox
+              /> 
+              <Checkbox
                   tabIndex={-1}
                   onClick={() => setMagdurChecked(!magdurChecked)}
                   checkedIcon={<Check className={classesc.checkedIcon} />}
@@ -186,6 +189,24 @@ export default function Ilan_ekle_sayfasi() {
                   }}
                 />
                 </GridItem>
+                <GridItem xs={12} sm={12} md={4}>
+                <CustomInput
+                labelText="Evim görünür olabilir."
+                id="visibility"
+                formControlProps={{
+                  fullWidth: true
+                }}inputProps={{
+                  disabled: true
+                }}
+              /><Checkbox
+                  tabIndex={-1}
+                  onClick={() => setVisibilityChecked(!visibilityChecked)}
+                  checkedIcon={<Check className={classesc.checkedIcon} />}
+                  icon={<Check className={classesc.uncheckedIcon} />}
+                  classes={{
+                    visibilityChecked: classesc.checked
+                  }}
+                /></GridItem>
                 
               
       
@@ -262,6 +283,9 @@ export default function Ilan_ekle_sayfasi() {
                     formControlProps={{
                       fullWidth: true
                     }}
+                    inputProps={{
+                      type: "date"
+                    }}
                    
 
                   />
@@ -272,6 +296,9 @@ export default function Ilan_ekle_sayfasi() {
                     id="event_end"
                     formControlProps={{
                       fullWidth: true
+                    }}
+                    inputProps={{
+                      type: "date"
                     }}
                   />
                 </GridItem>
@@ -297,6 +324,8 @@ export default function Ilan_ekle_sayfasi() {
                     }}
                   />
                 </GridItem>
+                </GridContainer>
+                <GridContainer>
                 <GridItem xs={12} sm={12} md={4}>
                   <CustomInput
                     labelText="Ülke"
@@ -334,10 +363,13 @@ export default function Ilan_ekle_sayfasi() {
                      }}
                   />
                 </GridItem>
-                <GridItem xs={12} sm={12} md={12}>
+                </GridContainer>
+                <GridContainer>
+                <GridItem xs={12} sm={12} md={8}>
                   <CustomInput
                     labelText="Adres"
-                    id="adres"
+                    id="neighbourh"
+                  
                     formControlProps={{
                       fullWidth: true
                     }}
@@ -345,7 +377,29 @@ export default function Ilan_ekle_sayfasi() {
                       disabled: (eventSelectedValue === "bagis")
                      }}
                   />
-                </GridItem>      
+                </GridItem>
+                <GridItem xs={12} sm={12} md={2}>
+                <CustomInput
+                labelText="Enlem"
+                id="enlem"
+                formControlProps={{
+                  fullWidth: true
+                }}inputProps={{
+                  disabled: true
+                }}
+              /></GridItem>
+               <GridItem xs={12} sm={12} md={2}>
+                <CustomInput
+                labelText="Boylam"
+                id="boylam"
+                formControlProps={{
+                  fullWidth: true
+                }}inputProps={{
+                  disabled: true
+                }}
+              /></GridItem>
+              </GridContainer>     
+              <GridContainer>
                 <GridItem xs={12} sm={12} md={4}>
                   <CustomInput
                     labelText="Para Birimi"
