@@ -55,6 +55,7 @@ const styles = {
 const useStyles = makeStyles(styles);
 const useStylesc = makeStyles(stylesc);
 
+
 export default function Ilan_ekle_sayfasi() {
   const classes = useStyles();
   const classesc = useStylesc();
@@ -64,6 +65,12 @@ export default function Ilan_ekle_sayfasi() {
   const [acilChecked, setAcilChecked] = React.useState([]);
   const [eventSelectedValue, setEventSelectedValue] = React.useState(null);
   const [annSelectedValue, setAnnSelectedValue] = React.useState(null);
+  const [coordinates, setCoordinates] = React.useState({lat: '', lon: ''});
+  const { lat, lon } = coordinates;
+  
+  navigator.geolocation.getCurrentPosition(function(position) {
+    setCoordinates({lat: position.coords.latitude, lon: position.coords.longitude})
+  });
 
   return (
     
@@ -135,7 +142,7 @@ export default function Ilan_ekle_sayfasi() {
                 formControlProps={{
                   fullWidth: true
                 }}inputProps={{
-                  disabled: true
+                  value : lat
                 }}
               /></GridItem>
                <GridItem xs={12} sm={12} md={2}>
@@ -145,7 +152,7 @@ export default function Ilan_ekle_sayfasi() {
                 formControlProps={{
                   fullWidth: true
                 }}inputProps={{
-                  disabled: true
+                  value :lon
                 }}
               /></GridItem>
               </GridContainer>
@@ -385,7 +392,7 @@ export default function Ilan_ekle_sayfasi() {
                 formControlProps={{
                   fullWidth: true
                 }}inputProps={{
-                  disabled: true
+                  value: lat
                 }}
               /></GridItem>
                <GridItem xs={12} sm={12} md={2}>
@@ -395,7 +402,7 @@ export default function Ilan_ekle_sayfasi() {
                 formControlProps={{
                   fullWidth: true
                 }}inputProps={{
-                  disabled: true
+                  value: lon
                 }}
               /></GridItem>
               </GridContainer>     
