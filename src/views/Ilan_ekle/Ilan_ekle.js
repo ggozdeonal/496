@@ -65,10 +65,41 @@ export default function Ilan_ekle_sayfasi() {
   const [eventSelectedValue, setEventSelectedValue] = React.useState(null);
   const [annSelectedValue, setAnnSelectedValue] = React.useState(null);
 
+    // const [homeName, sethomeName] = React.useState({})
+    // const handleHomeNameChange = (event) => {
+    //     sethomeName(event.target.value)
+    // }
+    //
+    // const saveUserInfoOnServer = () => {
+    //     console.log(homeName);
+    // }
+
+    const [state, setState] = React.useState({
+        homeName: "",
+        country: "",
+        city: "",
+        state: "",
+        neighbourhood: "",
+        latitude: "",
+        longitude: ""
+    })
+
+    function handleChange(evt) {
+        const value = evt.target.value;
+        setState({
+            ...state,
+            [evt.target.name]: value
+        });
+    }
+
+    const handleSubmit = () => {
+        console.log(state);
+    }
+
   return (
     
     <GridContainer>
-    
+
       <GridItem xs={12} sm={12} md={12}>
         <Card>
           <CardHeader color="warning">
@@ -82,9 +113,14 @@ export default function Ilan_ekle_sayfasi() {
                 <GridItem xs={12} sm={12} md={3}>
                   <CustomInput
                     labelText="Ev Adı"
-                    id="home_name"
+                    id="homeName"
                     formControlProps={{
                       fullWidth: true
+                    }}
+                    inputProps={{
+                        name: "homeName",
+                        defaultValue: state.homeName,
+                        onChange: handleChange,
                     }}
                   />
                 </GridItem>
@@ -95,6 +131,11 @@ export default function Ilan_ekle_sayfasi() {
                     formControlProps={{
                       fullWidth: true
                     }}
+                    inputProps={{
+                        name: "country",
+                        defaultValue: state.country,
+                        onChange: handleChange,
+                    }}
                   />
                 </GridItem>
                 <GridItem xs={12} sm={12} md={3}>
@@ -103,6 +144,11 @@ export default function Ilan_ekle_sayfasi() {
                     id="city"
                     formControlProps={{
                       fullWidth: true
+                    }}
+                    inputProps={{
+                        name: "city",
+                        defaultValue: state.city,
+                        onChange: handleChange,
                     }}
                   />
                 </GridItem>
@@ -113,6 +159,11 @@ export default function Ilan_ekle_sayfasi() {
                     formControlProps={{
                       fullWidth: true
                     }}
+                    inputProps={{
+                        name: "state",
+                        defaultValue: state.state,
+                        onChange: handleChange,
+                    }}
                   />
                 </GridItem>
 
@@ -121,31 +172,42 @@ export default function Ilan_ekle_sayfasi() {
                 <GridItem xs={12} sm={12} md={8}>
                   <CustomInput
                     labelText="Adres"
-                    id="neighbourh"
-                  
+                    id="neighbourhood"
                     formControlProps={{
                       fullWidth: true
+                    }}
+                    inputProps={{
+                        name: "neighbourhood",
+                        defaultValue: state.neighbourhood,
+                        onChange: handleChange,
                     }}
                   />
                 </GridItem>
                 <GridItem xs={12} sm={12} md={2}>
                 <CustomInput
                 labelText="Enlem"
-                id="enlem"
+                id="latitude"
                 formControlProps={{
                   fullWidth: true
-                }}inputProps={{
-                  disabled: true
+                }}
+                inputProps={{
+                  disabled: true,
+                    name: "latitude",
+                    defaultValue: state.latitude,
+                    onChange: handleChange,
                 }}
               /></GridItem>
                <GridItem xs={12} sm={12} md={2}>
                 <CustomInput
                 labelText="Boylam"
-                id="boylam"
+                id="longitude"
                 formControlProps={{
                   fullWidth: true
                 }}inputProps={{
-                  disabled: true
+                  disabled: true,
+                    name: "longitude",
+                    defaultValue: state.longitude,
+                    onChange: handleChange,
                 }}
               /></GridItem>
               </GridContainer>
@@ -215,7 +277,7 @@ export default function Ilan_ekle_sayfasi() {
        
             </CardBody>
             <CardFooter>
-              <Button color="warning">Ev İlanı Ekle</Button>
+              <Button color="warning" onClick={handleSubmit}>Ev İlanı Ekle</Button>
             </CardFooter>
         </Card>
       </GridItem>
