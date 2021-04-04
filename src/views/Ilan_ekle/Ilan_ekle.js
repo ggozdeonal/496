@@ -78,12 +78,39 @@ export default function Ilan_ekle_sayfasi() {
         addHome_visible: false
     })
 
+    const [addEvent_state, addEvent_setState] = React.useState({
+        addEvent_type: "",
+        addEvent_startTime: "",
+        addEvent_endTime: "",
+        addEvent_title: "",
+        addEvent_description: "",
+        addEvent_is_emergency: "",
+        addEvent_country: "",
+        addEvent_city: "",
+        addEvent_state: "",
+        addEvent_neighbourhood: "",
+        addEvent_latitude: "",
+        addEvent_longitude: "",
+        addEvent_currency: "",
+        addEvent_amount: "",
+    })
+
     function addHomeHandleChange(evt) {
         const value = evt.target.value;
         console.log(value);
 
         addHome_setState({
             ...addHome_state,
+            [evt.target.name]: value
+        });
+    }
+
+    function addEventHandleChange(evt) {
+        const value = evt.target.value;
+        console.log(value);
+
+        addEvent_setState({
+            ...addEvent_state,
             [evt.target.name]: value
         });
     }
