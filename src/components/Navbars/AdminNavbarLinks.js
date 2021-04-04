@@ -23,6 +23,7 @@ import { userActions } from '../../_actions';
 import { history } from '../../_helpers';
 import {useDispatch} from 'react-redux';
 
+
 const useStyles = makeStyles(styles);
 
 export default function AdminNavbarLinks() {
@@ -95,12 +96,13 @@ export default function AdminNavbarLinks() {
               <Paper>
                 <ClickAwayListener onClickAway={handleCloseNotification}>
                   <MenuList role="menu">
-                    <MenuItem
+                    <MenuItem button divider
                       onClick={handleCloseNotification}
                       className={classes.dropdownItem}
                     >
                       Mesajlarımı görüntüle
-                    </MenuItem><MenuItem
+                    </MenuItem>
+                    <MenuItem
                       onClick={handleCloseNotification}
                       className={classes.dropdownItem}
                     >
@@ -161,8 +163,10 @@ export default function AdminNavbarLinks() {
                     >
                       Çıkış Yap
                     </MenuItem>
+                    
                   </MenuList>
                 </ClickAwayListener>
+                
               </Paper>
             </Grow>
           )}
