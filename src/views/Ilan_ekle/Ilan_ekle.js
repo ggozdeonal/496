@@ -68,9 +68,11 @@ export default function Ilan_ekle_sayfasi() {
   const [coordinates, setCoordinates] = React.useState({lat: '', lon: ''});
   const { lat, lon } = coordinates;
   
-  navigator.geolocation.getCurrentPosition(function(position) {
-    setCoordinates({lat: position.coords.latitude, lon: position.coords.longitude})
-  });
+  React.useEffect(() => { 
+    navigator.geolocation.getCurrentPosition(function(position) {
+      setCoordinates({lat: position.coords.latitude, lon: position.coords.longitude})
+    });
+  }, []);
 
   return (
     
