@@ -59,32 +59,45 @@ export default function Ilan_ekle_sayfasi() {
     const classes = useStyles();
     const classesc = useStylesc();
     const [visibilityChecked, setVisibilityChecked] = React.useState(false);
-    const [magdurChecked, setMagdurChecked] = React.useState([]);
-    const [evcilChecked, setEvcilChecked] = React.useState([]);
+    const [availableForVictims, setAvailableForVictims] = React.useState([]);
+    const [availableForAnimals, setAvailableForAnimals] = React.useState([]);
     const [acilChecked, setAcilChecked] = React.useState([]);
     const [eventSelectedValue, setEventSelectedValue] = React.useState(null);
     const [annSelectedValue, setAnnSelectedValue] = React.useState(null);
 
-    const [state, setState] = React.useState({
+    const [addHome_state, addHome_setState] = React.useState({
         addHome_homeName: "",
         addHome_country: "",
         addHome_city: "",
         addHome_state: "",
         addHome_neighbourhood: "",
         addHome_latitude: "",
-        addHome_longitude: ""
+        addHome_longitude: "",
+        addHome_availableForVictims: false,
+        addHome_availableForAnimals: false,
+        addHome_visible: false
     })
 
-    function handleChange(evt) {
+    function addHomeHandleChange(evt) {
         const value = evt.target.value;
-        setState({
-            ...state,
+        console.log(value);
+
+        addHome_setState({
+            ...addHome_state,
             [evt.target.name]: value
         });
     }
 
-    const handleSubmit = () => {
-        console.log(state);
+    const handleAddHome = () => {
+        console.log(addHome_state);
+    }
+
+    const handleAddEvent = () => {
+        console.log(addHome_state);
+    }
+
+    const handleAddMissing = () => {
+        console.log(addHome_state);
     }
 
     return (
@@ -110,8 +123,8 @@ export default function Ilan_ekle_sayfasi() {
                                     }}
                                     inputProps={{
                                         name: "addHome_homeName",
-                                        defaultValue: state.addHome_homeName,
-                                        onChange: handleChange,
+                                        defaultValue: addHome_state.addHome_homeName,
+                                        onChange: addHomeHandleChange,
                                     }}
                                 />
                             </GridItem>
@@ -124,8 +137,8 @@ export default function Ilan_ekle_sayfasi() {
                                     }}
                                     inputProps={{
                                         name: "addHome_country",
-                                        defaultValue: state.addHome_country,
-                                        onChange: handleChange,
+                                        defaultValue: addHome_state.addHome_country,
+                                        onChange: addHomeHandleChange,
                                     }}
                                 />
                             </GridItem>
@@ -138,8 +151,8 @@ export default function Ilan_ekle_sayfasi() {
                                     }}
                                     inputProps={{
                                         name: "addHome_city",
-                                        defaultValue: state.addHome_city,
-                                        onChange: handleChange,
+                                        defaultValue: addHome_state.addHome_city,
+                                        onChange: addHomeHandleChange,
                                     }}
                                 />
                             </GridItem>
@@ -152,8 +165,8 @@ export default function Ilan_ekle_sayfasi() {
                                     }}
                                     inputProps={{
                                         name: "addHome_state",
-                                        defaultValue: state.addHome_state,
-                                        onChange: handleChange,
+                                        defaultValue: addHome_state.addHome_state,
+                                        onChange: addHomeHandleChange,
                                     }}
                                 />
                             </GridItem>
@@ -169,8 +182,8 @@ export default function Ilan_ekle_sayfasi() {
                                     }}
                                     inputProps={{
                                         name: "addHome_neighbourhood",
-                                        defaultValue: state.addHome_neighbourhood,
-                                        onChange: handleChange,
+                                        defaultValue: addHome_state.addHome_neighbourhood,
+                                        onChange: addHomeHandleChange,
                                     }}
                                 />
                             </GridItem>
@@ -184,8 +197,8 @@ export default function Ilan_ekle_sayfasi() {
                                     inputProps={{
                                         disabled: true,
                                         name: "addHome_latitude",
-                                        defaultValue: state.addHome_latitude,
-                                        onChange: handleChange,
+                                        defaultValue: addHome_state.addHome_latitude,
+                                        onChange: addHomeHandleChange,
                                     }}
                                 /></GridItem>
                             <GridItem xs={12} sm={12} md={2}>
@@ -194,11 +207,12 @@ export default function Ilan_ekle_sayfasi() {
                                     id="addHome_longitude"
                                     formControlProps={{
                                         fullWidth: true
-                                    }} inputProps={{
+                                    }}
+                                    inputProps={{
                                     disabled: true,
                                     name: "addHome_longitude",
-                                    defaultValue: state.addHome_longitude,
-                                    onChange: handleChange,
+                                    defaultValue: addHome_state.addHome_longitude,
+                                    onChange: addHomeHandleChange,
                                 }}
                                 /></GridItem>
                         </GridContainer>
@@ -206,20 +220,21 @@ export default function Ilan_ekle_sayfasi() {
                             <GridItem xs={12} sm={12} md={4}>
                                 <CustomInput
                                     labelText="Evim mağdurlar için musaittir."
-                                    id="magdur"
                                     formControlProps={{
                                         fullWidth: true
-                                    }} inputProps={{
-                                    disabled: true
-                                }}
+                                    }}
+                                    inputProps={{
+                                    disabled: true,
+                                    }}
                                 />
                                 <Checkbox
                                     tabIndex={-1}
-                                    onClick={() => setMagdurChecked(!magdurChecked)}
+                                    id="addHome_availableForVictims"
+                                    onClick={() => setAvailableForVictims(addHome_state.addHome_availableForVictims = !addHome_state.addHome_availableForVictims)}
                                     checkedIcon={<Check className={classesc.checkedIcon}/>}
                                     icon={<Check className={classesc.uncheckedIcon}/>}
                                     classes={{
-                                        magdurChecked: classesc.checked
+                                        availableForVictims: classesc.checked,
                                     }}
                                 /></GridItem>
                             <GridItem xs={12} sm={12} md={4}>
@@ -228,17 +243,19 @@ export default function Ilan_ekle_sayfasi() {
                                     id="pets"
                                     formControlProps={{
                                         fullWidth: true
-                                    }} inputProps={{
+                                    }}
+                                    inputProps={{
                                     disabled: true
                                 }}
                                 />
                                 <Checkbox
                                     tabIndex={-1}
-                                    onClick={() => setEvcilChecked(!evcilChecked)}
+                                    id="addHome_availableForAnimals"
+                                    onClick={() => setAvailableForAnimals(addHome_state.addHome_availableForAnimals = !addHome_state.addHome_availableForAnimals)}
                                     checkedIcon={<Check className={classesc.checkedIcon}/>}
                                     icon={<Check className={classesc.uncheckedIcon}/>}
                                     classes={{
-                                        evcilChecked: classesc.checked
+                                        availableForAnimals: classesc.checked
                                     }}
                                 />
                             </GridItem>
@@ -253,21 +270,20 @@ export default function Ilan_ekle_sayfasi() {
                                 }}
                                 /><Checkbox
                                 tabIndex={-1}
-                                onClick={() => setVisibilityChecked(!visibilityChecked)}
+                                id="addHome_visible"
+                                onClick={() => setVisibilityChecked(addHome_state.addHome_visible = !addHome_state.addHome_visible)}
                                 checkedIcon={<Check className={classesc.checkedIcon}/>}
                                 icon={<Check className={classesc.uncheckedIcon}/>}
                                 classes={{
                                     visibilityChecked: classesc.checked
                                 }}
                             /></GridItem>
-
-
                         </GridContainer>
 
 
                     </CardBody>
                     <CardFooter>
-                        <Button color="warning" onClick={handleSubmit}>Ev İlanı Ekle</Button>
+                        <Button color="warning" onClick={handleAddHome}>Ev İlanı Ekle</Button>
                     </CardFooter>
                 </Card>
             </GridItem>
