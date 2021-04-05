@@ -1,7 +1,6 @@
 import React from "react";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
-import InputLabel from "@material-ui/core/InputLabel";
 // core components
 import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";
@@ -9,7 +8,6 @@ import CustomInput from "components/CustomInput/CustomInput.js";
 import Button from "components/CustomButtons/Button.js";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
-import CardAvatar from "components/Card/CardAvatar.js";
 import CardBody from "components/Card/CardBody.js";
 import CardFooter from "components/Card/CardFooter.js";
 import Icon from "@material-ui/core/Icon";
@@ -19,6 +17,18 @@ import Pets from "@material-ui/icons/Pets";
 // core components
 import Tabs from "components/CustomTabs/CustomTabs.js";
 import Tasks from "components/Tasks/Tasks.js";
+
+import Checkbox from "@material-ui/core/Checkbox";
+// @material-ui/icons
+import Check from "@material-ui/icons/Check";
+import Radio from "@material-ui/core/Radio";
+// @material-ui/icons
+import FiberManualRecord from "@material-ui/icons/FiberManualRecord";
+
+//core components
+import stylesc from "assets/jss/material-dashboard-react/checkboxAdnRadioStyle.js";
+
+
 
 
 import { evilanlari, etkinlikilanlari, kayippetilanlari } from "variables/general.js";
@@ -44,9 +54,26 @@ const styles = {
 };
 
 const useStyles = makeStyles(styles);
-
+const useStylesc = makeStyles(stylesc);
 export default function Profil_sayfasi() {
   const classes = useStyles();
+const classesc = useStylesc();
+const [visibilityChecked, setVisibilityChecked] =  React.useState(false);
+const [magdurChecked, setMagdurChecked] = React.useState([]);
+const [evcilChecked, setEvcilChecked] = React.useState([]);
+const [acilChecked, setAcilChecked] = React.useState([]);
+const [eventSelectedValue, setEventSelectedValue] = React.useState(null);
+const [annSelectedValue, setAnnSelectedValue] = React.useState(null);
+const [coordinates, setCoordinates] = React.useState({lat: '', lon: ''});
+const { lat, lon } = coordinates;
+
+React.useEffect(() => { 
+  navigator.geolocation.getCurrentPosition(function(position) {
+    setCoordinates({lat: position.coords.latitude, lon: position.coords.longitude})
+  });
+}, []);
+
+
   return (
     <div>
       <GridContainer>
@@ -163,8 +190,496 @@ export default function Profil_sayfasi() {
     />
 
 
+  <GridContainer>
+  
+    <GridItem xs={12} sm={12} md={12}>
+      <Card>
+        <CardHeader color="primary">
+          <h4 className={classes.cardTitleWhite}>Ev İlanımı Güncelle </h4>
+          <p className={classes.cardCategoryWhite}>
+            Ev ilanınız için değişiklik yapmak istediğiniz alanı düzenleyiniz.
+          </p>
+        </CardHeader>
+        <CardBody>
+        <GridContainer>
+              <GridItem xs={12} sm={12} md={3}>
+                <CustomInput
+                  labelText="Ev Adı"
+                  id="home_name"
+                  formControlProps={{
+                    fullWidth: true
+                  }}
+                />
+              </GridItem>
+              <GridItem xs={12} sm={12} md={3}>
+                <CustomInput
+                  labelText="Ülke"
+                  id="country"
+                  formControlProps={{
+                    fullWidth: true
+                  }}
+                />
+              </GridItem>
+              <GridItem xs={12} sm={12} md={3}>
+                <CustomInput
+                  labelText="Şehir"
+                  id="city"
+                  formControlProps={{
+                    fullWidth: true
+                  }}
+                />
+              </GridItem>
+              <GridItem xs={12} sm={12} md={3}>
+                <CustomInput
+                  labelText="Semt"
+                  id="state"
+                  formControlProps={{
+                    fullWidth: true
+                  }}
+                />
+              </GridItem>
+
+            </GridContainer>
+            <GridContainer>
+              <GridItem xs={12} sm={12} md={8}>
+                <CustomInput
+                  labelText="Adres"
+                  id="neighbourh"
+                
+                  formControlProps={{
+                    fullWidth: true
+                  }}
+                />
+              </GridItem>
+              <GridItem xs={12} sm={12} md={2}>
+              <CustomInput
+              labelText="Enlem"
+              id="enlem"
+              formControlProps={{
+                fullWidth: true
+              }}inputProps={{
+                value : lat
+              }}
+            /></GridItem>
+             <GridItem xs={12} sm={12} md={2}>
+              <CustomInput
+              labelText="Boylam"
+              id="boylam"
+              formControlProps={{
+                fullWidth: true
+              }}inputProps={{
+                value :lon
+              }}
+            /></GridItem>
+            </GridContainer>
+            <GridContainer>
+              <GridItem xs={12} sm={12} md={4}>
+              <CustomInput
+              labelText="Evim mağdurlar için musaittir."
+              id="magdur"
+              formControlProps={{
+                fullWidth: true
+              }}inputProps={{
+                disabled: true
+              }}
+            /> 
+            <Checkbox
+                tabIndex={-1}
+                onClick={() => setMagdurChecked(!magdurChecked)}
+                checkedIcon={<Check className={classesc.checkedIcon} />}
+                icon={<Check className={classesc.uncheckedIcon} />}
+                classes={{
+                  magdurChecked: classesc.checked
+                }}
+              /></GridItem>
+              <GridItem xs={12} sm={12} md={4}>
+              <CustomInput
+              labelText="Evim evcil hayvanlar için musaittir."
+              id="pets"
+              formControlProps={{
+                fullWidth: true
+              }}inputProps={{
+                disabled: true
+              }}
+            />
+              <Checkbox
+                tabIndex={-1}
+                onClick={() => setEvcilChecked(!evcilChecked)}
+                checkedIcon={<Check className={classesc.checkedIcon} />}
+                icon={<Check className={classesc.uncheckedIcon} />}
+                classes={{
+                  evcilChecked: classesc.checked
+                }}
+              />
+              </GridItem>
+              <GridItem xs={12} sm={12} md={4}>
+              <CustomInput
+              labelText="Evim görünür olabilir."
+              id="visibility"
+              formControlProps={{
+                fullWidth: true
+              }}inputProps={{
+                disabled: true
+              }}
+            /><Checkbox
+                tabIndex={-1}
+                onClick={() => setVisibilityChecked(!visibilityChecked)}
+                checkedIcon={<Check className={classesc.checkedIcon} />}
+                icon={<Check className={classesc.uncheckedIcon} />}
+                classes={{
+                  visibilityChecked: classesc.checked
+                }}
+              /></GridItem>
+              
+            
+    
+            </GridContainer>
 
      
-    </div>
-  );
+          </CardBody>
+          <CardFooter>
+            <Button color="primary">Ev İlanımı Güncelle</Button>
+          </CardFooter>
+      </Card>
+    </GridItem>
+
+    <GridItem xs={12} sm={12} md={12}>
+      <Card>
+        <CardHeader color="danger">
+          <h4 className={classes.cardTitleWhite}>Etkinlik İlanımı Güncelle</h4>
+          <p className={classes.cardCategoryWhite}>
+            Etkinlik ilanınızda değiştirmek istediğiniz alanları etkinlik türünü seçtikten sonra güncelleyiniz.
+          </p>
+        </CardHeader>
+        <CardBody>
+        <GridContainer>
+        <GridItem xs={12} sm={12} md={4}>
+                <CustomInput
+                  labelText="Bağış / Erzak / Buluşma"
+                  id="type"
+                  formControlProps={{
+                    fullWidth: true
+                  }}inputProps={{
+                    disabled: true
+                  }}
+                  
+                /><Radio
+                checked={eventSelectedValue === "bagis"}
+                onChange={() => setEventSelectedValue("bagis")}
+                value="bagis"
+                name="radiobutton1"
+                aria-label="Bagis"
+                icon={<FiberManualRecord className={classesc.radioUnchecked} />}
+                checkedIcon={<FiberManualRecord className={classesc.radioChecked} />}
+                classes={{
+                  checked: classesc.radio
+                }}
+              /><Radio
+              checked={eventSelectedValue === "erzak"}
+              onChange={() => setEventSelectedValue("erzak")}
+              value="erzak"
+              name="radiobutton2"
+              aria-label="Erzak"
+              icon={<FiberManualRecord className={classesc.radioUnchecked} />}
+              checkedIcon={<FiberManualRecord className={classesc.radioChecked} />}
+              classes={{
+                checked: classesc.radio
+              }}
+            />
+              <Radio
+                checked={eventSelectedValue === "bulusma"}
+                onChange={() => setEventSelectedValue("bulusma")}
+                value="bulusma"
+                name="radiobutton3"
+                aria-label="Bulusma"
+                icon={<FiberManualRecord className={classesc.radioUnchecked} />}
+                checkedIcon={<FiberManualRecord className={classesc.radioChecked} />}
+                classes={{
+                  checked: classesc.radio
+                }}
+              />
+              </GridItem>
+              <GridItem xs={12} sm={12} md={4}>
+                <CustomInput 
+                  id="event_start"
+                  labelText="Başlangıç Tarihi"
+                  formControlProps={{
+                    fullWidth: true
+                  }}
+                  inputProps={{
+                    type: "date"
+                  }}
+                 
+
+                />
+              </GridItem>
+              <GridItem xs={12} sm={12} md={4}>
+                <CustomInput
+                  labelText="Bitiş Tarihi"
+                  id="event_end"
+                  formControlProps={{
+                    fullWidth: true
+                  }}
+                  inputProps={{
+                    type: "date"
+                  }}
+                />
+              </GridItem>
+            </GridContainer>
+            <GridContainer>
+            <GridItem xs={12} sm={12} md={12}>
+                <CustomInput
+                  labelText="Etkinlik Başlığı"
+                  id="title"
+                  formControlProps={{
+                    fullWidth: true 
+                  }}
+                  
+                />
+              </GridItem>
+              
+              <GridItem xs={12} sm={12} md={12}>
+                <CustomInput
+                  labelText="Açıklama"
+                  id="description"
+                  formControlProps={{
+                    fullWidth: true
+                  }}
+                />
+              </GridItem>
+              </GridContainer>
+              <GridContainer>
+              <GridItem xs={12} sm={12} md={4}>
+                <CustomInput
+                  labelText="Ülke"
+                  id="country"
+                  formControlProps={{
+                    fullWidth: true
+                  }}
+                  inputProps={{
+                    disabled: (eventSelectedValue === "bagis")
+                   }}
+                />
+              </GridItem>
+              <GridItem xs={12} sm={12} md={4}>
+                <CustomInput
+                  labelText="Şehir"
+                  id="city"
+                  formControlProps={{
+                    fullWidth: true
+                  }}
+                  inputProps={{
+                    disabled: (eventSelectedValue === "bagis")
+                   }}
+                />
+              </GridItem>
+        
+              <GridItem xs={12} sm={12} md={4}>
+                <CustomInput
+                  labelText="Semt"
+                  id="state"
+                  formControlProps={{
+                    fullWidth: true
+                  }}
+                  inputProps={{
+                    disabled: (eventSelectedValue === "bagis")
+                   }}
+                />
+              </GridItem>
+              </GridContainer>
+              <GridContainer>
+              <GridItem xs={12} sm={12} md={8}>
+                <CustomInput
+                  labelText="Adres"
+                  id="neighbourh"
+                
+                  formControlProps={{
+                    fullWidth: true
+                  }}
+                  inputProps={{
+                    disabled: (eventSelectedValue === "bagis")
+                   }}
+                />
+              </GridItem>
+              <GridItem xs={12} sm={12} md={2}>
+              <CustomInput
+              labelText="Enlem"
+              id="enlem"
+              formControlProps={{
+                fullWidth: true
+              }}inputProps={{
+                value: lat
+              }}
+            /></GridItem>
+             <GridItem xs={12} sm={12} md={2}>
+              <CustomInput
+              labelText="Boylam"
+              id="boylam"
+              formControlProps={{
+                fullWidth: true
+              }}inputProps={{
+                value: lon
+              }}
+            /></GridItem>
+            </GridContainer>     
+            <GridContainer>
+              <GridItem xs={12} sm={12} md={4}>
+                <CustomInput
+                  labelText="Para Birimi"
+                  id="currency"
+                  formControlProps={{
+                    fullWidth: true
+                  }}
+                  inputProps={{
+                    disabled: (eventSelectedValue !== "bagis")
+                   }}
+                />
+              </GridItem>
+              <GridItem xs={12} sm={12} md={4}>
+                <CustomInput
+                  labelText="Bağış Miktarı"
+                  id="amount"
+                  formControlProps={{
+                    fullWidth: true
+                  }}
+                  inputProps={{
+                    disabled: (eventSelectedValue !== "bagis")
+                   }}
+                />
+              </GridItem>
+              <GridItem xs={12} sm={12} md={4}>
+                <CustomInput
+                  labelText="Acil"
+                  id="emergency"
+                  formControlProps={{
+                    fullWidth: true
+                  }}
+                  inputProps={{
+                    disabled: true
+                  }}
+                />
+            
+                  <Checkbox
+                    tabIndex={-1}
+                    onClick={() => setAcilChecked(!acilChecked)}
+                    checkedIcon={<Check className={classesc.checkedIcon} />}
+                    icon={<Check className={classesc.uncheckedIcon} />}
+                    classes={{
+                      acilChecked: classesc.checked
+                    }}
+                    inputProps={{
+                      disabled: (eventSelectedValue !== "bulusma")
+                     }}
+                    
+                    
+
+                  />
+              </GridItem>
+
+            
+    
+            </GridContainer>
+
+     
+          </CardBody>
+          <CardFooter>
+            <Button color="danger">Etkinlik İlanımı Güncelle</Button>
+          </CardFooter>
+      </Card>
+    </GridItem>
+
+    <GridItem xs={12} sm={12} md={12}>
+      <Card>
+        <CardHeader color="info">
+          <h4 className={classes.cardTitleWhite}>Kayıp İlanımı Güncelle</h4>
+          <p className={classes.cardCategoryWhite}>
+            Bir yakınınızın veya evcil hayvanınızın kayıp ilanında değiştirmek istediğiniz alanı güncelleyiniz.
+          </p>
+        </CardHeader>
+        <CardBody>
+        <GridContainer>
+              <GridItem xs={12} sm={12} md={4}>
+                <CustomInput
+                  labelText="İlan Başlığı"
+                  id="owner"
+                  formControlProps={{
+                    fullWidth: true
+                  }}
+                />
+              </GridItem>
+              <GridItem xs={12} sm={12} md={4}>
+                <CustomInput
+                  labelText="İletişim"
+                  id="tel-no"
+                  formControlProps={{
+                    fullWidth: true
+                  }}
+                />
+              </GridItem>
+              <GridItem xs={12} sm={12} md={4}>
+                <CustomInput
+                  labelText="İnsan / Evcil Hayvan"
+                  id="type"
+                  formControlProps={{
+                    fullWidth: true
+                  }}inputProps={{
+                    disabled: true
+                  }}
+                  
+                /><Radio
+                checked={annSelectedValue === "insan"}
+                onChange={() => setAnnSelectedValue("insan")}
+                value="insan"
+                name="radiobutton4"
+                aria-label="insan"
+                icon={<FiberManualRecord className={classesc.radioUnchecked} />}
+                checkedIcon={<FiberManualRecord className={classesc.radioChecked} />}
+                classes={{
+                  checked: classesc.radio
+                }}
+              /><Radio
+              checked={annSelectedValue === "evcilhayvan"}
+              onChange={() => setAnnSelectedValue("evcilhayvan")}
+              value="evcilhayvan"
+              name="radiobutton5"
+              aria-label="evcilhayvan"
+              icon={<FiberManualRecord className={classesc.radioUnchecked} />}
+              checkedIcon={<FiberManualRecord className={classesc.radioChecked} />}
+              classes={{
+                checked: classesc.radio
+              }}
+            />
+          
+              </GridItem>
+              
+            </GridContainer>
+            <GridContainer>
+              
+              
+              <GridItem xs={12} sm={12} md={12}>
+                <CustomInput
+                  labelText="Açıklama"
+                  id="desc"
+                  formControlProps={{
+                    fullWidth: true
+                  }}
+                />
+              </GridItem>
+             
+           
+            </GridContainer>
+            
+            <Button color="rose" round><Icon>add_photo_alternate</Icon> Fotoğraf Ekle</Button>
+          </CardBody>
+          <CardFooter>
+            <Button color="info">Kayıp İlanımı Güncelle</Button>
+          </CardFooter>
+      </Card>
+    </GridItem>
+
+    
+  </GridContainer>
+
+  </div>
+  )  
 }
