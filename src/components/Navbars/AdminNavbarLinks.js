@@ -38,12 +38,15 @@ export default function AdminNavbarLinks() {
   const handleClickNotification = event => {
     if (openNotification && openNotification.contains(event.target)) {
       setOpenNotification(null);
+
     } else {
       setOpenNotification(event.currentTarget);
+    
     }
   };
   const handleCloseNotification = () => {
     setOpenNotification(null);
+
   };
   const handleClickProfile = event => {
     if (openProfile && openProfile.contains(event.target)) {
@@ -120,7 +123,15 @@ export default function AdminNavbarLinks() {
                     ><div>
                    
                     <Dialog open={openG} onClose={handleCloseNotification} aria-labelledby="form-dialog-title">
-                      <DialogTitle id="form-dialog-title">Mesajlarım</DialogTitle>
+                    
+                    <DialogTitle id="form-dialog-title">Gönderilen Mesajlarım</DialogTitle>
+                      <DialogContent>
+                        <DialogContentText>
+                          Mesaj1 3 kişiyiz, 1 hafta konaklamak istiyoruz. İletişim: +90504789654
+                        </DialogContentText>
+                      
+                        </DialogContent>
+                      <DialogTitle id="form-dialog-title2">Gelen Mesajlarım</DialogTitle>
                       <DialogContent>
                         <DialogContentText>
                           Mesaj1 3 kişiyiz, 1 hafta konaklamak istiyoruz. İletişim: +90504789654
@@ -153,13 +164,12 @@ export default function AdminNavbarLinks() {
                       Mesajlarımı görüntüle
                     </MenuItem>
                     <MenuItem
-                      onClick={handleClickOpen
-                      }
+                      onClick={handleClickOpen}
                       className={classes.dropdownItem}
                     ><div>
                    
                     <Dialog open={open} onClose={handleCloseNotification} aria-labelledby="form-dialog-title">
-                      <DialogTitle id="form-dialog-title">Mesaj Gönder</DialogTitle>
+                      <DialogTitle id="form-dialog-title3">Mesaj Gönder</DialogTitle>
                       <DialogContent>
                         <DialogContentText>
                           Kaç kişi olduğunuzdan, ne kadar süre kalmak istediğinizden ve iletişim bilgilerinizden bahsediniz.
@@ -180,12 +190,13 @@ export default function AdminNavbarLinks() {
                         <Button onClick={handleCloseNotification} color="primary">
                           Gönder
                         </Button>
+                        
                       </DialogActions>
                     </Dialog>
                   </div>
                       Mesaj gönder
                     </MenuItem>
-                  
+                   
                   </MenuList>
                 </ClickAwayListener>
               </Paper>
