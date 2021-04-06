@@ -5,6 +5,7 @@ export const userService = {
     logout,
     register,
     addHome,
+    addEvent,
     getAll,
     getById,
     update,
@@ -88,6 +89,39 @@ function addHome(home) {
 
     // TODO: gozde update url
     return fetch(`http://127.0.0.1:5000/api/users/${user_id}/homes`, requestOptions).then(handleResponse);
+}
+
+function addEvent(event) {
+    var event_json = {
+        "start_time": event.addEvent_startTime,
+        "end_time": event.addEvent_endTime,
+        "type": event.addEvent_type,
+        "title": event.addEvent_title,
+        "description": event.addEvent_description,
+        "is_emergency": event.addEvent_is_emergency,
+        "country": event.addEvent_country,
+        "state": event.addEvent_state,
+        "city": event.addEvent_city,
+        "neighbourhood": event.addEvent_neighbourhood,
+        "latitude": event.addEvent_latitude,
+        "longitude": event.addEvent_longitude,
+        "currency": event.addEvent_currency,
+        "amount": event.addEvent_amount
+    }
+
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(event_json)
+    };
+
+    // TODO: user_id fields might be changed on prod environment
+    // user_id is getting from localStorage
+    let user_id = JSON.parse(localStorage.getItem('user'));
+    user_id = user_id['user']['user_id'];
+
+    // TODO: gozde update url
+    return fetch(`http://127.0.0.1:5000/api/users/${user_id}/events`, requestOptions).then(handleResponse);
 }
 
 function update(user) {

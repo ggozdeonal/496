@@ -67,7 +67,7 @@ export default function Ilan_ekle_sayfasi() {
     const [visibilityChecked, setVisibilityChecked] = React.useState(false);
     const [availableForVictims, setAvailableForVictims] = React.useState([]);
     const [availableForAnimals, setAvailableForAnimals] = React.useState([]);
-    const [acilChecked, setAcilChecked] = React.useState([]);
+    const [isEmergencyChecked, setEmergencyChecked] = React.useState([]);
     const [eventSelectedValue, setEventSelectedValue] = React.useState(null);
     const [annSelectedValue, setAnnSelectedValue] = React.useState(null);
   const [coordinates, setCoordinates] = React.useState({lat: '', lon: ''});
@@ -103,7 +103,7 @@ export default function Ilan_ekle_sayfasi() {
         addEvent_endTime: "",
         addEvent_title: "",
         addEvent_description: "",
-        addEvent_is_emergency: "",
+        addEvent_is_emergency: false,
         addEvent_country: "",
         addEvent_city: "",
         addEvent_state: "",
@@ -135,9 +135,9 @@ export default function Ilan_ekle_sayfasi() {
     }
 
     const handleAddHome = (e) => {
-        console.log(addHome_state);
         e.preventDefault();
 
+        console.log(addHome_state);
         setSubmitted(true);
         // TODO: check other fields
         if (addHome_state.addHome_homeName) {
@@ -145,8 +145,16 @@ export default function Ilan_ekle_sayfasi() {
         }
     }
 
-    const handleAddEvent = () => {
-        console.log(addHome_state);
+    const handleAddEvent = (e) => {
+        e.preventDefault();
+
+        addEvent_state.addEvent_type = eventSelectedValue;
+        console.log(addEvent_state);
+        setSubmitted(true);
+        // TODO: check other fields
+        if (addEvent_state.addEvent_title) {
+            dispatch(userActions.addEvent(addEvent_state));
+        }
     }
 
     const handleAddMissing = () => {
@@ -389,27 +397,31 @@ export default function Ilan_ekle_sayfasi() {
                 </GridItem>
                 <GridItem xs={12} sm={12} md={4}>
                   <CustomInput 
-                    id="event_start"
+                    id="addEvent_startTime"
                     labelText="Başlangıç Tarihi"
                     formControlProps={{
                       fullWidth: true
                     }}
                     inputProps={{
-                      type: "date"
+                      type: "date",
+                        name: "addEvent_startTime",
+                        defaultValue: addEvent_state.addEvent_startTime,
+                        onChange: addEventHandleChange,
                     }}
-                   
-
                   />
                 </GridItem>
                 <GridItem xs={12} sm={12} md={4}>
                   <CustomInput
                     labelText="Bitiş Tarihi"
-                    id="event_end"
+                    id="addEvent_endTime"
                     formControlProps={{
                       fullWidth: true
                     }}
                     inputProps={{
-                      type: "date"
+                      type: "date",
+                        name: "addEvent_endTime",
+                        defaultValue: addEvent_state.addEvent_endTime,
+                        onChange: addEventHandleChange,
                     }}
                   />
                 </GridItem>
@@ -418,20 +430,29 @@ export default function Ilan_ekle_sayfasi() {
               <GridItem xs={12} sm={12} md={12}>
                   <CustomInput
                     labelText="Etkinlik Başlığı"
-                    id="title"
+                    id="addEvent_title"
                     formControlProps={{
                       fullWidth: true 
                     }}
-                    
+                    inputProps={{
+                        name: "addEvent_title",
+                        defaultValue: addEvent_state.addEvent_title,
+                        onChange: addEventHandleChange,
+                    }}
                   />
                 </GridItem>
                 
                 <GridItem xs={12} sm={12} md={12}>
                   <CustomInput
                     labelText="Açıklama"
-                    id="description"
+                    id="addEvent_description"
                     formControlProps={{
                       fullWidth: true
+                    }}
+                    inputProps={{
+                        name: "addEvent_description",
+                        defaultValue: addEvent_state.addEvent_description,
+                        onChange: addEventHandleChange,
                     }}
                   />
                 </GridItem>
@@ -440,24 +461,30 @@ export default function Ilan_ekle_sayfasi() {
                 <GridItem xs={12} sm={12} md={4}>
                   <CustomInput
                     labelText="Ülke"
-                    id="country"
+                    id="addEvent_country"
                     formControlProps={{
                       fullWidth: true
                     }}
                     inputProps={{
-                      disabled: (eventSelectedValue === "bagis")
+                      disabled: (eventSelectedValue === "bagis"),
+                        name: "addEvent_country",
+                        defaultValue: addEvent_state.addEvent_country,
+                        onChange: addEventHandleChange,
                      }}
                   />
                 </GridItem>
                 <GridItem xs={12} sm={12} md={4}>
                   <CustomInput
                     labelText="Şehir"
-                    id="city"
+                    id="addEvent_city"
                     formControlProps={{
                       fullWidth: true
                     }}
                     inputProps={{
-                      disabled: (eventSelectedValue === "bagis")
+                      disabled: (eventSelectedValue === "bagis"),
+                        name: "addEvent_city",
+                        defaultValue: addEvent_state.addEvent_city,
+                        onChange: addEventHandleChange,
                      }}
                   />
                 </GridItem>
@@ -465,12 +492,15 @@ export default function Ilan_ekle_sayfasi() {
                 <GridItem xs={12} sm={12} md={4}>
                   <CustomInput
                     labelText="Semt"
-                    id="state"
+                    id="addEvent_state"
                     formControlProps={{
                       fullWidth: true
                     }}
                     inputProps={{
-                      disabled: (eventSelectedValue === "bagis")
+                      disabled: (eventSelectedValue === "bagis"),
+                        name: "addEvent_state",
+                        defaultValue: addEvent_state.addEvent_state,
+                        onChange: addEventHandleChange,
                      }}
                   />
                 </GridItem>
@@ -479,13 +509,15 @@ export default function Ilan_ekle_sayfasi() {
                 <GridItem xs={12} sm={12} md={8}>
                   <CustomInput
                     labelText="Adres"
-                    id="neighbourh"
-                  
+                    id="addEvent_neighbourhood"
                     formControlProps={{
                       fullWidth: true
                     }}
                     inputProps={{
-                      disabled: (eventSelectedValue === "bagis")
+                      disabled: (eventSelectedValue === "bagis"),
+                        name: "addEvent_neighbourhood",
+                        defaultValue: addEvent_state.addEvent_neighbourhood,
+                        onChange: addEventHandleChange,
                      }}
                   />
                 </GridItem>
@@ -514,24 +546,30 @@ export default function Ilan_ekle_sayfasi() {
                 <GridItem xs={12} sm={12} md={4}>
                   <CustomInput
                     labelText="Para Birimi"
-                    id="currency"
+                    id="addEvent_currency"
                     formControlProps={{
                       fullWidth: true
                     }}
                     inputProps={{
-                      disabled: (eventSelectedValue !== "bagis")
+                      disabled: (eventSelectedValue !== "bagis"),
+                        name: "addEvent_currency",
+                        defaultValue: addEvent_state.addEvent_currency,
+                        onChange: addEventHandleChange,
                      }}
                   />
                 </GridItem>
                 <GridItem xs={12} sm={12} md={4}>
                   <CustomInput
                     labelText="Bağış Miktarı"
-                    id="amount"
+                    id="addEvent_amount"
                     formControlProps={{
                       fullWidth: true
                     }}
                     inputProps={{
-                      disabled: (eventSelectedValue !== "bagis")
+                      disabled: (eventSelectedValue !== "bagis"),
+                        name: "addEvent_amount",
+                        defaultValue: addEvent_state.addEvent_amount,
+                        onChange: addEventHandleChange,
                      }}
                   />
                 </GridItem>
@@ -546,21 +584,18 @@ export default function Ilan_ekle_sayfasi() {
                       disabled: true
                     }}
                   />
-              
                     <Checkbox
                       tabIndex={-1}
-                      onClick={() => setAcilChecked(!acilChecked)}
+                        id="addEvent_is_emergency"
+                      onClick={() => setEmergencyChecked(addEvent_state.addEvent_is_emergency = !addEvent_state.addEvent_is_emergency)}
                       checkedIcon={<Check className={classesc.checkedIcon} />}
                       icon={<Check className={classesc.uncheckedIcon} />}
                       classes={{
-                        acilChecked: classesc.checked
+                          isEmergencyChecked: classesc.checked
                       }}
                       inputProps={{
                         disabled: (eventSelectedValue !== "bulusma")
                        }}
-                      
-                      
-
                     />
                 </GridItem>
 
@@ -571,7 +606,7 @@ export default function Ilan_ekle_sayfasi() {
        
             </CardBody>
             <CardFooter>
-              <Button color="success">Etkinlik İlanı Ekle</Button>
+              <Button color="success" onClick={handleAddEvent}>Etkinlik İlanı Ekle</Button>
             </CardFooter>
         </Card>
       </GridItem>

@@ -8,6 +8,7 @@ export const userActions = {
     logout,
     register,
     addHome,
+    addEvent,
     getAll,
     delete: _delete
 };
@@ -70,8 +71,31 @@ function addHome(home) {
             .then(
                 user => {
                     dispatch(success());
-                    history.push('/');
+                    history.push('/ilan_ekle');
                     dispatch(alertActions.success('Home addition successful'));
+                },
+                error => {
+                    dispatch(failure(error.toString()));
+                    dispatch(alertActions.error(error.toString()));
+                }
+            );
+    };
+
+    function request(user) { return { type: userConstants.REGISTER_REQUEST, user } }
+    function success(user) { return { type: userConstants.REGISTER_SUCCESS, user } }
+    function failure(error) { return { type: userConstants.REGISTER_FAILURE, error } }
+}
+
+function addEvent(event) {
+    return dispatch => {
+        dispatch(request(event));
+
+        userService.addEvent(event)
+            .then(
+                user => {
+                    dispatch(success());
+                    history.push('/ilan_ekle');
+                    dispatch(alertActions.success('Event addition successful'));
                 },
                 error => {
                     dispatch(failure(error.toString()));
