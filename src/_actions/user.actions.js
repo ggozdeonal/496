@@ -7,6 +7,7 @@ export const userActions = {
     login,
     logout,
     register,
+    addHome,
     getAll,
     delete: _delete
 };
@@ -61,16 +62,16 @@ function register(user) {
     function failure(error) { return { type: userConstants.REGISTER_FAILURE, error } }
 }
 
-function addHome(user) {
+function addHome(home) {
     return dispatch => {
-        dispatch(request(user));
+        dispatch(request(home));
 
-        userService.register(user)
+        userService.addHome(home)
             .then(
                 user => {
                     dispatch(success());
-                    history.push('/login');
-                    dispatch(alertActions.success('Registration successful'));
+                    history.push('/');
+                    dispatch(alertActions.success('Home addition successful'));
                 },
                 error => {
                     dispatch(failure(error.toString()));

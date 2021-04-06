@@ -4,6 +4,7 @@ export const userService = {
     login,
     logout,
     register,
+    addHome,
     getAll,
     getById,
     update,
@@ -60,6 +61,33 @@ function register(user) {
 
     // TODO: gozde update url
     return fetch(`http://127.0.0.1:5000/api/users`, requestOptions).then(handleResponse);
+}
+
+function addHome(home) {
+    var home_json = {
+        "home_name": home.addHome_homeName,
+        'isVisible': home.addHome_visible,
+        'country': home.addHome_country,
+        'state': home.addHome_state,
+        'city': home.addHome_city,
+        'neighbourhood': home.addHome_neighbourhood,
+        'latitude': home.addHome_latitude,
+        'longitude': home.addHome_longitude
+    }
+
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(home_json)
+    };
+
+    // TODO: user_id fields might be changed on prod environment
+    // user_id is getting from localStorage
+    let user_id = JSON.parse(localStorage.getItem('user'));
+    user_id = user_id['user']['user_id'];
+
+    // TODO: gozde update url
+    return fetch(`http://127.0.0.1:5000/api/users/${user_id}/homes`, requestOptions).then(handleResponse);
 }
 
 function update(user) {

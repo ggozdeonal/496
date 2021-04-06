@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 // core components
@@ -20,6 +20,11 @@ import FiberManualRecord from "@material-ui/icons/FiberManualRecord";
 //core components
 import stylesc from "assets/jss/material-dashboard-react/checkboxAdnRadioStyle.js";
 import Icon from "@material-ui/core/Icon";
+import {userActions} from "../../_actions";
+import { history } from '../../_helpers';
+import { alertActions } from '../../_actions';
+
+import {useDispatch, useSelector} from "react-redux";
 
 
 const styles = {
@@ -67,6 +72,11 @@ export default function Ilan_ekle_sayfasi() {
     const [annSelectedValue, setAnnSelectedValue] = React.useState(null);
   const [coordinates, setCoordinates] = React.useState({lat: '', lon: ''});
   const { lat, lon } = coordinates;
+
+    const [submitted, setSubmitted] = useState(false);
+    const registering = useSelector(state => state.registration.registering);
+    const dispatch = useDispatch();
+    const alert = useSelector(state => state.alert);
   
   React.useEffect(() => { 
     navigator.geolocation.getCurrentPosition(function(position) {
@@ -124,8 +134,15 @@ export default function Ilan_ekle_sayfasi() {
         });
     }
 
-    const handleAddHome = () => {
+    const handleAddHome = (e) => {
         console.log(addHome_state);
+        e.preventDefault();
+
+        setSubmitted(true);
+        // TODO: check other fields
+        if (addHome_state.addHome_homeName) {
+            dispatch(userActions.addHome(addHome_state));
+        }
     }
 
     const handleAddEvent = () => {
