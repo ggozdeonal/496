@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 // core components
@@ -67,12 +67,34 @@ const [annSelectedValue, setAnnSelectedValue] = React.useState(null);
 const [coordinates, setCoordinates] = React.useState({lat: '', lon: ''});
 const { lat, lon } = coordinates;
 
+
+    const [profile_name, setprofile_name] = useState("");
+    const [profile_surname, setprofile_surname] = useState("");
+    const [profile_email, setprofile_email] = useState("");
+    const [profile_phone, setprofile_phone] = useState("");
+    const [profile_password, setprofile_password] = useState("");
+
 React.useEffect(() => { 
   navigator.geolocation.getCurrentPosition(function(position) {
     setCoordinates({lat: position.coords.latitude, lon: position.coords.longitude})
   });
 }, []);
 
+
+    function addProfileHandleChange(evt) {
+        console.log(1111);
+
+    }
+
+    React.useEffect(() => {
+        var user = JSON.parse(localStorage.getItem('user'));
+
+        setprofile_name(user['user']['name']);
+        setprofile_surname(user['user']['surname']);
+        setprofile_email(user['user']['email']);
+        setprofile_phone(user['user']['phone']);
+        setprofile_password(user['user']['password']);
+    }, [profile_name, profile_surname, profile_email, profile_phone, profile_password]);
 
   return (
     <div>
@@ -89,18 +111,28 @@ React.useEffect(() => {
                 <GridItem xs={12} sm={12} md={6}>
                   <CustomInput
                     labelText="İsim"
-                    id="first-name"
+                    id="profile_name"
                     formControlProps={{
                       fullWidth: true
+                    }}
+                    inputProps={{
+                        name: "profile_name",
+                        value: profile_name,
+                        onChange: addProfileHandleChange,
                     }}
                   />
                 </GridItem>
                 <GridItem xs={12} sm={12} md={6}>
                   <CustomInput
                     labelText="Soyisim"
-                    id="last-name"
+                    id="profile_surname"
                     formControlProps={{
                       fullWidth: true
+                    }}
+                    inputProps={{
+                        name: "profile_surname",
+                        value: profile_surname,
+                        onChange: addProfileHandleChange,
                     }}
                   />
                 </GridItem>
@@ -109,18 +141,28 @@ React.useEffect(() => {
                 <GridItem xs={12} sm={12} md={6}>
                   <CustomInput
                     labelText="Email Adresi"
-                    id="email-address"
+                    id="profile_email"
                     formControlProps={{
                       fullWidth: true
+                    }}
+                    inputProps={{
+                        name: "profile_email",
+                        value: profile_email,
+                        onChange: addProfileHandleChange,
                     }}
                   />
                 </GridItem>
                 <GridItem xs={12} sm={12} md={6}>
                   <CustomInput
                     labelText="Telefon Numarası"
-                    id="tel-no"
+                    id="profile_phone"
                     formControlProps={{
                       fullWidth: true
+                    }}
+                    inputProps={{
+                        name: "profile_phone",
+                        value: profile_phone,
+                        onChange: addProfileHandleChange,
                     }}
                   />
                 </GridItem>
@@ -129,9 +171,14 @@ React.useEffect(() => {
                 <GridItem xs={12} sm={12} md={4}>
                   <CustomInput
                     labelText="Şifre"
-                    id="sifre"
+                    id="profile_password"
                     formControlProps={{
                       fullWidth: true
+                    }}
+                    inputProps={{
+                        name: "profile_password",
+                        value: profile_password,
+                        onChange: addProfileHandleChange,
                     }}
                   />
                 </GridItem>
