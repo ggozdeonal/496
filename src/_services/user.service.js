@@ -16,11 +16,12 @@ function login(email, password) {
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password })
+        body: JSON.stringify({ 'email': email, 'password': password })
     };
 
+    console.log(requestOptions);
     // TODO: gozde update url
-    return fetch(`http://127.0.0.1:5000/api/users/login`, requestOptions)
+    return fetch(`https://bauphi-api.herokuapp.com/api/users/login`, requestOptions)
         .then(handleResponse)
         .then(user => {
             // store user details and jwt token in local storage to keep user logged in between page refreshes
@@ -61,7 +62,7 @@ function register(user) {
     };
 
     // TODO: gozde update url
-    return fetch(`http://127.0.0.1:5000/api/users`, requestOptions).then(handleResponse);
+    return fetch(`https://bauphi-api.herokuapp.com/api/users`, requestOptions).then(handleResponse);
 }
 
 function addHome(home) {
@@ -88,7 +89,7 @@ function addHome(home) {
     user_id = user_id['user']['user_id'];
 
     // TODO: gozde update url
-    return fetch(`http://127.0.0.1:5000/api/users/${user_id}/homes`, requestOptions).then(handleResponse);
+    return fetch(`https://bauphi-api.herokuapp.com/api/users/${user_id}/homes`, requestOptions).then(handleResponse);
 }
 
 function addEvent(event) {
@@ -121,17 +122,17 @@ function addEvent(event) {
     user_id = user_id['user']['user_id'];
 
     // TODO: gozde update url
-    return fetch(`http://127.0.0.1:5000/api/users/${user_id}/events`, requestOptions).then(handleResponse);
+    return fetch(`https://bauphi-api.herokuapp.com/api/users/${user_id}/events`, requestOptions).then(handleResponse);
 }
 
 function update(user) {
     const requestOptions = {
-        method: 'PUT',
+        method: 'PATCH',
         headers: { ...authHeader(), 'Content-Type': 'application/json' },
         body: JSON.stringify(user)
     };
 
-    return fetch(`http://127.0.0.1:5000/api/users/${user.id}`, requestOptions).then(handleResponse);;
+    return fetch(`https://bauphi-api.herokuapp.com/api/users/${user.id}`, requestOptions).then(handleResponse);;
 }
 
 // prefixed function name with underscore because delete is a reserved word in javascript
@@ -147,13 +148,20 @@ function _delete(id) {
 function handleResponse(response) {
     return response.text().then(text => {
         const data = text && JSON.parse(text);
+
         if (!response.ok) {
             if (response.status === 401) {
                 // auto logout if 401 response returned from api
+                console.log("haata");
                 logout();
                 window.location.reload(true);
             }
 
+            const error = (data && data.message) || response.statusText;
+            return Promise.reject(error);
+        }
+        else if (data.status === "FAILURE")
+        {
             const error = (data && data.message) || response.statusText;
             return Promise.reject(error);
         }
