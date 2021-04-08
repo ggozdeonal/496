@@ -30,6 +30,8 @@ import stylesc from "assets/jss/material-dashboard-react/checkboxAdnRadioStyle.j
 
 
 import {evilanlari, etkinlikilanlari, kayippetilanlari} from "variables/general.js";
+import {userActions} from "../../_actions";
+import {useDispatch, useSelector} from "react-redux";
 
 
 const styles = {
@@ -65,6 +67,11 @@ export default function Profil_sayfasi() {
     const [coordinates, setCoordinates] = React.useState({lat: '', lon: ''});
     const {lat, lon} = coordinates;
 
+    const [submitted, setSubmitted] = useState(false);
+    const registering = useSelector(state => state.registration.registering);
+    const dispatch = useDispatch();
+    const alert = useSelector(state => state.alert);
+
     const [profile, setProfile] = React.useState({
         profile_name: "",
         profile_surname: "",
@@ -87,6 +94,16 @@ export default function Profil_sayfasi() {
             ...profile,
             [evt.target.name]: value
         });
+    }
+
+    function handleUpdateProfile(evt) {
+        evt.preventDefault();
+
+        dispatch(userActions.updateProfile(profile));
+    }
+
+    function handleDeleteProfile(evt) {
+        console.log('delete');
     }
 
     React.useEffect(() => {
@@ -193,8 +210,8 @@ export default function Profil_sayfasi() {
 
                         </CardBody>
                         <CardFooter>
-                            <Button color="warning">Profili Güncelle</Button>
-                            <Button color="danger"><Icon>dangerous</Icon>Üyeliğimi Sil</Button>
+                            <Button color="warning" onClick={handleUpdateProfile}>Profili Güncelle</Button>
+                            <Button color="danger" onClick={handleDeleteProfile}><Icon>dangerous</Icon>Üyeliğimi Sil</Button>
                         </CardFooter>
                     </Card>
                 </GridItem>

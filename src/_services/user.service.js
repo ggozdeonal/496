@@ -4,6 +4,7 @@ export const userService = {
     login,
     logout,
     register,
+    updateProfile,
     addHome,
     addEvent,
     getAll,
@@ -20,7 +21,6 @@ function login(email, password) {
     };
 
     console.log(requestOptions);
-    // TODO: gozde update url
     return fetch(`https://bauphi-api.herokuapp.com/api/users/login`, requestOptions)
         .then(handleResponse)
         .then(user => {
@@ -61,8 +61,25 @@ function register(user) {
         body: JSON.stringify(user)
     };
 
-    // TODO: gozde update url
     return fetch(`https://bauphi-api.herokuapp.com/api/users`, requestOptions).then(handleResponse);
+}
+
+function updateProfile(user) {
+    const requestOptions = {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json', 'session_key': 'admin' },
+        body: JSON.stringify({'name': user.profile_name,
+            'surname': user.profile_surname,
+            'password': user.profile_password,
+            'email': user.profile_email,
+            'phone': user.profile_phone })
+    };
+
+    let user_id = JSON.parse(localStorage.getItem('user'));
+    user_id = user_id['user']['user_id'];
+
+    console.log(requestOptions.body);
+    return fetch(`https://bauphi-api.herokuapp.com/api/users/${user_id}`, requestOptions).then(handleResponse);
 }
 
 function addHome(home) {
@@ -88,7 +105,6 @@ function addHome(home) {
     let user_id = JSON.parse(localStorage.getItem('user'));
     user_id = user_id['user']['user_id'];
 
-    // TODO: gozde update url
     return fetch(`https://bauphi-api.herokuapp.com/api/users/${user_id}/homes`, requestOptions).then(handleResponse);
 }
 
@@ -121,7 +137,6 @@ function addEvent(event) {
     let user_id = JSON.parse(localStorage.getItem('user'));
     user_id = user_id['user']['user_id'];
 
-    // TODO: gozde update url
     return fetch(`https://bauphi-api.herokuapp.com/api/users/${user_id}/events`, requestOptions).then(handleResponse);
 }
 
@@ -149,6 +164,14 @@ function handleResponse(response) {
     return response.text().then(text => {
         const data = text && JSON.parse(text);
 
+        console.log(data);
+
+        if (data.status === "FAILURE")
+        {
+            console.log('err');
+            const error = (data && data.message) || response.statusText;
+            return Promise.reject(error);
+        }
         if (!response.ok) {
             if (response.status === 401) {
                 // auto logout if 401 response returned from api
@@ -157,11 +180,6 @@ function handleResponse(response) {
                 window.location.reload(true);
             }
 
-            const error = (data && data.message) || response.statusText;
-            return Promise.reject(error);
-        }
-        else if (data.status === "FAILURE")
-        {
             const error = (data && data.message) || response.statusText;
             return Promise.reject(error);
         }
