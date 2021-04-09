@@ -32,6 +32,7 @@ import stylesc from "assets/jss/material-dashboard-react/checkboxAdnRadioStyle.j
 import {evilanlari, etkinlikilanlari, kayippetilanlari} from "variables/general.js";
 import {userActions} from "../../_actions";
 import {useDispatch, useSelector} from "react-redux";
+import axios from "axios";
 
 
 const styles = {
@@ -67,10 +68,13 @@ export default function Profil_sayfasi() {
     const [coordinates, setCoordinates] = React.useState({lat: '', lon: ''});
     const {lat, lon} = coordinates;
 
-    const [submitted, setSubmitted] = useState(false);
+    const [submitted, setSubmitted] = React.useState(false);
     const registering = useSelector(state => state.registration.registering);
     const dispatch = useDispatch();
     const alert = useSelector(state => state.alert);
+    const [userHomes, setUserHomes] = React.useState([]);
+    const [userHomesPreview, setUserHomesPreview] = React.useState([]);
+    const [userHomesPreviewIndex, setUserHomesPreviewIndex] = React.useState([]);
 
     const [profile, setProfile] = React.useState({
         profile_name: "",
@@ -119,6 +123,31 @@ export default function Profil_sayfasi() {
             profile_password: user['user']['password']
         })
     }, []);
+
+    // get home list
+    React.useEffect(() => {
+        let user_id = JSON.parse(localStorage.getItem('user'));
+        user_id = user_id['user']['user_id'];
+
+        axios.get(`https://bauphi-api.herokuapp.com/api/users/${user_id}/homes`,
+            { headers: { 'Content-Type': 'application/json', 'session_key': 'admin' }})
+            .then((response) =>  {
+                    setUserHomes(response.data.homes);
+
+                    // save home names into temp list
+                const homes = [];
+                const homeIndexes = [];
+                for (const [index, value] of response.data.homes.entries()) {
+                    homes.push(value.home_name);
+                    homeIndexes.push(index);
+                }
+                setUserHomesPreview(homes);
+                setUserHomesPreviewIndex(homeIndexes);
+            })
+    }, []);
+
+    React.useEffect(()=>{console.log(userHomes)},[userHomes])
+    React.useEffect(()=>{console.log(userHomesPreview)},[userHomesPreview])
 
     return (
         <div>
@@ -230,8 +259,8 @@ export default function Profil_sayfasi() {
                         tabContent: (
                             <Tasks
                                 checkedIndexes={[0, 1]}
-                                tasksIndexes={[0, 1]}
-                                tasks={evilanlari}
+                                tasksIndexes={userHomesPreviewIndex}
+                                tasks={userHomesPreview}
                             />
                         )
                     },
