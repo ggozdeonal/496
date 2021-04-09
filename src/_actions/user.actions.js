@@ -73,7 +73,7 @@ function updateProfile(user) {
             .then(
                 user => {
                     dispatch(success());
-                    history.push('/');
+                    history.push('/profil');
                     dispatch(alertActions.success('Profile update successful'));
                 },
                 error => {

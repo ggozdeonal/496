@@ -80,7 +80,14 @@ function updateProfile(user) {
     user_id = user_id['user']['user_id'];
 
     console.log(requestOptions.body);
-    return fetch(`https://bauphi-api.herokuapp.com/api/users/${user_id}`, requestOptions).then(handleResponse);
+    return fetch(`https://bauphi-api.herokuapp.com/api/users/${user_id}`, requestOptions)
+        .then(handleResponse)
+        .then(user => {
+            // store user details and jwt token in local storage to keep user logged in between page refreshes
+            localStorage.setItem('user', JSON.stringify(user));
+
+            return user;
+        });
 }
 
 function deleteProfile() {
