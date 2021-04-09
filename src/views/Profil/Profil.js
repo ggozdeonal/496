@@ -72,9 +72,16 @@ export default function Profil_sayfasi() {
     const registering = useSelector(state => state.registration.registering);
     const dispatch = useDispatch();
     const alert = useSelector(state => state.alert);
+
     const [userHomes, setUserHomes] = React.useState([]);
     const [userHomesPreview, setUserHomesPreview] = React.useState([]);
     const [userHomesPreviewIndex, setUserHomesPreviewIndex] = React.useState([]);
+    const [userEvents, setUserEvents] = React.useState([]);
+    const [userEventsPreview, setUserEventsPreview] = React.useState([]);
+    const [userEventsPreviewIndex, setUserEventsPreviewIndex] = React.useState([]);
+    const [userMissingPets, setUserMissingPets] = React.useState([]);
+    const [userMissingPetsPreview, setUserMissingPetsPreview] = React.useState([]);
+    const [userMissingPetsPreviewIndex, setUserMissingPetsPreviewIndex] = React.useState([]);
 
     const [profile, setProfile] = React.useState({
         profile_name: "",
@@ -89,7 +96,6 @@ export default function Profil_sayfasi() {
             setCoordinates({lat: position.coords.latitude, lon: position.coords.longitude})
         });
     }, []);
-
 
     function addProfileHandleChange(evt) {
         const value = evt.target.value;
@@ -112,6 +118,7 @@ export default function Profil_sayfasi() {
         dispatch(userActions.deleteProfile(profile));
     }
 
+    // set user profile information fields
     React.useEffect(() => {
         var user = JSON.parse(localStorage.getItem('user'));
 
@@ -132,22 +139,74 @@ export default function Profil_sayfasi() {
         axios.get(`https://bauphi-api.herokuapp.com/api/users/${user_id}/homes`,
             { headers: { 'Content-Type': 'application/json', 'session_key': 'admin' }})
             .then((response) =>  {
+                if (response.data.status === "SUCCESS") {
                     setUserHomes(response.data.homes);
 
                     // save home names into temp list
-                const homes = [];
-                const homeIndexes = [];
-                for (const [index, value] of response.data.homes.entries()) {
-                    homes.push(value.home_name);
-                    homeIndexes.push(index);
+                    const homes = [];
+                    const homeIndexes = [];
+                    for (const [index, value] of response.data.homes.entries()) {
+                        homes.push(value.home_name);
+                        homeIndexes.push(index);
+                    }
+                    setUserHomesPreview(homes);
+                    setUserHomesPreviewIndex(homeIndexes);
                 }
-                setUserHomesPreview(homes);
-                setUserHomesPreviewIndex(homeIndexes);
+            })
+    }, []);
+
+    // get event list
+    React.useEffect(() => {
+        let user_id = JSON.parse(localStorage.getItem('user'));
+        user_id = user_id['user']['user_id'];
+
+        axios.get(`https://bauphi-api.herokuapp.com/api/users/${user_id}/events`,
+            { headers: { 'Content-Type': 'application/json', 'session_key': 'admin' }})
+            .then((response) =>  {
+                if (response.data.status === "SUCCESS") {
+                    setUserEvents(response.data.events);
+
+                    // save event names into temp list
+                    const events = [];
+                    const eventIndexes = [];
+                    for (const [index, value] of response.data.events.entries()) {
+                        events.push(value.title);
+                        eventIndexes.push(index);
+                    }
+                    setUserEventsPreview(events);
+                    setUserEventsPreviewIndex(eventIndexes);
+                }
+            })
+    }, []);
+
+    // get announcement list
+    React.useEffect(() => {
+        let user_id = JSON.parse(localStorage.getItem('user'));
+        user_id = user_id['user']['user_id'];
+
+        axios.get(`https://bauphi-api.herokuapp.com/api/users/${user_id}/announcements`,
+            { headers: { 'Content-Type': 'application/json', 'session_key': 'admin' }})
+            .then((response) =>  {
+                if (response.data.status === "SUCCESS")
+                {
+                    setUserMissingPets(response.data.announcements);
+
+                    // save announcements into temp list
+                    const announcements = [];
+                    const announcementIndexes = [];
+                    for (const [index, value] of response.data.announcements.entries()) {
+                        announcements.push(value.title);
+                        announcementIndexes.push(index);
+                    }
+                    setUserMissingPetsPreview(announcements);
+                    setUserMissingPetsPreviewIndex(announcementIndexes);
+                }
             })
     }, []);
 
     React.useEffect(()=>{console.log(userHomes)},[userHomes])
     React.useEffect(()=>{console.log(userHomesPreview)},[userHomesPreview])
+    React.useEffect(()=>{console.log(userEvents)},[userEvents])
 
     return (
         <div>
@@ -270,8 +329,8 @@ export default function Profil_sayfasi() {
                         tabContent: (
                             <Tasks
                                 checkedIndexes={[0]}
-                                tasksIndexes={[0, 1]}
-                                tasks={etkinlikilanlari}
+                                tasksIndexes={userEventsPreviewIndex}
+                                tasks={userEventsPreview}
                             />
                         )
                     },
@@ -281,8 +340,8 @@ export default function Profil_sayfasi() {
                         tabContent: (
                             <Tasks
                                 checkedIndexes={[1]}
-                                tasksIndexes={[0, 1, 2]}
-                                tasks={kayippetilanlari}
+                                tasksIndexes={userMissingPetsPreviewIndex}
+                                tasks={userMissingPetsPreview}
                             />
                         )
                     }
