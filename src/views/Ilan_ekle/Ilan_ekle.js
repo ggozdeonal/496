@@ -70,8 +70,6 @@ export default function Ilan_ekle_sayfasi() {
     const [isEmergencyChecked, setEmergencyChecked] = React.useState([]);
     const [eventSelectedValue, setEventSelectedValue] = React.useState(null);
     const [annSelectedValue, setAnnSelectedValue] = React.useState(null);
-  const [coordinates, setCoordinates] = React.useState({lat: '', lon: ''});
-  const { lat, lon } = coordinates;
 
     const [submitted, setSubmitted] = useState(false);
     const registering = useSelector(state => state.registration.registering);
@@ -80,7 +78,17 @@ export default function Ilan_ekle_sayfasi() {
   
   React.useEffect(() => { 
     navigator.geolocation.getCurrentPosition(function(position) {
-      setCoordinates({lat: position.coords.latitude, lon: position.coords.longitude})
+        // set home location
+        addHome_setState({
+            addHome_latitude: position.coords.latitude,
+            addHome_longitude: position.coords.longitude
+        })
+
+        // set event location
+        addEvent_setState({
+            addEvent_latitude: position.coords.latitude,
+            addEvent_longitude: position.coords.longitude
+        })
     });
   }, []);
 
@@ -255,7 +263,7 @@ export default function Ilan_ekle_sayfasi() {
                 formControlProps={{
                   fullWidth: true
                 }}inputProps={{
-                  value : lat
+                  value: addHome_state.addHome_latitude
                 }}
               /></GridItem>
                <GridItem xs={12} sm={12} md={2}>
@@ -265,7 +273,7 @@ export default function Ilan_ekle_sayfasi() {
                 formControlProps={{
                   fullWidth: true
                 }}inputProps={{
-                  value :lon
+                  value: addHome_state.addHome_longitude
                 }}
               /></GridItem>
               </GridContainer>
@@ -528,7 +536,7 @@ export default function Ilan_ekle_sayfasi() {
                 formControlProps={{
                   fullWidth: true
                 }}inputProps={{
-                  value: lat
+                  value: addEvent_state.addEvent_latitude
                 }}
               /></GridItem>
                <GridItem xs={12} sm={12} md={2}>
@@ -538,7 +546,7 @@ export default function Ilan_ekle_sayfasi() {
                 formControlProps={{
                   fullWidth: true
                 }}inputProps={{
-                  value: lon
+                  value: addEvent_state.addEvent_longitude
                 }}
               /></GridItem>
               </GridContainer>     
