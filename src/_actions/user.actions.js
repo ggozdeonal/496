@@ -8,6 +8,7 @@ export const userActions = {
     logout,
     register,
     updateProfile,
+    deleteProfile,
     addHome,
     addEvent,
     getAll,
@@ -74,6 +75,30 @@ function updateProfile(user) {
                     dispatch(success());
                     history.push('/');
                     dispatch(alertActions.success('Profile update successful'));
+                },
+                error => {
+                    dispatch(failure(error.toString()));
+                    dispatch(alertActions.error(error.toString()));
+                }
+            );
+    };
+
+    function request(user) { return { type: userConstants.REGISTER_REQUEST, user } }
+    function success(user) { return { type: userConstants.REGISTER_SUCCESS, user } }
+    function failure(error) { return { type: userConstants.REGISTER_FAILURE, error } }
+}
+
+function deleteProfile() {
+    return dispatch => {
+        dispatch(request());
+
+        userService.deleteProfile()
+            .then(
+                user => {
+                    dispatch(success());
+                    dispatch(userActions.logout());
+                    history.push('/login');
+                    dispatch(alertActions.success('Profile deletion successful'));
                 },
                 error => {
                     dispatch(failure(error.toString()));

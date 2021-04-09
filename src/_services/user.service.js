@@ -5,6 +5,7 @@ export const userService = {
     logout,
     register,
     updateProfile,
+    deleteProfile,
     addHome,
     addEvent,
     getAll,
@@ -73,6 +74,19 @@ function updateProfile(user) {
             'password': user.profile_password,
             'email': user.profile_email,
             'phone': user.profile_phone })
+    };
+
+    let user_id = JSON.parse(localStorage.getItem('user'));
+    user_id = user_id['user']['user_id'];
+
+    console.log(requestOptions.body);
+    return fetch(`https://bauphi-api.herokuapp.com/api/users/${user_id}`, requestOptions).then(handleResponse);
+}
+
+function deleteProfile() {
+    const requestOptions = {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json', 'session_key': 'admin' }
     };
 
     let user_id = JSON.parse(localStorage.getItem('user'));

@@ -103,7 +103,9 @@ export default function Profil_sayfasi() {
     }
 
     function handleDeleteProfile(evt) {
-        console.log('delete');
+        evt.preventDefault();
+
+        dispatch(userActions.deleteProfile(profile));
     }
 
     React.useEffect(() => {
