@@ -368,9 +368,9 @@ export default function Ilan_ekle_sayfasi() {
                     }}
                     
                   /><Radio
-                  checked={eventSelectedValue === "bagis"}
-                  onChange={() => setEventSelectedValue("bagis")}
-                  value="bagis"
+                  checked={eventSelectedValue === "Donation/Money"}
+                  onChange={() => setEventSelectedValue("Donation/Money")}
+                  value="Donation/Money"
                   name="radiobutton1"
                   aria-label="Bagis"
                   icon={<FiberManualRecord className={classesc.radioUnchecked} />}
@@ -379,9 +379,9 @@ export default function Ilan_ekle_sayfasi() {
                     checked: classesc.radio
                   }}
                 /><Radio
-                checked={eventSelectedValue === "erzak"}
-                onChange={() => setEventSelectedValue("erzak")}
-                value="erzak"
+                checked={eventSelectedValue === "Donation/Supply"}
+                onChange={() => setEventSelectedValue("Donation/Supply")}
+                value="Donation/Supply"
                 name="radiobutton2"
                 aria-label="Erzak"
                 icon={<FiberManualRecord className={classesc.radioUnchecked} />}
@@ -391,9 +391,9 @@ export default function Ilan_ekle_sayfasi() {
                 }}
               />
                 <Radio
-                  checked={eventSelectedValue === "bulusma"}
-                  onChange={() => setEventSelectedValue("bulusma")}
-                  value="bulusma"
+                  checked={eventSelectedValue === "Meeting"}
+                  onChange={() => setEventSelectedValue("Meeting")}
+                  value="Meeting"
                   name="radiobutton3"
                   aria-label="Bulusma"
                   icon={<FiberManualRecord className={classesc.radioUnchecked} />}
