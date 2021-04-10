@@ -11,6 +11,7 @@ export const userActions = {
     deleteProfile,
     addHome,
     addEvent,
+    addAnnouncement,
     getAll,
     delete: _delete
 };
@@ -145,6 +146,29 @@ function addEvent(event) {
                     dispatch(success());
                     history.push('/ilan_ekle');
                     dispatch(alertActions.success('Event addition successful'));
+                },
+                error => {
+                    dispatch(failure(error.toString()));
+                    dispatch(alertActions.error(error.toString()));
+                }
+            );
+    };
+
+    function request(user) { return { type: userConstants.REGISTER_REQUEST, user } }
+    function success(user) { return { type: userConstants.REGISTER_SUCCESS, user } }
+    function failure(error) { return { type: userConstants.REGISTER_FAILURE, error } }
+}
+
+function addAnnouncement(announcement) {
+    return dispatch => {
+        dispatch(request(announcement));
+
+        userService.addAnnouncement(announcement)
+            .then(
+                user => {
+                    dispatch(success());
+                    history.push('/ilan_ekle');
+                    dispatch(alertActions.success('Announcement addition successful'));
                 },
                 error => {
                     dispatch(failure(error.toString()));
