@@ -151,7 +151,7 @@ export default function Profil_sayfasi() {
         home_id: "",
         home_name: "",
         home_owner: "",
-        isVisible:  false,
+        isVisible: false,
         latitude: "",
         longitude: "",
         neighbourhood: "",
@@ -193,7 +193,14 @@ export default function Profil_sayfasi() {
     function handleDeleteProfile(evt) {
         evt.preventDefault();
 
-        dispatch(userActions.deleteProfile(profile));
+        dispatch(userActions.deleteProfile());
+    }
+
+    function handleUpdateHome(evt) {
+        evt.preventDefault();
+
+        console.log(userHomesTable);
+        dispatch(userActions.updateHome(userHomesTable));
     }
 
     function updateHomeTable(home_id)
@@ -631,7 +638,7 @@ export default function Profil_sayfasi() {
 
                         </CardBody>
                         <CardFooter>
-                            <Button color="primary">Ev İlanımı Güncelle</Button>
+                            <Button color="primary" onClick={handleUpdateHome} >Ev İlanımı Güncelle</Button>
                         </CardFooter>
                     </Card>
                 </GridItem>

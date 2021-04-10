@@ -9,6 +9,7 @@ export const userActions = {
     register,
     updateProfile,
     deleteProfile,
+    updateHome,
     addHome,
     addEvent,
     addAnnouncement,
@@ -100,6 +101,29 @@ function deleteProfile() {
                     dispatch(userActions.logout());
                     history.push('/login');
                     dispatch(alertActions.success('Profile deletion successful'));
+                },
+                error => {
+                    dispatch(failure(error.toString()));
+                    dispatch(alertActions.error(error.toString()));
+                }
+            );
+    };
+
+    function request(user) { return { type: userConstants.REGISTER_REQUEST, user } }
+    function success(user) { return { type: userConstants.REGISTER_SUCCESS, user } }
+    function failure(error) { return { type: userConstants.REGISTER_FAILURE, error } }
+}
+
+function updateHome(home) {
+    return dispatch => {
+        dispatch(request(home));
+
+        userService.updateHome(home)
+            .then(
+                user => {
+                    dispatch(success());
+                    history.push('/profil');
+                    dispatch(alertActions.success('Home update successful'));
                 },
                 error => {
                     dispatch(failure(error.toString()));
