@@ -124,7 +124,7 @@ function addHome(home) {
         body: JSON.stringify(home_json)
     };
 
-    console.log("fullr req:", requestOptions);
+    console.log("addHome request:", requestOptions);
     return fetch(`https://bauphi-api.herokuapp.com/api/users/${user_id}/homes`, requestOptions).then(handleResponse);
 }
 
@@ -148,15 +148,14 @@ function addEvent(event) {
 
     const requestOptions = {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'session_key': 'admin' },
         body: JSON.stringify(event_json)
     };
 
-    // TODO: user_id fields might be changed on prod environment
-    // user_id is getting from localStorage
     let user_id = JSON.parse(localStorage.getItem('user'));
     user_id = user_id['user']['user_id'];
 
+    console.log("addEvent request:", requestOptions);
     return fetch(`https://bauphi-api.herokuapp.com/api/users/${user_id}/events`, requestOptions).then(handleResponse);
 }
 
