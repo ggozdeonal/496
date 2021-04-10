@@ -78,16 +78,12 @@ export default function Profil_sayfasi() {
 
     const [userHomes, setUserHomes] = React.useState([]);
     const [userHomesPreview, setUserHomesPreview] = React.useState([]);
-    const [userHomesPreviewIndex, setUserHomesPreviewIndex] = React.useState([]);
     const [userEvents, setUserEvents] = React.useState([]);
     const [userEventsPreview, setUserEventsPreview] = React.useState([]);
-    const [userEventsPreviewIndex, setUserEventsPreviewIndex] = React.useState([]);
     const [userMissingPets, setUserMissingPets] = React.useState([]);
     const [userMissingPetsPreview, setUserMissingPetsPreview] = React.useState([]);
-    const [userMissingPetsPreviewIndex, setUserMissingPetsPreviewIndex] = React.useState([]);
 
     const [selectedHomeIndex, setSelectedHomeIndex] = React.useState(0);
-    const [count, setCount] = React.useState(0)
 
     function addHomeEditButtons(home_id)
     {
@@ -97,7 +93,7 @@ export default function Profil_sayfasi() {
         ].map((prop, key) => {
             return (
                 <Button color={prop.color} className={classes.actionButton} key={key}
-                        onClick={() => handleUpdateHomeClick(home_id)}>
+                        onClick={() => setSelectedHomeIndex(home_id)}>
                     <prop.icon className={classes.icon}/>
                 </Button>
             );
@@ -154,11 +150,13 @@ export default function Profil_sayfasi() {
         home_id: "",
         home_name: "",
         home_owner: "",
-        isVisible: "",
+        isVisible:  false,
         latitude: "",
         longitude: "",
         neighbourhood: "",
         state: "",
+        availableForVictims: false,
+        availableForAnimals: false
     })
 
     React.useEffect(() => {
@@ -197,13 +195,13 @@ export default function Profil_sayfasi() {
         dispatch(userActions.deleteProfile(profile));
     }
 
-    function updateHomeTable(index)
+    function updateHomeTable(home_id)
     {
-        console.log("update table called", index);
-        const home = userHomes.filter(home => home.home_id === index);
+        const home = userHomes.filter(home => home.home_id === home_id);
 
         if (home && home.length === 1)
         {
+            console.log(home);
             setUserHomesTable({
                 city: home[0].city,
                 country: home[0].country,
@@ -215,38 +213,10 @@ export default function Profil_sayfasi() {
                 longitude: home[0].longitude,
                 neighbourhood: home[0].neighbourhood,
                 state: home[0].state,
+                availableForVictims: home[0].availableForVictims,
+                availableForAnimals: home[0].availableForAnimals,
             });
         }
-    }
-
-    function handleUpdateHomeClick(index) {
-        console.log("xxxxx", selectedHomeIndex);
-        setSelectedHomeIndex(index);
-        console.log("yyy", selectedHomeIndex);
-        // setUserHomesTable(prevState => {
-        //     let newProducts = [...prevState.userHomes];
-        //     newProducts[homeIndex].colors.push(newColor);
-        //     return {products: newProducts};
-        // });
-        //
-        // console.log("ifin ustu", userHomes);
-        // if (userHomes[homeIndex])
-        // {
-        //     console.log("guncellendi");
-        //     setUserHomesTable({
-        //         city: userHomes[homeIndex].city,
-        //         country: userHomes[homeIndex].country,
-        //         home_id: userHomes[homeIndex].home_id,
-        //         home_name: userHomes[homeIndex].home_name,
-        //         home_owner: userHomes[homeIndex].home_owner,
-        //         isVisible: userHomes[homeIndex].isVisible,
-        //         latitude: userHomes[homeIndex].latitude,
-        //         longitude: userHomes[homeIndex].longitude,
-        //         neighbourhood: userHomes[homeIndex].neighbourhood,
-        //         state: userHomes[homeIndex].state,
-        //     });
-        // }
-
     }
 
     function handleUpdateEventClick(eventIndex) {
@@ -270,25 +240,6 @@ export default function Profil_sayfasi() {
         })
     }, []);
 
-    // // set user home information fields
-    // React.useEffect(() => {
-    //     var userHomes = JSON.parse(localStorage.getItem('userHomes'));
-    //
-    //     console.log("12312", userHomes);
-    //     setUserHomesTable({
-    //         city: userHomes[0].city,
-    //         country: userHomes[0].country,
-    //         home_id: userHomes[0].home_id,
-    //         home_name: userHomes[0].home_name,
-    //         home_owner: userHomes[0].home_owner,
-    //         isVisible: userHomes[0].isVisible,
-    //         latitude: userHomes[0].latitude,
-    //         longitude: userHomes[0].longitude,
-    //         neighbourhood: userHomes[0].neighbourhood,
-    //         state: userHomes[0].state,
-    //     })
-    // }, []);
-
     // get home list
     React.useEffect(() => {
         let user_id = JSON.parse(localStorage.getItem('user'));
@@ -304,14 +255,11 @@ export default function Profil_sayfasi() {
 
                     // save home names into temp list
                     const homes = [];
-                    const homeIndexes = [];
                     for (const [index, value] of response.data.homes.entries()) {
                         const tempItem = [value.home_name, addHomeEditButtons(value.home_id)];
                         homes.push(tempItem);
-                        homeIndexes.push(index);
                     }
                     setUserHomesPreview(homes);
-                    setUserHomesPreviewIndex(homeIndexes);
                 }
             })
     }, []);
@@ -329,15 +277,11 @@ export default function Profil_sayfasi() {
 
                     // save event names into temp list
                     const events = [];
-                    const eventIndexes = [];
                     for (const [index, value] of response.data.events.entries()) {
                         const tempItem = [value.title, addEventEditButtons(index)];
-                        console.log(tempItem);
                         events.push(tempItem);
-                        eventIndexes.push(index);
                     }
                     setUserEventsPreview(events);
-                    setUserEventsPreviewIndex(eventIndexes);
                 }
             })
     }, []);
@@ -355,22 +299,19 @@ export default function Profil_sayfasi() {
 
                     // save announcements into temp list
                     const announcements = [];
-                    const announcementIndexes = [];
                     for (const [index, value] of response.data.announcements.entries()) {
                         announcements.push(value.title);
-                        announcementIndexes.push(index);
                     }
                     setUserMissingPetsPreview(announcements);
-                    setUserMissingPetsPreviewIndex(announcementIndexes);
                 }
             })
     }, []);
 
-    React.useEffect(()=>{console.log("deneme123", userHomes)},[userHomes])
-    React.useEffect(()=>{console.log("prew", userHomesPreview)},[userHomesPreview])
+    // React.useEffect(()=>{console.log("deneme123", userHomes)},[userHomes])
+    // React.useEffect(()=>{console.log("prew", userHomesPreview)},[userHomesPreview])
     // React.useEffect(()=>{console.log(userEvents)},[userEvents])
 
-    React.useEffect(()=> { updateHomeTable(selectedHomeIndex); console.log("en alt", selectedHomeIndex) },[selectedHomeIndex])
+    React.useEffect(()=> { updateHomeTable(selectedHomeIndex) },[selectedHomeIndex])
 
     return (
         <div>
@@ -526,6 +467,34 @@ export default function Profil_sayfasi() {
                                 <GridItem xs={12} sm={12} md={3}>
                                     <CustomInput
                                         labelText="Ev Adı"
+                                        id="home_name"
+                                        formControlProps={{
+                                            fullWidth: true
+                                        }}
+                                        inputProps={{
+                                            name: "home_name",
+                                            value: userHomesTable.home_name,
+                                            onChange: addHomeHandleChange,
+                                        }}
+                                    />
+                                </GridItem>
+                                <GridItem xs={12} sm={12} md={3}>
+                                    <CustomInput
+                                        labelText="Ülke"
+                                        id="country"
+                                        formControlProps={{
+                                            fullWidth: true
+                                        }}
+                                        inputProps={{
+                                            name: "country",
+                                            value: userHomesTable.country,
+                                            onChange: addHomeHandleChange,
+                                        }}
+                                    />
+                                </GridItem>
+                                <GridItem xs={12} sm={12} md={3}>
+                                    <CustomInput
+                                        labelText="Şehir"
                                         id="city"
                                         formControlProps={{
                                             fullWidth: true
@@ -539,63 +508,59 @@ export default function Profil_sayfasi() {
                                 </GridItem>
                                 <GridItem xs={12} sm={12} md={3}>
                                     <CustomInput
-                                        labelText="Ülke"
-                                        id="country"
-                                        formControlProps={{
-                                            fullWidth: true
-                                        }}
-                                    />
-                                </GridItem>
-                                <GridItem xs={12} sm={12} md={3}>
-                                    <CustomInput
-                                        labelText="Şehir"
-                                        id="city"
-                                        formControlProps={{
-                                            fullWidth: true
-                                        }}
-                                    />
-                                </GridItem>
-                                <GridItem xs={12} sm={12} md={3}>
-                                    <CustomInput
                                         labelText="Semt"
                                         id="state"
                                         formControlProps={{
                                             fullWidth: true
                                         }}
+                                        inputProps={{
+                                            name: "state",
+                                            value: userHomesTable.state,
+                                            onChange: addHomeHandleChange,
+                                        }}
                                     />
                                 </GridItem>
-
                             </GridContainer>
                             <GridContainer>
                                 <GridItem xs={12} sm={12} md={8}>
                                     <CustomInput
                                         labelText="Adres"
-                                        id="neighbourh"
-
+                                        id="neighbourhood"
                                         formControlProps={{
                                             fullWidth: true
+                                        }}
+                                        inputProps={{
+                                            name: "neighbourhood",
+                                            value: userHomesTable.neighbourhood,
+                                            onChange: addHomeHandleChange,
                                         }}
                                     />
                                 </GridItem>
                                 <GridItem xs={12} sm={12} md={2}>
                                     <CustomInput
                                         labelText="Enlem"
-                                        id="enlem"
+                                        id="latitude"
                                         formControlProps={{
                                             fullWidth: true
-                                        }} inputProps={{
-                                        value: lat
-                                    }}
+                                        }}
+                                        inputProps={{
+                                            name: "latitude",
+                                            value: userHomesTable.latitude,
+                                            onChange: addHomeHandleChange,
+                                        }}
                                     /></GridItem>
                                 <GridItem xs={12} sm={12} md={2}>
                                     <CustomInput
                                         labelText="Boylam"
-                                        id="boylam"
+                                        id="longitude"
                                         formControlProps={{
                                             fullWidth: true
-                                        }} inputProps={{
-                                        value: lon
-                                    }}
+                                        }}
+                                        inputProps={{
+                                            name: "longitude",
+                                            value: userHomesTable.longitude,
+                                            onChange: addHomeHandleChange,
+                                        }}
                                     /></GridItem>
                             </GridContainer>
                             <GridContainer>
@@ -611,11 +576,12 @@ export default function Profil_sayfasi() {
                                     />
                                     <Checkbox
                                         tabIndex={-1}
-                                        onClick={() => setMagdurChecked(!magdurChecked)}
+                                        id="availableForVictims"
+                                        onClick={() => setUserHomesTable(userHomesTable.availableForVictims = !userHomesTable.availableForVictims )}
                                         checkedIcon={<Check className={classesc.checkedIcon}/>}
                                         icon={<Check className={classesc.uncheckedIcon}/>}
                                         classes={{
-                                            magdurChecked: classesc.checked
+                                            availableForVictims: classesc.checked,
                                         }}
                                     /></GridItem>
                                 <GridItem xs={12} sm={12} md={4}>
@@ -630,11 +596,12 @@ export default function Profil_sayfasi() {
                                     />
                                     <Checkbox
                                         tabIndex={-1}
-                                        onClick={() => setEvcilChecked(!evcilChecked)}
+                                        id="availableForAnimals"
+                                        onClick={() => setUserHomesTable(userHomesTable.availableForAnimals = !userHomesTable.availableForAnimals )}
                                         checkedIcon={<Check className={classesc.checkedIcon}/>}
                                         icon={<Check className={classesc.uncheckedIcon}/>}
                                         classes={{
-                                            evcilChecked: classesc.checked
+                                            availableForAnimals: classesc.checked,
                                         }}
                                     />
                                 </GridItem>
@@ -649,17 +616,15 @@ export default function Profil_sayfasi() {
                                     }}
                                     /><Checkbox
                                     tabIndex={-1}
-                                    onClick={() => setVisibilityChecked(!visibilityChecked)}
+                                    id="isVisible"
+                                    onClick={() => setUserHomesTable(userHomesTable.isVisible = !userHomesTable.isVisible )}
                                     checkedIcon={<Check className={classesc.checkedIcon}/>}
                                     icon={<Check className={classesc.uncheckedIcon}/>}
                                     classes={{
-                                        visibilityChecked: classesc.checked
+                                        isVisible: classesc.checked,
                                     }}
                                 /></GridItem>
-
-
                             </GridContainer>
-
 
                         </CardBody>
                         <CardFooter>
