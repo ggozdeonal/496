@@ -122,6 +122,14 @@ export default function Ilan_ekle_sayfasi() {
         addEvent_amount: "",
     })
 
+    const [addAnnouncement_state, addAnnouncement_setState] = React.useState({
+        addAnnouncement_image: "",
+        addAnnouncement_phone: "",
+        addAnnouncement_title: "",
+        addAnnouncement_description: "",
+        addAnnouncement_isHuman: false,
+    })
+
     function addHomeHandleChange(evt) {
         const value = evt.target.value;
         console.log(value);
@@ -138,6 +146,16 @@ export default function Ilan_ekle_sayfasi() {
 
         addEvent_setState({
             ...addEvent_state,
+            [evt.target.name]: value
+        });
+    }
+
+    function addAnnouncementHandleChange(evt) {
+        const value = evt.target.value;
+        console.log(value);
+
+        addAnnouncement_setState({
+            ...addAnnouncement_state,
             [evt.target.name]: value
         });
     }
@@ -165,8 +183,16 @@ export default function Ilan_ekle_sayfasi() {
         }
     }
 
-    const handleAddMissing = () => {
-        console.log(addHome_state);
+    const handleAddAnnouncement = (e) => {
+        e.preventDefault();
+
+        addAnnouncement_state.addAnnouncement_isHuman = (annSelectedValue === "insan");
+        console.log(addAnnouncement_state);
+        setSubmitted(true);
+        // TODO: check other fields
+        if (addAnnouncement_state.addAnnouncement_title) {
+            dispatch(userActions.addAnnouncement(addAnnouncement_state));
+        }
     }
 
     return (
@@ -631,18 +657,28 @@ export default function Ilan_ekle_sayfasi() {
                             <GridItem xs={12} sm={12} md={4}>
                                 <CustomInput
                                     labelText="İlan Başlığı"
-                                    id="owner"
+                                    id="addAnnouncement_title"
                                     formControlProps={{
                                         fullWidth: true
+                                    }}
+                                    inputProps={{
+                                        name: "addAnnouncement_title",
+                                        defaultValue: addAnnouncement_state.addAnnouncement_title,
+                                        onChange: addAnnouncementHandleChange
                                     }}
                                 />
                             </GridItem>
                             <GridItem xs={12} sm={12} md={4}>
                                 <CustomInput
                                     labelText="İletişim"
-                                    id="tel-no"
+                                    id="addAnnouncement_phone"
                                     formControlProps={{
                                         fullWidth: true
+                                    }}
+                                    inputProps={{
+                                        name: "addAnnouncement_phone",
+                                        defaultValue: addAnnouncement_state.addAnnouncement_phone,
+                                        onChange: addAnnouncementHandleChange
                                     }}
                                 />
                             </GridItem>
@@ -689,9 +725,14 @@ export default function Ilan_ekle_sayfasi() {
                             <GridItem xs={12} sm={12} md={12}>
                                 <CustomInput
                                     labelText="Açıklama"
-                                    id="desc"
+                                    id="addAnnouncement_description"
                                     formControlProps={{
                                         fullWidth: true
+                                    }}
+                                    inputProps={{
+                                        name: "addAnnouncement_description",
+                                        defaultValue: addAnnouncement_state.addAnnouncement_description,
+                                        onChange: addAnnouncementHandleChange
                                     }}
                                 />
                             </GridItem>
@@ -702,7 +743,7 @@ export default function Ilan_ekle_sayfasi() {
                         <Button color="rose" round><Icon>add_photo_alternate</Icon> Fotoğraf Ekle</Button>
                     </CardBody>
                     <CardFooter>
-                        <Button color="primary">Kayıp Evcil Hayvan İlanı Ekle</Button>
+                        <Button color="primary" onClick={handleAddAnnouncement} >Kayıp Evcil Hayvan İlanı Ekle</Button>
                     </CardFooter>
                 </Card>
             </GridItem>
