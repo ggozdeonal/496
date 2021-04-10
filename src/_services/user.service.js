@@ -71,7 +71,7 @@ function updateProfile(user) {
         headers: { 'Content-Type': 'application/json', 'session_key': 'admin' },
         body: JSON.stringify({'name': user.profile_name,
             'surname': user.profile_surname,
-            'password': user.profile_password,
+            'password': (user.profile_password === "") ? user.profile_password_hashed : user.profile_password,
             'email': user.profile_email,
             'phone': user.profile_phone })
     };
@@ -104,6 +104,9 @@ function deleteProfile() {
 }
 
 function addHome(home) {
+    let user_id = JSON.parse(localStorage.getItem('user'));
+    user_id = user_id['user']['user_id'];
+
     var home_json = {
         "home_name": home.addHome_homeName,
         'isVisible': home.addHome_visible,
@@ -117,15 +120,11 @@ function addHome(home) {
 
     const requestOptions = {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'session_key': 'admin' },
         body: JSON.stringify(home_json)
     };
 
-    // TODO: user_id fields might be changed on prod environment
-    // user_id is getting from localStorage
-    let user_id = JSON.parse(localStorage.getItem('user'));
-    user_id = user_id['user']['user_id'];
-
+    console.log("fullr req:", requestOptions);
     return fetch(`https://bauphi-api.herokuapp.com/api/users/${user_id}/homes`, requestOptions).then(handleResponse);
 }
 
@@ -185,18 +184,18 @@ function handleResponse(response) {
     return response.text().then(text => {
         const data = text && JSON.parse(text);
 
-        console.log(data);
+        console.log("response: ", data);
 
         if (data.status === "FAILURE")
         {
-            console.log('err');
+            console.log('response status: FAILURE');
             const error = (data && data.message) || response.statusText;
             return Promise.reject(error);
         }
         if (!response.ok) {
             if (response.status === 401) {
                 // auto logout if 401 response returned from api
-                console.log("haata");
+                console.log("response status: 401");
                 logout();
                 window.location.reload(true);
             }

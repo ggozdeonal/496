@@ -142,6 +142,7 @@ export default function Profil_sayfasi() {
         profile_email: "",
         profile_phone: "",
         profile_password: "",
+        profile_password_hashed: "",
     })
 
     const [userHomesTable, setUserHomesTable] = React.useState({
@@ -236,7 +237,7 @@ export default function Profil_sayfasi() {
             profile_surname: user['user']['surname'],
             profile_email: user['user']['email'],
             profile_phone: user['user']['phone'],
-            profile_password: user['user']['password']
+            profile_password_hashed: user['user']['password']
         })
     }, []);
 
