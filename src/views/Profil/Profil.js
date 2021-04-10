@@ -86,29 +86,18 @@ export default function Profil_sayfasi() {
     const [userMissingPetsPreview, setUserMissingPetsPreview] = React.useState([]);
     const [userMissingPetsPreviewIndex, setUserMissingPetsPreviewIndex] = React.useState([]);
 
+    const [selectedHomeIndex, setSelectedHomeIndex] = React.useState(0);
     const [count, setCount] = React.useState(0)
 
-    const buttons = [
-        {color: "success", icon: Edit},
-        {color: "danger", icon: Close}
-    ].map((prop, key) => {
-        return (
-            <Button color={prop.color} className={classes.actionButton} key={count}
-                    onClick={() => handleUpdateHomeClick(count)}>
-                <prop.icon className={classes.icon}/>
-            </Button>
-        );
-    });
-
-    function addHomeEditButtons(buttonIndex)
+    function addHomeEditButtons(home_id)
     {
         const buttons = [
             {color: "success", icon: Edit},
             {color: "danger", icon: Close}
         ].map((prop, key) => {
             return (
-                <Button color={prop.color} className={classes.actionButton} key={(buttonIndex*2)+key}
-                        onClick={() => handleUpdateHomeClick((buttonIndex*2)+key)}>
+                <Button color={prop.color} className={classes.actionButton} key={key}
+                        onClick={() => handleUpdateHomeClick(home_id)}>
                     <prop.icon className={classes.icon}/>
                 </Button>
             );
@@ -159,6 +148,19 @@ export default function Profil_sayfasi() {
         profile_password: "",
     })
 
+    const [userHomesTable, setUserHomesTable] = React.useState({
+        city: "",
+        country: "",
+        home_id: "",
+        home_name: "",
+        home_owner: "",
+        isVisible: "",
+        latitude: "",
+        longitude: "",
+        neighbourhood: "",
+        state: "",
+    })
+
     React.useEffect(() => {
         navigator.geolocation.getCurrentPosition(function (position) {
             setCoordinates({lat: position.coords.latitude, lon: position.coords.longitude})
@@ -170,6 +172,15 @@ export default function Profil_sayfasi() {
 
         setProfile({
             ...profile,
+            [evt.target.name]: value
+        });
+    }
+
+    function addHomeHandleChange(evt) {
+        const value = evt.target.value;
+
+        setUserHomesTable({
+            ...userHomesTable,
             [evt.target.name]: value
         });
     }
@@ -186,8 +197,56 @@ export default function Profil_sayfasi() {
         dispatch(userActions.deleteProfile(profile));
     }
 
-    function handleUpdateHomeClick(homeIndex) {
-        console.log(homeIndex);
+    function updateHomeTable(index)
+    {
+        console.log("update table called", index);
+        const home = userHomes.filter(home => home.home_id === index);
+
+        if (home && home.length === 1)
+        {
+            setUserHomesTable({
+                city: home[0].city,
+                country: home[0].country,
+                home_id: home[0].home_id,
+                home_name: home[0].home_name,
+                home_owner: home[0].home_owner,
+                isVisible: home[0].isVisible,
+                latitude: home[0].latitude,
+                longitude: home[0].longitude,
+                neighbourhood: home[0].neighbourhood,
+                state: home[0].state,
+            });
+        }
+    }
+
+    function handleUpdateHomeClick(index) {
+        console.log("xxxxx", selectedHomeIndex);
+        setSelectedHomeIndex(index);
+        console.log("yyy", selectedHomeIndex);
+        // setUserHomesTable(prevState => {
+        //     let newProducts = [...prevState.userHomes];
+        //     newProducts[homeIndex].colors.push(newColor);
+        //     return {products: newProducts};
+        // });
+        //
+        // console.log("ifin ustu", userHomes);
+        // if (userHomes[homeIndex])
+        // {
+        //     console.log("guncellendi");
+        //     setUserHomesTable({
+        //         city: userHomes[homeIndex].city,
+        //         country: userHomes[homeIndex].country,
+        //         home_id: userHomes[homeIndex].home_id,
+        //         home_name: userHomes[homeIndex].home_name,
+        //         home_owner: userHomes[homeIndex].home_owner,
+        //         isVisible: userHomes[homeIndex].isVisible,
+        //         latitude: userHomes[homeIndex].latitude,
+        //         longitude: userHomes[homeIndex].longitude,
+        //         neighbourhood: userHomes[homeIndex].neighbourhood,
+        //         state: userHomes[homeIndex].state,
+        //     });
+        // }
+
     }
 
     function handleUpdateEventClick(eventIndex) {
@@ -211,10 +270,24 @@ export default function Profil_sayfasi() {
         })
     }, []);
 
-    // set user profile information fields
-    React.useEffect(() => {
-        setCount(count+1 );
-    }, []);
+    // // set user home information fields
+    // React.useEffect(() => {
+    //     var userHomes = JSON.parse(localStorage.getItem('userHomes'));
+    //
+    //     console.log("12312", userHomes);
+    //     setUserHomesTable({
+    //         city: userHomes[0].city,
+    //         country: userHomes[0].country,
+    //         home_id: userHomes[0].home_id,
+    //         home_name: userHomes[0].home_name,
+    //         home_owner: userHomes[0].home_owner,
+    //         isVisible: userHomes[0].isVisible,
+    //         latitude: userHomes[0].latitude,
+    //         longitude: userHomes[0].longitude,
+    //         neighbourhood: userHomes[0].neighbourhood,
+    //         state: userHomes[0].state,
+    //     })
+    // }, []);
 
     // get home list
     React.useEffect(() => {
@@ -227,11 +300,13 @@ export default function Profil_sayfasi() {
                 if (response.data.status === "SUCCESS") {
                     setUserHomes(response.data.homes);
 
+                    localStorage.setItem("userHomes", JSON.stringify(response.data.homes));
+
                     // save home names into temp list
                     const homes = [];
                     const homeIndexes = [];
                     for (const [index, value] of response.data.homes.entries()) {
-                        const tempItem = [value.home_name, addHomeEditButtons(index)];
+                        const tempItem = [value.home_name, addHomeEditButtons(value.home_id)];
                         homes.push(tempItem);
                         homeIndexes.push(index);
                     }
@@ -291,9 +366,11 @@ export default function Profil_sayfasi() {
             })
     }, []);
 
-    // React.useEffect(()=>{console.log(userHomes)},[userHomes])
-    // React.useEffect(()=>{console.log(userHomesPreview)},[userHomesPreview])
+    React.useEffect(()=>{console.log("deneme123", userHomes)},[userHomes])
+    React.useEffect(()=>{console.log("prew", userHomesPreview)},[userHomesPreview])
     // React.useEffect(()=>{console.log(userEvents)},[userEvents])
+
+    React.useEffect(()=> { updateHomeTable(selectedHomeIndex); console.log("en alt", selectedHomeIndex) },[selectedHomeIndex])
 
     return (
         <div>
@@ -449,9 +526,14 @@ export default function Profil_sayfasi() {
                                 <GridItem xs={12} sm={12} md={3}>
                                     <CustomInput
                                         labelText="Ev Adı"
-                                        id="home_name"
+                                        id="city"
                                         formControlProps={{
                                             fullWidth: true
+                                        }}
+                                        inputProps={{
+                                            name: "city",
+                                            value: userHomesTable.city,
+                                            onChange: addHomeHandleChange,
                                         }}
                                     />
                                 </GridItem>
