@@ -63,9 +63,9 @@ export default function Profil_sayfasi() {
     const classes = useStyles();
     const classesc = useStylesc();
     const [visibilityChecked, setVisibilityChecked] = React.useState(false);
-    const [magdurChecked, setMagdurChecked] = React.useState([]);
-    const [evcilChecked, setEvcilChecked] = React.useState([]);
-    const [acilChecked, setAcilChecked] = React.useState([]);
+    const [magdurChecked, setMagdurChecked] = React.useState(false);
+    const [evcilChecked, setEvcilChecked] = React.useState(false);
+    const [acilChecked, setAcilChecked] = React.useState(false);
     const [eventSelectedValue, setEventSelectedValue] = React.useState(null);
     const [annSelectedValue, setAnnSelectedValue] = React.useState(null);
     const [coordinates, setCoordinates] = React.useState({lat: '', lon: ''});
@@ -202,7 +202,6 @@ export default function Profil_sayfasi() {
 
         if (home && home.length === 1)
         {
-            console.log(home);
             setUserHomesTable({
                 city: home[0].city,
                 country: home[0].country,
@@ -217,6 +216,10 @@ export default function Profil_sayfasi() {
                 availableForVictims: home[0].availableForVictims,
                 availableForAnimals: home[0].availableForAnimals,
             });
+
+            setVisibilityChecked(home[0].isVisible);
+            setEvcilChecked(home[0].availableForAnimals);
+            setMagdurChecked(home[0].availableForVictims);
         }
     }
 
@@ -308,9 +311,7 @@ export default function Profil_sayfasi() {
             })
     }, []);
 
-    // React.useEffect(()=>{console.log("deneme123", userHomes)},[userHomes])
     // React.useEffect(()=>{console.log("prew", userHomesPreview)},[userHomesPreview])
-    // React.useEffect(()=>{console.log(userEvents)},[userEvents])
 
     React.useEffect(()=> { updateHomeTable(selectedHomeIndex) },[selectedHomeIndex])
 
@@ -577,12 +578,12 @@ export default function Profil_sayfasi() {
                                     />
                                     <Checkbox
                                         tabIndex={-1}
+                                        checked={magdurChecked}
                                         id="availableForVictims"
-                                        onClick={() => setUserHomesTable(userHomesTable.availableForVictims = !userHomesTable.availableForVictims )}
-                                        checkedIcon={<Check className={classesc.checkedIcon}/>}
+                                        onClick={() => setMagdurChecked(userHomesTable.availableForVictims = !userHomesTable.availableForVictims)}                                    checkedIcon={<Check className={classesc.checkedIcon}/>}
                                         icon={<Check className={classesc.uncheckedIcon}/>}
                                         classes={{
-                                            availableForVictims: classesc.checked,
+                                            magdurChecked: classesc.checked,
                                         }}
                                     /></GridItem>
                                 <GridItem xs={12} sm={12} md={4}>
@@ -597,12 +598,12 @@ export default function Profil_sayfasi() {
                                     />
                                     <Checkbox
                                         tabIndex={-1}
+                                        checked={evcilChecked}
                                         id="availableForAnimals"
-                                        onClick={() => setUserHomesTable(userHomesTable.availableForAnimals = !userHomesTable.availableForAnimals )}
-                                        checkedIcon={<Check className={classesc.checkedIcon}/>}
+                                        onClick={() => setEvcilChecked(userHomesTable.availableForAnimals = !userHomesTable.availableForAnimals)}                                    checkedIcon={<Check className={classesc.checkedIcon}/>}
                                         icon={<Check className={classesc.uncheckedIcon}/>}
                                         classes={{
-                                            availableForAnimals: classesc.checked,
+                                            evcilChecked: classesc.checked,
                                         }}
                                     />
                                 </GridItem>
@@ -615,14 +616,15 @@ export default function Profil_sayfasi() {
                                         }} inputProps={{
                                         disabled: true
                                     }}
-                                    /><Checkbox
+                                    />
+                                    <Checkbox
                                     tabIndex={-1}
+                                    checked={visibilityChecked}
                                     id="isVisible"
-                                    onClick={() => setUserHomesTable(userHomesTable.isVisible = !userHomesTable.isVisible )}
-                                    checkedIcon={<Check className={classesc.checkedIcon}/>}
+                                    onClick={() => setVisibilityChecked(userHomesTable.isVisible = !userHomesTable.isVisible)}                                    checkedIcon={<Check className={classesc.checkedIcon}/>}
                                     icon={<Check className={classesc.uncheckedIcon}/>}
                                     classes={{
-                                        isVisible: classesc.checked,
+                                        visibilityChecked: classesc.checked,
                                     }}
                                 /></GridItem>
                             </GridContainer>
