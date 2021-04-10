@@ -14,9 +14,12 @@ import Icon from "@material-ui/core/Icon";
 import Home from "@material-ui/icons/House";
 import Events from "@material-ui/icons/Event";
 import Pets from "@material-ui/icons/Pets";
+import Edit from "@material-ui/icons/Edit";
+import Close from "@material-ui/icons/Close";
 // core components
 import Tabs from "components/CustomTabs/CustomTabs.js";
 import Tasks from "components/Tasks/Tasks.js";
+import Table from "components/Table/Table.js";
 
 import Checkbox from "@material-ui/core/Checkbox";
 // @material-ui/icons
@@ -83,6 +86,71 @@ export default function Profil_sayfasi() {
     const [userMissingPetsPreview, setUserMissingPetsPreview] = React.useState([]);
     const [userMissingPetsPreviewIndex, setUserMissingPetsPreviewIndex] = React.useState([]);
 
+    const [count, setCount] = React.useState(0)
+
+    const buttons = [
+        {color: "success", icon: Edit},
+        {color: "danger", icon: Close}
+    ].map((prop, key) => {
+        return (
+            <Button color={prop.color} className={classes.actionButton} key={count}
+                    onClick={() => handleUpdateHomeClick(count)}>
+                <prop.icon className={classes.icon}/>
+            </Button>
+        );
+    });
+
+    function addHomeEditButtons(buttonIndex)
+    {
+        const buttons = [
+            {color: "success", icon: Edit},
+            {color: "danger", icon: Close}
+        ].map((prop, key) => {
+            return (
+                <Button color={prop.color} className={classes.actionButton} key={(buttonIndex*2)+key}
+                        onClick={() => handleUpdateHomeClick((buttonIndex*2)+key)}>
+                    <prop.icon className={classes.icon}/>
+                </Button>
+            );
+        });
+
+        return buttons;
+    }
+
+    function addEventEditButtons(buttonIndex)
+    {
+        const buttons = [
+            {color: "success", icon: Edit},
+            {color: "danger", icon: Close}
+        ].map((prop, key) => {
+            return (
+                <Button color={prop.color} className={classes.actionButton} key={(buttonIndex*2)+key}
+                        onClick={() => handleUpdateEventClick((buttonIndex*2)+key)}>
+                    <prop.icon className={classes.icon}/>
+                </Button>
+            );
+        });
+
+        return buttons;
+    }
+
+    function addAnnouncementEditButtons(buttonIndex)
+    {
+        const buttons = [
+            {color: "success", icon: Edit},
+            {color: "danger", icon: Close}
+        ].map((prop, key) => {
+            return (
+                <Button color={prop.color} className={classes.actionButton} key={(buttonIndex*2)+key}
+                        onClick={() => handleUpdateAnnouncementClick((buttonIndex*2)+key)}>
+                    <prop.icon className={classes.icon}/>
+                </Button>
+            );
+        });
+
+        return buttons;
+    }
+
     const [profile, setProfile] = React.useState({
         profile_name: "",
         profile_surname: "",
@@ -118,6 +186,18 @@ export default function Profil_sayfasi() {
         dispatch(userActions.deleteProfile(profile));
     }
 
+    function handleUpdateHomeClick(homeIndex) {
+        console.log(homeIndex);
+    }
+
+    function handleUpdateEventClick(eventIndex) {
+        console.log(eventIndex);
+    }
+
+    function handleUpdateAnnouncementClick(announcementIndex) {
+        console.log(announcementIndex);
+    }
+
     // set user profile information fields
     React.useEffect(() => {
         var user = JSON.parse(localStorage.getItem('user'));
@@ -131,14 +211,19 @@ export default function Profil_sayfasi() {
         })
     }, []);
 
+    // set user profile information fields
+    React.useEffect(() => {
+        setCount(count+1 );
+    }, []);
+
     // get home list
     React.useEffect(() => {
         let user_id = JSON.parse(localStorage.getItem('user'));
         user_id = user_id['user']['user_id'];
 
         axios.get(`https://bauphi-api.herokuapp.com/api/users/${user_id}/homes`,
-            { headers: { 'Content-Type': 'application/json', 'session_key': 'admin' }})
-            .then((response) =>  {
+            {headers: {'Content-Type': 'application/json', 'session_key': 'admin'}})
+            .then((response) => {
                 if (response.data.status === "SUCCESS") {
                     setUserHomes(response.data.homes);
 
@@ -146,7 +231,8 @@ export default function Profil_sayfasi() {
                     const homes = [];
                     const homeIndexes = [];
                     for (const [index, value] of response.data.homes.entries()) {
-                        homes.push(value.home_name);
+                        const tempItem = [value.home_name, addHomeEditButtons(index)];
+                        homes.push(tempItem);
                         homeIndexes.push(index);
                     }
                     setUserHomesPreview(homes);
@@ -161,8 +247,8 @@ export default function Profil_sayfasi() {
         user_id = user_id['user']['user_id'];
 
         axios.get(`https://bauphi-api.herokuapp.com/api/users/${user_id}/events`,
-            { headers: { 'Content-Type': 'application/json', 'session_key': 'admin' }})
-            .then((response) =>  {
+            {headers: {'Content-Type': 'application/json', 'session_key': 'admin'}})
+            .then((response) => {
                 if (response.data.status === "SUCCESS") {
                     setUserEvents(response.data.events);
 
@@ -170,7 +256,9 @@ export default function Profil_sayfasi() {
                     const events = [];
                     const eventIndexes = [];
                     for (const [index, value] of response.data.events.entries()) {
-                        events.push(value.title);
+                        const tempItem = [value.title, addEventEditButtons(index)];
+                        console.log(tempItem);
+                        events.push(tempItem);
                         eventIndexes.push(index);
                     }
                     setUserEventsPreview(events);
@@ -185,10 +273,9 @@ export default function Profil_sayfasi() {
         user_id = user_id['user']['user_id'];
 
         axios.get(`https://bauphi-api.herokuapp.com/api/users/${user_id}/announcements`,
-            { headers: { 'Content-Type': 'application/json', 'session_key': 'admin' }})
-            .then((response) =>  {
-                if (response.data.status === "SUCCESS")
-                {
+            {headers: {'Content-Type': 'application/json', 'session_key': 'admin'}})
+            .then((response) => {
+                if (response.data.status === "SUCCESS") {
                     setUserMissingPets(response.data.announcements);
 
                     // save announcements into temp list
@@ -204,9 +291,9 @@ export default function Profil_sayfasi() {
             })
     }, []);
 
-    React.useEffect(()=>{console.log(userHomes)},[userHomes])
-    React.useEffect(()=>{console.log(userHomesPreview)},[userHomesPreview])
-    React.useEffect(()=>{console.log(userEvents)},[userEvents])
+    // React.useEffect(()=>{console.log(userHomes)},[userHomes])
+    // React.useEffect(()=>{console.log(userHomesPreview)},[userHomesPreview])
+    // React.useEffect(()=>{console.log(userEvents)},[userEvents])
 
     return (
         <div>
@@ -301,7 +388,8 @@ export default function Profil_sayfasi() {
                         </CardBody>
                         <CardFooter>
                             <Button color="warning" onClick={handleUpdateProfile}>Profili Güncelle</Button>
-                            <Button color="danger" onClick={handleDeleteProfile}><Icon>dangerous</Icon>Üyeliğimi Sil</Button>
+                            <Button color="danger" onClick={handleDeleteProfile}><Icon>dangerous</Icon>Üyeliğimi
+                                Sil</Button>
                         </CardFooter>
                     </Card>
                 </GridItem>
@@ -316,10 +404,9 @@ export default function Profil_sayfasi() {
                         tabName: "Ev İlanlarım",
                         tabIcon: Home,
                         tabContent: (
-                            <Tasks
-                                checkedIndexes={[0, 1]}
-                                tasksIndexes={userHomesPreviewIndex}
-                                tasks={userHomesPreview}
+                            <Table
+                                tableHead={["Ev Adi", "Evi Guncelle / Sil"]}
+                                tableData={userHomesPreview}
                             />
                         )
                     },
@@ -327,10 +414,9 @@ export default function Profil_sayfasi() {
                         tabName: "Etkinlik İlanlarım",
                         tabIcon: Events,
                         tabContent: (
-                            <Tasks
-                                checkedIndexes={[0]}
-                                tasksIndexes={userEventsPreviewIndex}
-                                tasks={userEventsPreview}
+                            <Table
+                                tableHead={["Etkinlik Adi", "Etkinligi Guncelle / Sil"]}
+                                tableData={userEventsPreview}
                             />
                         )
                     },
@@ -338,10 +424,9 @@ export default function Profil_sayfasi() {
                         tabName: "Kayıp Pet İlanlarım",
                         tabIcon: Pets,
                         tabContent: (
-                            <Tasks
-                                checkedIndexes={[1]}
-                                tasksIndexes={userMissingPetsPreviewIndex}
-                                tasks={userMissingPetsPreview}
+                            <Table
+                                tableHead={["Duyurular", "Duyuru Guncelle / Sil"]}
+                                tableData={userMissingPetsPreview}
                             />
                         )
                     }
