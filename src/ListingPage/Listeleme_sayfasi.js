@@ -69,6 +69,30 @@ export default function Listeleme_sayfasi() {
   const handleClose = () => {
     setOpen(null);
   };
+  const [homes, setHomes] = React.useState([[]]);
+
+  React.useEffect(() => { 
+      navigator.geolocation.getCurrentPosition(function(position) {
+         const latitude = position.coords.latitude;
+         const longitude = position.coords.longitude;
+         const params = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ latitude, longitude })
+          };
+      
+        fetch(`https://bauphi-api.herokuapp.com/api/generic/get-close-homes`, params)
+        .then((response) => response.json()) 
+        .then((data) => {
+          var tmp = homes;
+          data.homes.forEach(home => {
+           tmp = [...tmp, [home.key, home.value.state, home.value.city, home.value.neighbourhood]]
+          });
+          setHomes(tmp);
+         });
+        });
+
+        }, []);
 
   return (
     <div>
@@ -189,14 +213,7 @@ export default function Listeleme_sayfasi() {
       <Table
           tableHeaderColor="primary"
           tableHead={["Mesafe", "Şehir", "Semt", "Adres"]}
-          tableData={[
-            ["bılıkbılık", "bılıkbılık", "bılıkbılık", "bılıkbılık"],
-            ["bılıkbılık", "bılıkbılık", "bılıkbılık", "bılıkbılık"],
-            ["bılıkbılık", "bılıkbılık", "bılıkbılık", "bılıkbılık"],
-            ["bılıkbılık", "bılıkbılık", "bılıkbılık", "bılıkbılık"],
-            ["gdgd", "Csfa", "df"]
-   
-          ]}
+          tableData={homes}
         /></div>
       </CardBody>
     </Card>
