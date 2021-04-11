@@ -332,8 +332,8 @@ export default function Profil_sayfasi() {
     function deleteAnnouncement(announcement_id) {
         if (announcement_id >= 0)
         {
-            console.log("ann will be deleted:", announcement_id);
-            // dispatch(userActions.deleteEvent(announcement_id));
+            console.log("announcement will be deleted:", announcement_id);
+            dispatch(userActions.deleteAnnouncement(announcement_id));
         }
     }
 

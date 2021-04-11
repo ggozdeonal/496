@@ -17,6 +17,7 @@ export const userActions = {
     addEvent,
     addAnnouncement,
     updateAnnouncement,
+    deleteAnnouncement,
     getAll,
     delete: _delete
 };
@@ -220,6 +221,29 @@ function deleteEvent(event_id) {
                     dispatch(success());
                     history.push('/profil');
                     dispatch(alertActions.success('Event deletion successful'));
+                },
+                error => {
+                    dispatch(failure(error.toString()));
+                    dispatch(alertActions.error(error.toString()));
+                }
+            );
+    };
+
+    function request(user) { return { type: userConstants.REGISTER_REQUEST, user } }
+    function success(user) { return { type: userConstants.REGISTER_SUCCESS, user } }
+    function failure(error) { return { type: userConstants.REGISTER_FAILURE, error } }
+}
+
+function deleteAnnouncement(announcement_id) {
+    return dispatch => {
+        dispatch(request());
+
+        userService.deleteAnnouncement(announcement_id)
+            .then(
+                user => {
+                    dispatch(success());
+                    history.push('/profil');
+                    dispatch(alertActions.success('Announcement deletion successful'));
                 },
                 error => {
                     dispatch(failure(error.toString()));
