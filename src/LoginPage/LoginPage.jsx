@@ -74,6 +74,12 @@ function LoginPage() {
                     <p className="divider-text">
                         <span className="bg-light"> VEYA </span>
                     </p>
+                    <p>
+                        <a href="" className="btn btn-block btn-anonymous"> <i className="far fa-user-circle"></i> Anonim Giris</a>
+                    </p>
+                    <p className="divider-text">
+                        <span className="bg-light"> VEYA </span>
+                    </p>
                     <form name="loginForm" onSubmit={handleSubmit}>
                         <div className="form-group input-group">
                             <div className="input-group-prepend">
