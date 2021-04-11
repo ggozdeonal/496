@@ -16,8 +16,6 @@ export const userService = {
     updateAnnouncement,
     deleteAnnouncement,
     getAll,
-    getById,
-    update,
     delete: _delete
 };
 
@@ -51,15 +49,6 @@ function getAll() {
     };
 
     return fetch(`http://127.0.0.1:5000/api/users`, requestOptions).then(handleResponse);
-}
-
-function getById(id) {
-    const requestOptions = {
-        method: 'GET',
-        headers: authHeader()
-    };
-
-    return fetch(`http://127.0.0.1:5000/api/users/${id}`, requestOptions).then(handleResponse);
 }
 
 function register(user) {
@@ -297,26 +286,6 @@ function addAnnouncement(announcement) {
 
     console.log("addAnnouncement request:", requestOptions);
     return fetch(`https://bauphi-api.herokuapp.com/api/users/${user_id}/announcements`, requestOptions).then(handleResponse);
-}
-
-function update(user) {
-    const requestOptions = {
-        method: 'PATCH',
-        headers: { ...authHeader(), 'Content-Type': 'application/json' },
-        body: JSON.stringify(user)
-    };
-
-    return fetch(`https://bauphi-api.herokuapp.com/api/users/${user.id}`, requestOptions).then(handleResponse);;
-}
-
-// prefixed function name with underscore because delete is a reserved word in javascript
-function _delete(id) {
-    const requestOptions = {
-        method: 'DELETE',
-        headers: authHeader()
-    };
-
-    return fetch(`http://127.0.0.1:5000/api/users/${id}`, requestOptions).then(handleResponse);
 }
 
 function handleResponse(response) {
