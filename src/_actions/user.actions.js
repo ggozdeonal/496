@@ -196,6 +196,7 @@ function deleteHome(home_id) {
             .then(
                 user => {
                     dispatch(success());
+                    history.push('/');
                     history.push('/profil');
                     dispatch(alertActions.success('Home deletion successful'));
                 },
@@ -219,6 +220,7 @@ function deleteEvent(event_id) {
             .then(
                 user => {
                     dispatch(success());
+                    history.push('/');
                     history.push('/profil');
                     dispatch(alertActions.success('Event deletion successful'));
                 },
@@ -242,6 +244,7 @@ function deleteAnnouncement(announcement_id) {
             .then(
                 user => {
                     dispatch(success());
+                    history.push('/');
                     history.push('/profil');
                     dispatch(alertActions.success('Announcement deletion successful'));
                 },
