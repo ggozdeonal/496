@@ -87,6 +87,8 @@ export default function Profil_sayfasi() {
     const [selectedHomeIndexDelete, setSelectedHomeIndexDelete] = React.useState(-1);
     const [selectedEventIndexUpdate, setSelectedEventIndexUpdate] = React.useState(-1);
     const [selectedEventIndexDelete, setSelectedEventIndexDelete] = React.useState(-1);
+    const [selectedAnnouncementIndexUpdate, setSelectedAnnouncementIndexUpdate] = React.useState(-1);
+    const [selectedAnnouncementIndexDelete, setSelectedAnnouncementIndexDelete] = React.useState(-1);
 
     function addHomeEditButtons(home_id)
     {
@@ -152,15 +154,30 @@ export default function Profil_sayfasi() {
         return buttons;
     }
 
-    function addAnnouncementEditButtons(buttonIndex)
+    function addAnnouncementEditButtons(announcement_id)
     {
         const buttons = [
             {color: "success", icon: Edit},
+        ].map((prop, key) => {
+            return (
+                <Button color={prop.color} className={classes.actionButton} key={key}
+                        onClick={() => setSelectedAnnouncementIndexUpdate(announcement_id)}>
+                    <prop.icon className={classes.icon}/>
+                </Button>
+            );
+        });
+
+        return buttons;
+    }
+
+    function addAnnouncementDeleteButtons(announcement_id)
+    {
+        const buttons = [
             {color: "danger", icon: Close}
         ].map((prop, key) => {
             return (
-                <Button color={prop.color} className={classes.actionButton} key={(buttonIndex*2)+key}
-                        onClick={() => handleUpdateAnnouncementClick((buttonIndex*2)+key)}>
+                <Button color={prop.color} className={classes.actionButton} key={key}
+                        onClick={() => setSelectedAnnouncementIndexDelete(announcement_id)}>
                     <prop.icon className={classes.icon}/>
                 </Button>
             );
@@ -211,6 +228,15 @@ export default function Profil_sayfasi() {
         amount: "",
     })
 
+    const [userAnnouncementTable, setUserAnnouncementTable] = React.useState({
+        announcement_id: "",
+        image: "",
+        phone: "",
+        title: "",
+        description: "",
+        isHuman: false,
+    })
+
     React.useEffect(() => {
         navigator.geolocation.getCurrentPosition(function (position) {
             setCoordinates({lat: position.coords.latitude, lon: position.coords.longitude})
@@ -240,6 +266,15 @@ export default function Profil_sayfasi() {
 
         setUserEventsTable({
             ...userEventsTable,
+            [evt.target.name]: value
+        });
+    }
+
+    function addAnnouncementHandleChange(evt) {
+        const value = evt.target.value;
+
+        setUserAnnouncementTable({
+            ...userAnnouncementTable,
             [evt.target.name]: value
         });
     }
@@ -283,6 +318,22 @@ export default function Profil_sayfasi() {
         {
             console.log("event will be deleted:", event_id);
             dispatch(userActions.deleteEvent(event_id));
+        }
+    }
+
+    function handleUpdateAnnouncement(evt) {
+        evt.preventDefault();
+
+        userAnnouncementTable.isHuman = (annSelectedValue === "insan");
+        console.log(userAnnouncementTable);
+        dispatch(userActions.updateAnnouncement(userAnnouncementTable));
+    }
+
+    function deleteAnnouncement(announcement_id) {
+        if (announcement_id >= 0)
+        {
+            console.log("ann will be deleted:", announcement_id);
+            // dispatch(userActions.deleteEvent(announcement_id));
         }
     }
 
@@ -353,8 +404,27 @@ export default function Profil_sayfasi() {
         }
     }
 
-    function handleUpdateAnnouncementClick(announcementIndex) {
-        console.log(announcementIndex);
+    function updateAnnouncementTable(announcement_id)
+    {
+        if (announcement_id >= 0)
+        {
+            const announcement = userMissingPets.filter(announcement => announcement.announcement_id === announcement_id);
+
+            if (announcement && announcement.length === 1)
+            {
+
+                setUserAnnouncementTable({
+                    announcement_id: announcement[0].announcement_id,
+                    image: announcement[0].image,
+                    phone: announcement[0].phone,
+                    title: announcement[0].title,
+                    description: announcement[0].description,
+                    isHuman: announcement[0].isHuman
+                });
+
+                setAnnSelectedValue(announcement[0].isHuman ? "insan" : "evcilhayvan");
+            }
+        }
     }
 
     // set user profile information fields
@@ -430,7 +500,8 @@ export default function Profil_sayfasi() {
                     // save announcements into temp list
                     const announcements = [];
                     for (const [index, value] of response.data.announcements.entries()) {
-                        announcements.push(value.title);
+                        const tempItem = [value.title, addAnnouncementEditButtons(value.announcement_id), addAnnouncementDeleteButtons(value.announcement_id)];
+                        announcements.push(tempItem);
                     }
                     setUserMissingPetsPreview(announcements);
                 }
@@ -443,6 +514,8 @@ export default function Profil_sayfasi() {
     React.useEffect(()=> { deleteHome(selectedHomeIndexDelete) },[selectedHomeIndexDelete])
     React.useEffect(()=> { updateEventTable(selectedEventIndexUpdate) },[selectedEventIndexUpdate])
     React.useEffect(()=> { deleteEvent(selectedEventIndexDelete) },[selectedEventIndexDelete])
+    React.useEffect(()=> { updateAnnouncementTable(selectedAnnouncementIndexUpdate) },[selectedAnnouncementIndexUpdate])
+    React.useEffect(()=> { deleteAnnouncement(selectedAnnouncementIndexDelete) },[selectedAnnouncementIndexDelete])
 
     return (
         <div>
@@ -1058,18 +1131,28 @@ export default function Profil_sayfasi() {
                                 <GridItem xs={12} sm={12} md={4}>
                                     <CustomInput
                                         labelText="İlan Başlığı"
-                                        id="owner"
+                                        id="title"
                                         formControlProps={{
                                             fullWidth: true
+                                        }}
+                                        inputProps={{
+                                            name: "title",
+                                            value: userAnnouncementTable.title,
+                                            onChange: addAnnouncementHandleChange
                                         }}
                                     />
                                 </GridItem>
                                 <GridItem xs={12} sm={12} md={4}>
                                     <CustomInput
                                         labelText="İletişim"
-                                        id="tel-no"
+                                        id="phone"
                                         formControlProps={{
                                             fullWidth: true
+                                        }}
+                                        inputProps={{
+                                            name: "phone",
+                                            value: userAnnouncementTable.phone,
+                                            onChange: addAnnouncementHandleChange
                                         }}
                                     />
                                 </GridItem>
@@ -1116,9 +1199,14 @@ export default function Profil_sayfasi() {
                                 <GridItem xs={12} sm={12} md={12}>
                                     <CustomInput
                                         labelText="Açıklama"
-                                        id="desc"
+                                        id="description"
                                         formControlProps={{
                                             fullWidth: true
+                                        }}
+                                        inputProps={{
+                                            name: "description",
+                                            value: userAnnouncementTable.description,
+                                            onChange: addAnnouncementHandleChange
                                         }}
                                     />
                                 </GridItem>
@@ -1129,7 +1217,7 @@ export default function Profil_sayfasi() {
                             <Button color="rose" round><Icon>add_photo_alternate</Icon> Fotoğraf Ekle</Button>
                         </CardBody>
                         <CardFooter>
-                            <Button color="info">Kayıp İlanımı Güncelle</Button>
+                            <Button color="info" onClick={handleUpdateAnnouncement}>Kayıp İlanımı Güncelle</Button>
                         </CardFooter>
                     </Card>
                 </GridItem>

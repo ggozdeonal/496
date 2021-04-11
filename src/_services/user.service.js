@@ -13,6 +13,7 @@ export const userService = {
     updateEvent,
     deleteEvent,
     addAnnouncement,
+    updateAnnouncement,
     getAll,
     getById,
     update,
@@ -158,6 +159,26 @@ function updateEvent(event) {
 
     console.log(requestOptions.body);
     return fetch(`https://bauphi-api.herokuapp.com/api/users/${user_id}/events/${event.event_id}`, requestOptions).then(handleResponse);
+}
+
+function updateAnnouncement(announcement) {
+    const requestOptions = {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json', 'session_key': 'admin' },
+        body: JSON.stringify({
+            'image': announcement.image,
+            'phone': announcement.phone,
+            'title': announcement.title,
+            'description': announcement.description,
+            'isHuman': announcement.isHuman,
+        })
+    };
+
+    let user_id = JSON.parse(localStorage.getItem('user'));
+    user_id = user_id['user']['user_id'];
+
+    console.log(requestOptions.body);
+    return fetch(`https://bauphi-api.herokuapp.com/api/users/${user_id}/announcements/${announcement.announcement_id}`, requestOptions).then(handleResponse);
 }
 
 function deleteHome(home_id) {
