@@ -83,17 +83,19 @@ export default function Profil_sayfasi() {
     const [userMissingPets, setUserMissingPets] = React.useState([]);
     const [userMissingPetsPreview, setUserMissingPetsPreview] = React.useState([]);
 
-    const [selectedHomeIndex, setSelectedHomeIndex] = React.useState(0);
+    const [selectedHomeIndexUpdate, setSelectedHomeIndexUpdate] = React.useState(0);
+    const [selectedHomeIndexDelete, setSelectedHomeIndexDelete] = React.useState(0);
+    const [selectedEventIndexUpdate, setSelectedEventIndexUpdate] = React.useState(0);
+    const [selectedEventIndexDelete, setSelectedEventIndexDelete] = React.useState(0);
 
     function addHomeEditButtons(home_id)
     {
         const buttons = [
             {color: "success", icon: Edit},
-            {color: "danger", icon: Close}
         ].map((prop, key) => {
             return (
                 <Button color={prop.color} className={classes.actionButton} key={key}
-                        onClick={() => setSelectedHomeIndex(home_id)}>
+                        onClick={() => setSelectedHomeIndexUpdate(home_id)}>
                     <prop.icon className={classes.icon}/>
                 </Button>
             );
@@ -102,15 +104,46 @@ export default function Profil_sayfasi() {
         return buttons;
     }
 
-    function addEventEditButtons(buttonIndex)
+    function addHomeDeleteButtons(home_id)
     {
         const buttons = [
-            {color: "success", icon: Edit},
             {color: "danger", icon: Close}
         ].map((prop, key) => {
             return (
-                <Button color={prop.color} className={classes.actionButton} key={(buttonIndex*2)+key}
-                        onClick={() => handleUpdateEventClick((buttonIndex*2)+key)}>
+                <Button color={prop.color} className={classes.actionButton} key={key}
+                        onClick={() => setSelectedHomeIndexDelete(home_id)}>
+                    <prop.icon className={classes.icon}/>
+                </Button>
+            );
+        });
+
+        return buttons;
+    }
+
+    function addEventEditButtons(event_id)
+    {
+        const buttons = [
+            {color: "success", icon: Edit},
+        ].map((prop, key) => {
+            return (
+                <Button color={prop.color} className={classes.actionButton} key={key}
+                        onClick={() => setSelectedEventIndexUpdate(event_id)}>
+                    <prop.icon className={classes.icon}/>
+                </Button>
+            );
+        });
+
+        return buttons;
+    }
+
+    function addEventDeleteButtons(event_id)
+    {
+        const buttons = [
+            {color: "danger", icon: Close}
+        ].map((prop, key) => {
+            return (
+                <Button color={prop.color} className={classes.actionButton} key={key}
+                        onClick={() => setSelectedEventIndexDelete(event_id)}>
                     <prop.icon className={classes.icon}/>
                 </Button>
             );
@@ -203,8 +236,19 @@ export default function Profil_sayfasi() {
         dispatch(userActions.updateHome(userHomesTable));
     }
 
+    // TODO
+    function deleteHome(home_id) {
+        console.log(home_id);
+        dispatch(userActions.deleteHome(home_id));
+    }
+    function deleteEvent(event_id) {
+        console.log(event_id);
+        // dispatch(userActions.deleteHome());
+    }
+
     function updateHomeTable(home_id)
     {
+        console.log(home_id);
         const home = userHomes.filter(home => home.home_id === home_id);
 
         if (home && home.length === 1)
@@ -228,6 +272,34 @@ export default function Profil_sayfasi() {
             setEvcilChecked(home[0].availableForAnimals);
             setMagdurChecked(home[0].availableForVictims);
         }
+    }
+
+    function updateEventTable(event_id)
+    {
+        console.log(event_id);
+        // const home = userHomes.filter(home => home.home_id === home_id);
+        //
+        // if (home && home.length === 1)
+        // {
+        //     setUserHomesTable({
+        //         city: home[0].city,
+        //         country: home[0].country,
+        //         home_id: home[0].home_id,
+        //         home_name: home[0].home_name,
+        //         home_owner: home[0].home_owner,
+        //         isVisible: home[0].isVisible,
+        //         latitude: home[0].latitude,
+        //         longitude: home[0].longitude,
+        //         neighbourhood: home[0].neighbourhood,
+        //         state: home[0].state,
+        //         availableForVictims: home[0].availableForVictims,
+        //         availableForAnimals: home[0].availableForAnimals,
+        //     });
+        //
+        //     setVisibilityChecked(home[0].isVisible);
+        //     setEvcilChecked(home[0].availableForAnimals);
+        //     setMagdurChecked(home[0].availableForVictims);
+        // }
     }
 
     function handleUpdateEventClick(eventIndex) {
@@ -267,7 +339,7 @@ export default function Profil_sayfasi() {
                     // save home names into temp list
                     const homes = [];
                     for (const [index, value] of response.data.homes.entries()) {
-                        const tempItem = [value.home_name, addHomeEditButtons(value.home_id)];
+                        const tempItem = [value.home_name, addHomeEditButtons(value.home_id), addHomeDeleteButtons(value.home_id)];
                         homes.push(tempItem);
                     }
                     setUserHomesPreview(homes);
@@ -289,7 +361,7 @@ export default function Profil_sayfasi() {
                     // save event names into temp list
                     const events = [];
                     for (const [index, value] of response.data.events.entries()) {
-                        const tempItem = [value.title, addEventEditButtons(index)];
+                        const tempItem = [value.title, addEventEditButtons(value.event_id), addEventDeleteButtons(value.event_id)];
                         events.push(tempItem);
                     }
                     setUserEventsPreview(events);
@@ -320,7 +392,10 @@ export default function Profil_sayfasi() {
 
     // React.useEffect(()=>{console.log("prew", userHomesPreview)},[userHomesPreview])
 
-    React.useEffect(()=> { updateHomeTable(selectedHomeIndex) },[selectedHomeIndex])
+    React.useEffect(()=> { updateHomeTable(selectedHomeIndexUpdate) },[selectedHomeIndexUpdate])
+    React.useEffect(()=> { deleteHome(selectedHomeIndexDelete) },[selectedHomeIndexDelete])
+    React.useEffect(()=> { updateEventTable(selectedEventIndexUpdate) },[selectedEventIndexUpdate])
+    React.useEffect(()=> { deleteEvent(selectedEventIndexDelete) },[selectedEventIndexDelete])
 
     return (
         <div>
@@ -432,7 +507,7 @@ export default function Profil_sayfasi() {
                         tabIcon: Home,
                         tabContent: (
                             <Table
-                                tableHead={["Ev Adi", "Evi Guncelle / Sil"]}
+                                tableHead={["Ev Adi", "Evi Guncelle", "Evi Sil"]}
                                 tableData={userHomesPreview}
                             />
                         )
@@ -442,7 +517,7 @@ export default function Profil_sayfasi() {
                         tabIcon: Events,
                         tabContent: (
                             <Table
-                                tableHead={["Etkinlik Adi", "Etkinligi Guncelle / Sil"]}
+                                tableHead={["Etkinlik Adi", "Etkinligi Guncelle", "Etkinligi Sil"]}
                                 tableData={userEventsPreview}
                             />
                         )
@@ -452,7 +527,7 @@ export default function Profil_sayfasi() {
                         tabIcon: Pets,
                         tabContent: (
                             <Table
-                                tableHead={["Duyurular", "Duyuru Guncelle / Sil"]}
+                                tableHead={["Duyurular", "Duyuru Guncelle", "Duyuru Sil"]}
                                 tableData={userMissingPetsPreview}
                             />
                         )

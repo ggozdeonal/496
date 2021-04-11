@@ -10,6 +10,7 @@ export const userActions = {
     updateProfile,
     deleteProfile,
     updateHome,
+    deleteHome,
     addHome,
     addEvent,
     addAnnouncement,
@@ -136,6 +137,30 @@ function updateHome(home) {
     function success(user) { return { type: userConstants.REGISTER_SUCCESS, user } }
     function failure(error) { return { type: userConstants.REGISTER_FAILURE, error } }
 }
+
+function deleteHome(home_id) {
+    return dispatch => {
+        dispatch(request());
+
+        userService.deleteHome(home_id)
+            .then(
+                user => {
+                    dispatch(success());
+                    history.push('/profil');
+                    dispatch(alertActions.success('Home deletion successful'));
+                },
+                error => {
+                    dispatch(failure(error.toString()));
+                    dispatch(alertActions.error(error.toString()));
+                }
+            );
+    };
+
+    function request(user) { return { type: userConstants.REGISTER_REQUEST, user } }
+    function success(user) { return { type: userConstants.REGISTER_SUCCESS, user } }
+    function failure(error) { return { type: userConstants.REGISTER_FAILURE, error } }
+}
+
 
 function addHome(home) {
     return dispatch => {
