@@ -630,7 +630,7 @@ export default function Ilan_ekle_sayfasi() {
                                         isEmergencyChecked: classesc.checked
                                     }}
                                     inputProps={{
-                                        disabled: (eventSelectedValue !== "bulusma")
+                                        disabled: (eventSelectedValue !== "Meeting")
                                     }}
                                 />
                             </GridItem>
