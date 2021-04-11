@@ -53,7 +53,7 @@ const styles = {
 const useStyles = makeStyles(styles);
 const useStylesd = makeStyles(stylesd);
 
-export default function Listeleme_sayfasi() {
+export default function ListingPage() {
   const classes = useStyles();
   const classesd = useStylesd();
 
@@ -258,3 +258,6 @@ export default function Listeleme_sayfasi() {
   </div>
   );
 }
+
+
+export { ListingPage };

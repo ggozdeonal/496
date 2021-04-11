@@ -12,6 +12,7 @@ import { alertActions } from './_actions';
 import { PrivateRoute } from './_components';
 import { LoginPage } from './LoginPage';
 import { RegisterPage } from './RegisterPage';
+import { ListingPage } from './ListingPage'
 import routes from "routes.js";
 
 // core components
@@ -39,6 +40,7 @@ ReactDOM.render(
         })}
         <Route path="/login" component={LoginPage} />
         <Route path="/register" component={RegisterPage} />
+        <Route path="/anonim" component={ListingPage} />
         <Redirect from="*" to="/" />
       </Switch>
     </Router>,
