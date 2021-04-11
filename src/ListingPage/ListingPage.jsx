@@ -19,6 +19,7 @@ import Icon from "@material-ui/core/Icon";
 import backgrounddog from "assets/img/dog.jpg";
 import Button from "components/CustomButtons/Button.js";
 import classNames from "classnames";
+import {Link} from "react-router-dom";
 
 const styles = {
   cardCategoryWhite: {
@@ -255,6 +256,8 @@ export default function ListingPage() {
   </GridItem>
   </GridContainer>
 
+      <p className="text-center">Giris sayfasina geri don<Link to="/login" className="btn btn-link">Geri</Link></p>
+<br/><br/><br/><br/><br/><br/>
   </div>
   );
 }
