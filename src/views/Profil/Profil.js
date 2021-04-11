@@ -83,10 +83,10 @@ export default function Profil_sayfasi() {
     const [userMissingPets, setUserMissingPets] = React.useState([]);
     const [userMissingPetsPreview, setUserMissingPetsPreview] = React.useState([]);
 
-    const [selectedHomeIndexUpdate, setSelectedHomeIndexUpdate] = React.useState(0);
-    const [selectedHomeIndexDelete, setSelectedHomeIndexDelete] = React.useState(0);
-    const [selectedEventIndexUpdate, setSelectedEventIndexUpdate] = React.useState(0);
-    const [selectedEventIndexDelete, setSelectedEventIndexDelete] = React.useState(0);
+    const [selectedHomeIndexUpdate, setSelectedHomeIndexUpdate] = React.useState(-1);
+    const [selectedHomeIndexDelete, setSelectedHomeIndexDelete] = React.useState(-1);
+    const [selectedEventIndexUpdate, setSelectedEventIndexUpdate] = React.useState(-1);
+    const [selectedEventIndexDelete, setSelectedEventIndexDelete] = React.useState(-1);
 
     function addHomeEditButtons(home_id)
     {
@@ -194,6 +194,7 @@ export default function Profil_sayfasi() {
     })
 
     const [userEventsTable, setUserEventsTable] = React.useState({
+        event_id: "",
         type: "",
         start_time: "",
         end_time: "",
@@ -263,76 +264,93 @@ export default function Profil_sayfasi() {
     }
 
     function deleteHome(home_id) {
-        console.log("home will be deleted:", home_id);
-        dispatch(userActions.deleteHome(home_id));
+        if (home_id >= 0)
+        {
+            console.log("home will be deleted:", home_id);
+            dispatch(userActions.deleteHome(home_id));
+        }
+    }
+
+    function handleUpdateEvent(evt) {
+        evt.preventDefault();
+
+        console.log(userEventsTable);
+        dispatch(userActions.updateEvent(userEventsTable));
     }
 
     function deleteEvent(event_id) {
-        console.log("event will be deleted:", event_id);
-        // dispatch(userActions.deleteHome());
+        if (event_id >= 0)
+        {
+            console.log("event will be deleted:", event_id);
+            // dispatch(userActions.deleteHome());
+        }
     }
 
     function updateHomeTable(home_id)
     {
-        console.log(home_id);
-        const home = userHomes.filter(home => home.home_id === home_id);
-
-        if (home && home.length === 1)
+        if (home_id >= 0)
         {
-            setUserHomesTable({
-                city: home[0].city,
-                country: home[0].country,
-                home_id: home[0].home_id,
-                home_name: home[0].home_name,
-                home_owner: home[0].home_owner,
-                isVisible: home[0].isVisible,
-                latitude: home[0].latitude,
-                longitude: home[0].longitude,
-                neighbourhood: home[0].neighbourhood,
-                state: home[0].state,
-                availableForVictims: home[0].availableForVictims,
-                availableForAnimals: home[0].availableForAnimals,
-            });
+            const home = userHomes.filter(home => home.home_id === home_id);
 
-            setVisibilityChecked(home[0].isVisible);
-            setEvcilChecked(home[0].availableForAnimals);
-            setMagdurChecked(home[0].availableForVictims);
+            if (home && home.length === 1)
+            {
+                console.log(home[0]);
+
+                setUserHomesTable({
+                    city: home[0].city,
+                    country: home[0].country,
+                    home_id: home[0].home_id,
+                    home_name: home[0].home_name,
+                    home_owner: home[0].home_owner,
+                    isVisible: home[0].isVisible,
+                    latitude: home[0].latitude,
+                    longitude: home[0].longitude,
+                    neighbourhood: home[0].neighbourhood,
+                    state: home[0].state,
+                    availableForVictims: home[0].availableForVictims,
+                    availableForAnimals: home[0].availableForAnimals,
+                });
+
+                setVisibilityChecked(home[0].isVisible);
+                setEvcilChecked(home[0].availableForAnimals);
+                setMagdurChecked(home[0].availableForVictims);
+            }
         }
     }
 
     function updateEventTable(event_id)
     {
-        const event = userEvents.filter(event => event.event_id === event_id);
-
-        if (event && event.length === 1)
+        if (event_id >= 0)
         {
-            console.log(event[0]);
-            const options = { year: 'numeric', month: 'numeric', day: 'numeric' };
+            const event = userEvents.filter(event => event.event_id === event_id);
 
-            setUserEventsTable({
-                type: event[0].type,
-                start_time: new Date(event[0].start_time).toLocaleDateString([],options),
-                end_time: new Date(event[0].end_time).toLocaleDateString([],options),
-                title: event[0].title,
-                description: event[0].description,
-                is_emergency: event[0].is_emergency,
-                country: event[0].country,
-                city: event[0].city,
-                state: event[0].state,
-                neighbourhood: event[0].neighbourhood,
-                latitude: event[0].latitude,
-                longitude: event[0].longitude,
-                currency: event[0].currency,
-                amount: event[0].amount,
-            })
+            if (event && event.length === 1)
+            {
+                console.log(event[0]);
+                const options = { year: 'numeric', month: 'numeric', day: 'numeric' };
 
-            setEventSelectedValue(event[0].type);
-            setAcilChecked(event[0].is_emergency);
+                setUserEventsTable({
+                    event_id: event[0].event_id,
+                    type: event[0].type,
+                    start_time: new Date(event[0].start_time).toLocaleDateString([],options),
+                    end_time: new Date(event[0].end_time).toLocaleDateString([],options),
+                    title: event[0].title,
+                    description: event[0].description,
+                    is_emergency: event[0].is_emergency,
+                    country: event[0].country,
+                    city: event[0].city,
+                    state: event[0].state,
+                    neighbourhood: event[0].neighbourhood,
+                    latitude: event[0].latitude,
+                    longitude: event[0].longitude,
+                    currency: event[0].currency,
+                    amount: event[0].amount,
+                })
+
+                setEventSelectedValue(event[0].type);
+                setAcilChecked(event[0].is_emergency);
+            }
         }
-    }
-
-    function handleUpdateEventClick(eventIndex) {
-        console.log(eventIndex);
     }
 
     function handleUpdateAnnouncementClick(announcementIndex) {
@@ -1021,7 +1039,7 @@ export default function Profil_sayfasi() {
 
                         </CardBody>
                         <CardFooter>
-                            <Button color="danger">Etkinlik İlanımı Güncelle</Button>
+                            <Button color="danger" onClick={handleUpdateEvent} >Etkinlik İlanımı Güncelle</Button>
                         </CardFooter>
                     </Card>
                 </GridItem>
