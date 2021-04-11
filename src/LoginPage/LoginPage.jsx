@@ -46,6 +46,16 @@ function LoginPage() {
         }
     }
 
+    function loginWithGoogle()
+    {
+        console.log("Google ile giris");
+    }
+
+    function loginWithFacebook()
+    {
+        console.log("Facebook ile giris");
+    }
+
     return (
 
         <div className="jumbotron" style={{ backgroundImage: `url(${background})`,
@@ -68,8 +78,8 @@ function LoginPage() {
                     <h4 className="card-title mt-3 text-center">Giris Yap</h4>
                     <p className="text-center">Hesabiniza giris yapin</p>
                     <p>
-                        <a href="" className="btn btn-block btn-google"> <i className="fab fa-google"></i> Google ile Giris</a>
-                        <a href="" className="btn btn-block btn-facebook"> <i className="fab fa-facebook-f"></i> Facebook ile Giris</a>
+                        <button type="submit" className="btn btn-block btn-google" onClick={loginWithGoogle}><i className="fab fa-google"></i> Google ile Giris </button>
+                        <button type="submit" className="btn btn-block btn-facebook" onClick={loginWithFacebook}><i className="fab fa-facebook-f"></i> Facebook ile Giris </button>
                     </p>
                     <p className="divider-text">
                         <span className="bg-light"> VEYA </span>
