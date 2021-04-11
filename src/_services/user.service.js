@@ -16,7 +16,6 @@ export const userService = {
     updateAnnouncement,
     deleteAnnouncement,
     getAll,
-    delete: _delete
 };
 
 function login(email, password) {
