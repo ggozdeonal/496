@@ -193,6 +193,23 @@ export default function Profil_sayfasi() {
         availableForAnimals: false
     })
 
+    const [userEventsTable, setUserEventsTable] = React.useState({
+        type: "",
+        start_time: "",
+        end_time: "",
+        title: "",
+        description: "",
+        is_emergency: false,
+        country: "",
+        city: "",
+        state: "",
+        neighbourhood: "",
+        latitude: "",
+        longitude: "",
+        currency: "",
+        amount: "",
+    })
+
     React.useEffect(() => {
         navigator.geolocation.getCurrentPosition(function (position) {
             setCoordinates({lat: position.coords.latitude, lon: position.coords.longitude})
@@ -217,6 +234,15 @@ export default function Profil_sayfasi() {
         });
     }
 
+    function addEventHandleChange(evt) {
+        const value = evt.target.value;
+
+        setUserEventsTable({
+            ...userEventsTable,
+            [evt.target.name]: value
+        });
+    }
+
     function handleUpdateProfile(evt) {
         evt.preventDefault();
 
@@ -236,13 +262,13 @@ export default function Profil_sayfasi() {
         dispatch(userActions.updateHome(userHomesTable));
     }
 
-    // TODO
     function deleteHome(home_id) {
-        console.log(home_id);
+        console.log("home will be deleted:", home_id);
         dispatch(userActions.deleteHome(home_id));
     }
+
     function deleteEvent(event_id) {
-        console.log(event_id);
+        console.log("event will be deleted:", event_id);
         // dispatch(userActions.deleteHome());
     }
 
@@ -276,30 +302,33 @@ export default function Profil_sayfasi() {
 
     function updateEventTable(event_id)
     {
-        console.log(event_id);
-        // const home = userHomes.filter(home => home.home_id === home_id);
-        //
-        // if (home && home.length === 1)
-        // {
-        //     setUserHomesTable({
-        //         city: home[0].city,
-        //         country: home[0].country,
-        //         home_id: home[0].home_id,
-        //         home_name: home[0].home_name,
-        //         home_owner: home[0].home_owner,
-        //         isVisible: home[0].isVisible,
-        //         latitude: home[0].latitude,
-        //         longitude: home[0].longitude,
-        //         neighbourhood: home[0].neighbourhood,
-        //         state: home[0].state,
-        //         availableForVictims: home[0].availableForVictims,
-        //         availableForAnimals: home[0].availableForAnimals,
-        //     });
-        //
-        //     setVisibilityChecked(home[0].isVisible);
-        //     setEvcilChecked(home[0].availableForAnimals);
-        //     setMagdurChecked(home[0].availableForVictims);
-        // }
+        const event = userEvents.filter(event => event.event_id === event_id);
+
+        if (event && event.length === 1)
+        {
+            console.log(event[0]);
+            const options = { year: 'numeric', month: 'numeric', day: 'numeric' };
+
+            setUserEventsTable({
+                type: event[0].type,
+                start_time: new Date(event[0].start_time).toLocaleDateString([],options),
+                end_time: new Date(event[0].end_time).toLocaleDateString([],options),
+                title: event[0].title,
+                description: event[0].description,
+                is_emergency: event[0].is_emergency,
+                country: event[0].country,
+                city: event[0].city,
+                state: event[0].state,
+                neighbourhood: event[0].neighbourhood,
+                latitude: event[0].latitude,
+                longitude: event[0].longitude,
+                currency: event[0].currency,
+                amount: event[0].amount,
+            })
+
+            setEventSelectedValue(event[0].type);
+            setAcilChecked(event[0].is_emergency);
+        }
     }
 
     function handleUpdateEventClick(eventIndex) {
@@ -695,9 +724,10 @@ export default function Profil_sayfasi() {
                                         id="visibility"
                                         formControlProps={{
                                             fullWidth: true
-                                        }} inputProps={{
-                                        disabled: true
-                                    }}
+                                        }}
+                                        inputProps={{
+                                            disabled: true
+                                        }}
                                     />
                                     <Checkbox
                                     tabIndex={-1}
@@ -740,9 +770,9 @@ export default function Profil_sayfasi() {
                                     }}
 
                                     /><Radio
-                                    checked={eventSelectedValue === "bagis"}
-                                    onChange={() => setEventSelectedValue("bagis")}
-                                    value="bagis"
+                                    checked={eventSelectedValue === "Donation/Money"}
+                                    onChange={() => setEventSelectedValue("Donation/Money")}
+                                    value="Donation/Money"
                                     name="radiobutton1"
                                     aria-label="Bagis"
                                     icon={<FiberManualRecord className={classesc.radioUnchecked}/>}
@@ -751,9 +781,9 @@ export default function Profil_sayfasi() {
                                         checked: classesc.radio
                                     }}
                                 /><Radio
-                                    checked={eventSelectedValue === "erzak"}
-                                    onChange={() => setEventSelectedValue("erzak")}
-                                    value="erzak"
+                                    checked={eventSelectedValue === "Donation/Supply"}
+                                    onChange={() => setEventSelectedValue("Donation/Supply")}
+                                    value="Donation/Supply"
                                     name="radiobutton2"
                                     aria-label="Erzak"
                                     icon={<FiberManualRecord className={classesc.radioUnchecked}/>}
@@ -763,9 +793,9 @@ export default function Profil_sayfasi() {
                                     }}
                                 />
                                     <Radio
-                                        checked={eventSelectedValue === "bulusma"}
-                                        onChange={() => setEventSelectedValue("bulusma")}
-                                        value="bulusma"
+                                        checked={eventSelectedValue === "Meeting"}
+                                        onChange={() => setEventSelectedValue("Meeting")}
+                                        value="Meeting"
                                         name="radiobutton3"
                                         aria-label="Bulusma"
                                         icon={<FiberManualRecord className={classesc.radioUnchecked}/>}
@@ -777,27 +807,31 @@ export default function Profil_sayfasi() {
                                 </GridItem>
                                 <GridItem xs={12} sm={12} md={4}>
                                     <CustomInput
-                                        id="event_start"
+                                        id="start_time"
                                         labelText="Başlangıç Tarihi"
                                         formControlProps={{
                                             fullWidth: true
                                         }}
                                         inputProps={{
-                                            type: "date"
+                                            // type: "date",
+                                            name: "start_time",
+                                            value: userEventsTable.start_time,
+                                            onChange: addEventHandleChange
                                         }}
-
-
                                     />
                                 </GridItem>
                                 <GridItem xs={12} sm={12} md={4}>
                                     <CustomInput
                                         labelText="Bitiş Tarihi"
-                                        id="event_end"
+                                        id="end_time"
                                         formControlProps={{
                                             fullWidth: true
                                         }}
                                         inputProps={{
-                                            type: "date"
+                                            // type: "date",
+                                            name: "end_time",
+                                            value: userEventsTable.end_time,
+                                            onChange: addEventHandleChange
                                         }}
                                     />
                                 </GridItem>
@@ -810,7 +844,11 @@ export default function Profil_sayfasi() {
                                         formControlProps={{
                                             fullWidth: true
                                         }}
-
+                                        inputProps={{
+                                            name: "title",
+                                            value: userEventsTable.title,
+                                            onChange: addEventHandleChange
+                                        }}
                                     />
                                 </GridItem>
 
@@ -820,6 +858,11 @@ export default function Profil_sayfasi() {
                                         id="description"
                                         formControlProps={{
                                             fullWidth: true
+                                        }}
+                                        inputProps={{
+                                            name: "description",
+                                            value: userEventsTable.description,
+                                            onChange: addEventHandleChange
                                         }}
                                     />
                                 </GridItem>
@@ -833,7 +876,10 @@ export default function Profil_sayfasi() {
                                             fullWidth: true
                                         }}
                                         inputProps={{
-                                            disabled: (eventSelectedValue === "bagis")
+                                            disabled: (eventSelectedValue === "bagis"),
+                                            name: "country",
+                                            value: userEventsTable.country,
+                                            onChange: addEventHandleChange
                                         }}
                                     />
                                 </GridItem>
@@ -845,7 +891,10 @@ export default function Profil_sayfasi() {
                                             fullWidth: true
                                         }}
                                         inputProps={{
-                                            disabled: (eventSelectedValue === "bagis")
+                                            disabled: (eventSelectedValue === "bagis"),
+                                            name: "city",
+                                            value: userEventsTable.city,
+                                            onChange: addEventHandleChange
                                         }}
                                     />
                                 </GridItem>
@@ -858,7 +907,10 @@ export default function Profil_sayfasi() {
                                             fullWidth: true
                                         }}
                                         inputProps={{
-                                            disabled: (eventSelectedValue === "bagis")
+                                            disabled: (eventSelectedValue === "bagis"),
+                                            name: "state",
+                                            value: userEventsTable.state,
+                                            onChange: addEventHandleChange
                                         }}
                                     />
                                 </GridItem>
@@ -867,35 +919,43 @@ export default function Profil_sayfasi() {
                                 <GridItem xs={12} sm={12} md={8}>
                                     <CustomInput
                                         labelText="Adres"
-                                        id="neighbourh"
-
+                                        id="neighbourhood"
                                         formControlProps={{
                                             fullWidth: true
                                         }}
                                         inputProps={{
-                                            disabled: (eventSelectedValue === "bagis")
+                                            disabled: (eventSelectedValue === "bagis"),
+                                            name: "neighbourhood",
+                                            value: userEventsTable.neighbourhood,
+                                            onChange: addEventHandleChange
                                         }}
                                     />
                                 </GridItem>
                                 <GridItem xs={12} sm={12} md={2}>
                                     <CustomInput
                                         labelText="Enlem"
-                                        id="enlem"
+                                        id="latitude"
                                         formControlProps={{
                                             fullWidth: true
-                                        }} inputProps={{
-                                        value: lat
-                                    }}
+                                        }}
+                                        inputProps={{
+                                            name: "latitude",
+                                            value: userEventsTable.latitude,
+                                            onChange: addEventHandleChange
+                                        }}
                                     /></GridItem>
                                 <GridItem xs={12} sm={12} md={2}>
                                     <CustomInput
                                         labelText="Boylam"
-                                        id="boylam"
+                                        id="longitude"
                                         formControlProps={{
                                             fullWidth: true
-                                        }} inputProps={{
-                                        value: lon
-                                    }}
+                                        }}
+                                        inputProps={{
+                                            name: "longitude",
+                                            value: userEventsTable.longitude,
+                                            onChange: addEventHandleChange
+                                        }}
                                     /></GridItem>
                             </GridContainer>
                             <GridContainer>
@@ -907,7 +967,10 @@ export default function Profil_sayfasi() {
                                             fullWidth: true
                                         }}
                                         inputProps={{
-                                            disabled: (eventSelectedValue !== "bagis")
+                                            disabled: (eventSelectedValue !== "bagis"),
+                                            name: "currency",
+                                            value: userEventsTable.currency,
+                                            onChange: addEventHandleChange
                                         }}
                                     />
                                 </GridItem>
@@ -919,7 +982,10 @@ export default function Profil_sayfasi() {
                                             fullWidth: true
                                         }}
                                         inputProps={{
-                                            disabled: (eventSelectedValue !== "bagis")
+                                            disabled: (eventSelectedValue !== "bagis"),
+                                            name: "amount",
+                                            value: userEventsTable.amount,
+                                            onChange: addEventHandleChange
                                         }}
                                     />
                                 </GridItem>
@@ -934,9 +1000,9 @@ export default function Profil_sayfasi() {
                                             disabled: true
                                         }}
                                     />
-
                                     <Checkbox
                                         tabIndex={-1}
+                                        checked={acilChecked}
                                         onClick={() => setAcilChecked(!acilChecked)}
                                         checkedIcon={<Check className={classesc.checkedIcon}/>}
                                         icon={<Check className={classesc.uncheckedIcon}/>}
@@ -946,8 +1012,6 @@ export default function Profil_sayfasi() {
                                         inputProps={{
                                             disabled: (eventSelectedValue !== "bulusma")
                                         }}
-
-
                                     />
                                 </GridItem>
 
