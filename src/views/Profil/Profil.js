@@ -282,7 +282,7 @@ export default function Profil_sayfasi() {
         if (event_id >= 0)
         {
             console.log("event will be deleted:", event_id);
-            // dispatch(userActions.deleteHome());
+            dispatch(userActions.deleteEvent(event_id));
         }
     }
 

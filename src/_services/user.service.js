@@ -11,6 +11,7 @@ export const userService = {
     addHome,
     addEvent,
     updateEvent,
+    deleteEvent,
     addAnnouncement,
     getAll,
     getById,
@@ -170,6 +171,19 @@ function deleteHome(home_id) {
 
     console.log(requestOptions.body);
     return fetch(`https://bauphi-api.herokuapp.com/api/users/${user_id}/homes/${home_id}`, requestOptions).then(handleResponse);
+}
+
+function deleteEvent(event_id) {
+    const requestOptions = {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json', 'session_key': 'admin' }
+    };
+
+    let user_id = JSON.parse(localStorage.getItem('user'));
+    user_id = user_id['user']['user_id'];
+
+    console.log(requestOptions.body);
+    return fetch(`https://bauphi-api.herokuapp.com/api/users/${user_id}/events/${event_id}`, requestOptions).then(handleResponse);
 }
 
 function addHome(home) {
