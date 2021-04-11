@@ -1102,7 +1102,7 @@ export default function Profil_sayfasi() {
                                             acilChecked: classesc.checked
                                         }}
                                         inputProps={{
-                                            disabled: (eventSelectedValue !== "bulusma")
+                                            disabled: (eventSelectedValue !== "Meeting")
                                         }}
                                     />
                                 </GridItem>
