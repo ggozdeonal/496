@@ -21,8 +21,7 @@ import FiberManualRecord from "@material-ui/icons/FiberManualRecord";
 import stylesc from "assets/jss/material-dashboard-react/checkboxAdnRadioStyle.js";
 import Icon from "@material-ui/core/Icon";
 import {userActions} from "../../_actions";
-import {history} from '../../_helpers';
-import {alertActions} from '../../_actions';
+
 
 import {useDispatch, useSelector} from "react-redux";
 

@@ -18,7 +18,6 @@ import Edit from "@material-ui/icons/Edit";
 import Close from "@material-ui/icons/Close";
 // core components
 import Tabs from "components/CustomTabs/CustomTabs.js";
-import Tasks from "components/Tasks/Tasks.js";
 import Table from "components/Table/Table.js";
 
 import Checkbox from "@material-ui/core/Checkbox";
@@ -71,8 +70,6 @@ export default function Profil_sayfasi() {
     const [coordinates, setCoordinates] = React.useState({lat: '', lon: ''});
     const {lat, lon} = coordinates;
 
-    const [submitted, setSubmitted] = React.useState(false);
-    const registering = useSelector(state => state.registration.registering);
     const dispatch = useDispatch();
     const alert = useSelector(state => state.alert);
 
