@@ -32,6 +32,7 @@ function LoginPage() {
 
     function handleChange(e) {
         const { name, value } = e.target;
+
         setInputs(inputs => ({ ...inputs, [name]: value }));
     }
 
@@ -48,12 +49,12 @@ function LoginPage() {
 
     function loginWithGoogle()
     {
-        console.log("Google ile giris");
+        console.log("Google ile giris", email, password);
     }
 
     function loginWithFacebook()
     {
-        console.log("Facebook ile giris");
+        console.log("Facebook ile giris", email, password);
     }
 
     return (
