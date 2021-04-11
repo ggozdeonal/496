@@ -75,7 +75,7 @@ function LoginPage() {
                         <span className="bg-light"> VEYA </span>
                     </p>
                     <p>
-                        <a href="" className="btn btn-block btn-anonymous"> <i className="far fa-user-circle"></i> Anonim Giris</a>
+                        <Link to="/anonim" className="btn btn-block btn-anonymous"><i className="far fa-user-circle"></i> Anonim Giris</Link>
                     </p>
                     <p className="divider-text">
                         <span className="bg-light"> VEYA </span>
