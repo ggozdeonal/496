@@ -519,6 +519,10 @@ export default function Profil_sayfasi() {
 
     return (
         <div>
+            {alert.message &&
+            <div className={`alert ${alert.type}`}>{alert.message}</div>
+            }
+
             <GridContainer>
                 <GridItem xs={12} sm={12} md={12}>
                     <Card>
