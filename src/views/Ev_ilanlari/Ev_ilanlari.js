@@ -96,6 +96,30 @@ export default function Ev_ilanlari_sayfasi() {
   const handleClose2 = () => {
     setOpen2(null);
   };
+  const [homes, setHomes] = React.useState([[]]);
+
+  React.useEffect(() => { 
+      navigator.geolocation.getCurrentPosition(function(position) {
+         const latitude = position.coords.latitude;
+         const longitude = position.coords.longitude;
+         const params = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ latitude, longitude })
+          };
+      
+        fetch(`https://bauphi-api.herokuapp.com/api/generic/get-close-homes`, params)
+        .then((response) => response.json()) 
+        .then((data) => {
+          var tmp = homes;
+          data.homes.forEach(home => {
+           tmp = [...tmp, [home.key, home.value.state, home.value.city, home.value.neighbourhood]]
+          });
+          setHomes(tmp);
+         });
+        });
+
+        }, []);
 
   return (
   
@@ -115,13 +139,7 @@ export default function Ev_ilanlari_sayfasi() {
         <Table
           tableHeaderColor="primary"
           tableHead={["İletişim", "Şehir", "Semt"]}
-          tableData={[
-            ["bılıkbılık", "Ankara", "Yenimahalle"],
-            ["gdgd", "Csfa", "df"],
-            ["bılıkbılık", "Ankara", "Yenimahalle"],
-            ["gdgd", "Csfa", "df"],["bılıkbılık", "Ankara", "Yenimahalle"],
-          
-  
+		  tableData={homes}
           ]}
           /></div>
       </CardBody>
