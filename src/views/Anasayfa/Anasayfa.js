@@ -31,7 +31,7 @@ export default function Anasayfa() {
             <h3 className={classes.cardTitle}>
             Hakkımızda
               </h3>
-              <p className={classes.cardCategory}><Danger>Temel olarak afetzedelere hizmet etmeyi amaçlamaktayız.</Danger></p>
+              <Danger><p className={classes.cardCategory}>Temel olarak afetzedelere hizmet etmeyi amaçlamaktayız.</p></Danger>
               <p className={classes.cardCategory}>Afet sonrası evini kaybeden veya evi ikamet etmeye uygun olmayan afetzedelere geçici olarak kalabilecekleri yer bulma imkanı sunarak afet sonrası afetzedelerin mağduriyetini azaltmayı; afet bölgelerinde ihtiyaç duyulan yemek, kıyafet, hijyen ürünleri gibi arzların toplanması için kullanıcılarına etkinlik hazırlama ve bu etkinliklerden haberdar olma olanağı sunmayı hedefliyoruz. Ek olarak evini kaybeden afetzedelerin evcil hayvanları için, gönüllü ev sahiplerinin geçici bakıcılık yapabilmelerine ve kullanıcılarımızın kayıp evcil hayvanlar için ilan verebilmelerine imkan sağlamaktayız.</p>
             </GridItem>      
           </Card>
