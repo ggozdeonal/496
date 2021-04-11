@@ -6,17 +6,7 @@ import CardBody from "components/Card/CardBody.js";
 import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";
 import Table from "components/Table/Table.js";
-import Muted from "components/Typography/Muted.js";
-import stylesd from "assets/jss/material-dashboard-react/dropdownStyle.js";
-import MenuList from "@material-ui/core/MenuList";
-import MenuItem from "@material-ui/core/MenuItem";
-import Grow from "@material-ui/core/Grow";
-import Paper from "@material-ui/core/Paper";
-import ClickAwayListener from "@material-ui/core/ClickAwayListener";
-import Poppers from "@material-ui/core/Popper";
 import Icon from "@material-ui/core/Icon";
-import Button from "components/CustomButtons/Button.js";
-import classNames from "classnames";
 import background from "assets/img/home.png";
 
 const styles = {
@@ -50,52 +40,12 @@ const styles = {
 };
 
 const useStyles = makeStyles(styles);
-const useStylesd = makeStyles(stylesd);
+
+
 
 export default function Ev_ilanlari_sayfasi() {
   const classes = useStyles();
-  const classesd = useStylesd();
 
-  const [open, setOpen] = React.useState(null);
-  const handleToggle = event => {
-    if (open && open.contains(event.target)) {
-      setOpen(null);
-    } else {
-      setOpen(event.currentTarget);
-    }
-  };
-
-  const handleClose = () => {
-    setOpen(null);
-  };
-
-  
-  const [open1, setOpen1] = React.useState(null);
-  const handleToggle1 = event => {
-    if (open1 && open1.contains(event.target)) {
-      setOpen1(null);
-    } else {
-      setOpen1(event.currentTarget);
-    }
-  };
-
-  const handleClose1 = () => {
-    setOpen1(null);
-  };
-
-
-  const [open2, setOpen2] = React.useState(null);
-  const handleToggle2 = event => {
-    if (open2 && open2.contains(event.target)) {
-      setOpen2(null);
-    } else {
-      setOpen2(event.currentTarget);
-    }
-  };
-
-  const handleClose2 = () => {
-    setOpen2(null);
-  };
   const [homes, setHomes] = React.useState([[]]);
 
   React.useEffect(() => { 
@@ -120,7 +70,7 @@ export default function Ev_ilanlari_sayfasi() {
         });
 
         }, []);
-
+  
   return (
   
     <GridContainer>
@@ -129,7 +79,7 @@ export default function Ev_ilanlari_sayfasi() {
       <CardHeader color="warning">
         <h4 className={classes.cardTitleWhite}>Ev İlanlarını Listele<Icon>filter_alt</Icon></h4>
         <p className={classes.cardCategoryWhite}>
-          Filtrelenmek istenen şehri ve semti seçiniz.  
+        Konum erişiminize izin verdiğiniz takdirde size yakın ev ilanları listelenir.  
         </p>
       </CardHeader>
       <CardBody>
@@ -138,9 +88,8 @@ export default function Ev_ilanlari_sayfasi() {
         <div style={{ backgroundImage: `url(${background})`,  backgroundRepeat: 'no-repeat', }}>
         <Table
           tableHeaderColor="primary"
-          tableHead={["İletişim", "Şehir", "Semt"]}
-		  tableData={homes}
-          ]}
+          tableHead={["Mesafe", "Şehir", "Semt", "Adres"]}
+          tableData={homes}
           /></div>
       </CardBody>
     </Card>
