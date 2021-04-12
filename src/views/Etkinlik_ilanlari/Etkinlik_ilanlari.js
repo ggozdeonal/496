@@ -72,34 +72,81 @@ export default function Etkinlik_ilanlari_sayfasi() {
     setOpen(null);
   };
 
-  
-  const [open1, setOpen1] = React.useState(null);
-  const handleToggle1 = event => {
-    if (open1 && open1.contains(event.target)) {
-      setOpen1(null);
-    } else {
-      setOpen1(event.currentTarget);
-    }
+  const filterErzakEvents = () => {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      const latitude = position.coords.latitude;
+      const longitude = position.coords.longitude;
+      const params = {
+         method: 'POST',
+         headers: { 'Content-Type': 'application/json' },
+         body: JSON.stringify({ latitude, longitude })
+       };
+   
+     fetch(`https://bauphi-api.herokuapp.com/api/generic/get-close-events?type=supply`, params)
+     .then((response) => response.json()) 
+     .then((data) => {
+       var tmp = events;
+       if(data.hasOwnProperty('events')){
+       data.events.forEach(event => {
+        tmp = [...tmp, [event.key, event.value.title, event.value.type, event.value.description, event.value.start_time, event.value.end_time, event.value.state, event.value.city, event.value.neighbourhood]]
+       });
+       setEvents(tmp);
+     }
+    else{setEvents([[]])}});
+     });
+    setOpen(null);
   };
 
-  const handleClose1 = () => {
-    setOpen1(null);
+  const filterBulusmaEvents = () => {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      const latitude = position.coords.latitude;
+      const longitude = position.coords.longitude;
+      const params = {
+         method: 'POST',
+         headers: { 'Content-Type': 'application/json' },
+         body: JSON.stringify({ latitude, longitude })
+       };
+   
+     fetch(`https://bauphi-api.herokuapp.com/api/generic/get-close-events?type=meeting`, params)
+     .then((response) => response.json()) 
+     .then((data) => {
+       var tmp = events;
+       if(data.hasOwnProperty('events')){
+       data.events.forEach(event => {
+        tmp = [...tmp, [event.key, event.value.title, event.value.type, event.value.description, event.value.start_time, event.value.end_time, event.value.state, event.value.city, event.value.neighbourhood]]
+       });
+       setEvents(tmp);
+     }
+    else{setEvents([[]])}});
+     });
+    setOpen(null);
   };
 
 
-  const [open2, setOpen2] = React.useState(null);
-  const handleToggle2 = event => {
-    if (open2 && open2.contains(event.target)) {
-      setOpen2(null);
-    } else {
-      setOpen2(event.currentTarget);
-    }
-  };
+  const [events, setEvents] = React.useState([[]]);
 
-  const handleClose2 = () => {
-    setOpen2(null);
-  };
+  React.useEffect(() => { 
+      navigator.geolocation.getCurrentPosition(function(position) {
+         const latitude = position.coords.latitude;
+         const longitude = position.coords.longitude;
+         const params = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ latitude, longitude })
+          };
+      
+        fetch(`https://bauphi-api.herokuapp.com/api/generic/get-close-events`, params)
+        .then((response) => response.json()) 
+        .then((data) => {
+          var tmp = events;
+          data.events.forEach(event => {
+           tmp = [...tmp, [event.key, event.value.title, event.value.type, event.value.description, event.value.start_time, event.value.end_time, event.value.state, event.value.city, event.value.neighbourhood]]
+          });
+          setEvents(tmp);
+         });
+        });
 
+        }, []);
   return (
     <div>
     <GridContainer>
@@ -108,7 +155,7 @@ export default function Etkinlik_ilanlari_sayfasi() {
       <CardHeader color="warning">
         <h4 className={classes.cardTitleWhite}>Etkinlik İlanlarını Listele<Icon>filter_alt</Icon></h4>
         <p className={classes.cardCategoryWhite}>
-          İlan türünü, filtrelenmek istenen şehri ve semti seçiniz. 
+         İlan türünü, filtrelenmek istenen şehri ve semti seçiniz. 
         </p>
       </CardHeader>
       <CardBody>
@@ -125,9 +172,9 @@ export default function Etkinlik_ilanlari_sayfasi() {
               color={window.innerWidth > 959 ? "transparent" : "white"}
               justIcon={window.innerWidth > 959}
               simple={!(window.innerWidth > 959)}
-              aria-owns={open1 ? "menu-list-grow1" : null}
+              aria-owns={open ? "menu-list-grow" : null}
               aria-haspopup="true"
-              onClick={handleToggle1}
+              onClick={handleToggle}
               className={classesd.buttonLink}
             >
             
@@ -135,12 +182,12 @@ export default function Etkinlik_ilanlari_sayfasi() {
             
             </Button>
             <Poppers
-              open={Boolean(open1)}
-              anchorEl={open1}
+              open={Boolean(open)}
+              anchorEl={open}
               transition
               disablePortal
               className={
-                classNames({ [classesd.popperClose]: !open1 }) +
+                classNames({ [classesd.popperClose]: !open }) +
                 " " +
                 classesd.pooperNav
               }
@@ -148,30 +195,24 @@ export default function Etkinlik_ilanlari_sayfasi() {
               {({ TransitionProps, placement }) => (
                 <Grow
                   {...TransitionProps}
-                  id="menu-list-grow1"
+                  id="menu-list-grow"
                   style={{
                     transformOrigin:
                       placement === "bottom" ? "center top" : "center bottom"
                   }}
                 >
                   <Paper>
-                    <ClickAwayListener onClickAway={handleClose1}>
+                    <ClickAwayListener onClickAway={handleClose}>
                       <MenuList role="menu">
                     
                         <MenuItem
-                          onClick={handleClose1}
+                          onClick={filterBulusmaEvents}
                           className={classesd.dropdownItem}
                         >
                           Etkinlik-Buluşma
                         </MenuItem>
                         <MenuItem
-                          onClick={handleClose1}
-                          className={classesd.dropdownItem}
-                        >
-                          Etkinlik-Bağış
-                        </MenuItem>
-                        <MenuItem
-                          onClick={handleClose1}
+                          onClick={filterErzakEvents}
                           className={classesd.dropdownItem}
                         >
                           Etkinlik-Erzak Yardımı
@@ -189,15 +230,11 @@ export default function Etkinlik_ilanlari_sayfasi() {
            
         </GridContainer>
 
-
+       
         <Table
           tableHeaderColor="primary"
-          tableHead={["İlan Türü", "Şehir", "Semt"]}
-          tableData={[
-            ["bılıkbılık", "Ankara", "Yenimahalle"],
-            ["gdgd", "Csfa", "df"],
-  
-          ]}
+          tableHead={["Mesafe", "Başlık", "Tür", "Açıklama", "Başlangıç", "Bitiş", "Şehir", "Semt", "Adres"]}
+          tableData={events}
         />
       </CardBody>
     </Card>
