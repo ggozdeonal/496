@@ -1,12 +1,12 @@
 import React from "react";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
-
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
 import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";
+import TableEvent from "components/Table/TableEvent.js";
 import Table from "components/Table/Table.js";
 import Muted from "components/Typography/Muted.js";
 import stylesd from "assets/jss/material-dashboard-react/dropdownStyle.js";
@@ -18,7 +18,6 @@ import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 
 import Poppers from "@material-ui/core/Popper";
 import Icon from "@material-ui/core/Icon";
-
 import Button from "components/CustomButtons/Button.js";
 import classNames from "classnames";
 
@@ -58,7 +57,7 @@ const useStylesd = makeStyles(stylesd);
 export default function Etkinlik_ilanlari_sayfasi() {
   const classes = useStyles();
   const classesd = useStylesd();
-
+  
   const [open, setOpen] = React.useState(null);
   const handleToggle = event => {
     if (open && open.contains(event.target)) {
@@ -85,14 +84,14 @@ export default function Etkinlik_ilanlari_sayfasi() {
      fetch(`https://bauphi-api.herokuapp.com/api/generic/get-close-events?type=supply`, params)
      .then((response) => response.json()) 
      .then((data) => {
-       var tmp = events;
+       var tmp = [];
        if(data.hasOwnProperty('events')){
        data.events.forEach(event => {
         tmp = [...tmp, [event.key, event.value.title, event.value.type, event.value.description, event.value.start_time, event.value.end_time, event.value.state, event.value.city, event.value.neighbourhood]]
        });
        setEvents(tmp);
      }
-    else{setEvents([[]])}});
+    else{setEvents([])}});
      });
     setOpen(null);
   };
@@ -110,20 +109,20 @@ export default function Etkinlik_ilanlari_sayfasi() {
      fetch(`https://bauphi-api.herokuapp.com/api/generic/get-close-events?type=meeting`, params)
      .then((response) => response.json()) 
      .then((data) => {
-       var tmp = events;
+       var tmp = [];
        if(data.hasOwnProperty('events')){
        data.events.forEach(event => {
         tmp = [...tmp, [event.key, event.value.title, event.value.type, event.value.description, event.value.start_time, event.value.end_time, event.value.state, event.value.city, event.value.neighbourhood]]
        });
        setEvents(tmp);
      }
-    else{setEvents([[]])}});
+    else{setEvents([])}});
      });
     setOpen(null);
   };
 
 
-  const [events, setEvents] = React.useState([[]]);
+  const [events, setEvents] = React.useState([]);
 
   React.useEffect(() => { 
       navigator.geolocation.getCurrentPosition(function(position) {
@@ -138,7 +137,7 @@ export default function Etkinlik_ilanlari_sayfasi() {
         fetch(`https://bauphi-api.herokuapp.com/api/generic/get-close-events`, params)
         .then((response) => response.json()) 
         .then((data) => {
-          var tmp = events;
+          var tmp = [];
           data.events.forEach(event => {
            tmp = [...tmp, [event.key, event.value.title, event.value.type, event.value.description, event.value.start_time, event.value.end_time, event.value.state, event.value.city, event.value.neighbourhood]]
           });
@@ -230,12 +229,14 @@ export default function Etkinlik_ilanlari_sayfasi() {
            
         </GridContainer>
 
-       
-        <Table
+        <TableEvent
           tableHeaderColor="primary"
           tableHead={["Mesafe", "Başlık", "Tür", "Açıklama", "Başlangıç", "Bitiş", "Şehir", "Semt", "Adres"]}
+
           tableData={events}
+
         />
+
       </CardBody>
     </Card>
   </GridItem>
