@@ -70,6 +70,7 @@ export default function Ilan_ekle_sayfasi() {
     const [eventSelectedValue, setEventSelectedValue] = React.useState(null);
     const [annSelectedValue, setAnnSelectedValue] = React.useState(null);
     const [addrAutoFilled, setAddrAutoFilled] = useState(false);
+    const [addrAutoFilledEvent, setAddrAutoFilledEvent] = useState(false);
     const [submitted, setSubmitted] = useState(false);
     const registering = useSelector(state => state.registration.registering);
     const dispatch = useDispatch();
@@ -118,6 +119,32 @@ export default function Ilan_ekle_sayfasi() {
         });
        });
     };
+
+    const otomatikAdresEvent = () => {
+        navigator.geolocation.getCurrentPosition(function(position) {
+          const latitude = position.coords.latitude;
+          const longitude = position.coords.longitude;
+          const params = {
+             method: 'POST',
+             headers: { 'Content-Type': 'application/json' },
+             body: JSON.stringify({ latitude, longitude })
+           };
+       
+         fetch(`https://bauphi-api.herokuapp.com/api/generic/auto-location`, params)
+         .then((response) => response.json()) 
+         .then((data) => {
+           setApi_response({country: data.api_response.country, state: data.api_response.state, city: data.api_response.city, neighbourhood: data.api_response.neighbourhood})
+           setAddrAutoFilledEvent(true)
+           addEvent_setState({
+              ...addEvent_state,
+              addEvent_country: data.api_response.country, 
+              addEvent_state: data.api_response.state, 
+              addEvent_city: data.api_response.city, 
+              addEvent_neighbourhood: data.api_response.neighbourhood
+          });
+          });
+         });
+      };
 
     const [addHome_state, addHome_setState] = React.useState({
         addHome_homeName: "",
@@ -591,6 +618,7 @@ export default function Ilan_ekle_sayfasi() {
                         </GridContainer>
                         <GridContainer>
                             <GridItem xs={12} sm={12} md={4}>
+                            {!addrAutoFilledEvent &&
                                 <CustomInput
                                     labelText="Ülke"
                                     id="addEvent_country"
@@ -603,9 +631,25 @@ export default function Ilan_ekle_sayfasi() {
                                         defaultValue: addEvent_state.addEvent_country,
                                         onChange: addEventHandleChange,
                                     }}
-                                />
+                                />}  {addrAutoFilledEvent &&
+                                    <CustomInput
+                                        labelText="Ülke"
+                                        id="addEvent_country"
+                                        formControlProps={{
+                                            fullWidth: true
+                                        }}
+                                        inputProps={{
+                                            disabled: (eventSelectedValue === "Donation/Money"),
+                                            name: "addEvent_country",
+                                            defaultValue: addEvent_state.addEvent_country,
+                                            onChange: addEventHandleChange,
+                                            value : country
+                                        }}
+                                    />}
                             </GridItem>
+                        
                             <GridItem xs={12} sm={12} md={4}>
+                            {!addrAutoFilledEvent &&
                                 <CustomInput
                                     labelText="Şehir"
                                     id="addEvent_city"
@@ -618,10 +662,25 @@ export default function Ilan_ekle_sayfasi() {
                                         defaultValue: addEvent_state.addEvent_city,
                                         onChange: addEventHandleChange,
                                     }}
-                                />
+                                />}{addrAutoFilledEvent &&
+                                    <CustomInput
+                                        labelText="Şehir"
+                                        id="addEvent_city"
+                                        formControlProps={{
+                                            fullWidth: true
+                                        }}
+                                        inputProps={{
+                                            disabled: (eventSelectedValue === "Donation/Money"),
+                                            name: "addEvent_city",
+                                            defaultValue: addEvent_state.addEvent_city,
+                                            onChange: addEventHandleChange,
+                                            value : city
+                                        }}
+                                    />}
                             </GridItem>
 
                             <GridItem xs={12} sm={12} md={4}>
+                            {!addrAutoFilledEvent &&
                                 <CustomInput
                                     labelText="Semt"
                                     id="addEvent_state"
@@ -634,11 +693,26 @@ export default function Ilan_ekle_sayfasi() {
                                         defaultValue: addEvent_state.addEvent_state,
                                         onChange: addEventHandleChange,
                                     }}
-                                />
+                                />} {addrAutoFilledEvent &&
+                                    <CustomInput
+                                        labelText="Semt"
+                                        id="addEvent_state"
+                                        formControlProps={{
+                                            fullWidth: true
+                                        }}
+                                        inputProps={{
+                                            disabled: (eventSelectedValue === "Donation/Money"),
+                                            name: "addEvent_state",
+                                            defaultValue: addEvent_state.addEvent_state,
+                                            onChange: addEventHandleChange,
+                                            value : state
+                                        }}
+                                    />}
                             </GridItem>
                         </GridContainer>
                         <GridContainer>
                             <GridItem xs={12} sm={12} md={8}>
+                            {!addrAutoFilledEvent &&
                                 <CustomInput
                                     labelText="Adres"
                                     id="addEvent_neighbourhood"
@@ -651,7 +725,21 @@ export default function Ilan_ekle_sayfasi() {
                                         defaultValue: addEvent_state.addEvent_neighbourhood,
                                         onChange: addEventHandleChange,
                                     }}
-                                />
+                                />}{addrAutoFilledEvent &&
+                                    <CustomInput
+                                        labelText="Adres"
+                                        id="addEvent_neighbourhood"
+                                        formControlProps={{
+                                            fullWidth: true
+                                        }}
+                                        inputProps={{
+                                            disabled: (eventSelectedValue === "Donation/Money"),
+                                            name: "addEvent_neighbourhood",
+                                            defaultValue: addEvent_state.addEvent_neighbourhood,
+                                            onChange: addEventHandleChange,
+                                            value:neighbourhood
+                                        }}
+                                    />}
                             </GridItem>
                             <GridItem xs={12} sm={12} md={2}>
                                 <CustomInput
@@ -738,6 +826,7 @@ export default function Ilan_ekle_sayfasi() {
                     </CardBody>
                     <CardFooter>
                         <Button color="success" onClick={handleAddEvent}>Etkinlik İlanı Ekle</Button>
+                        <Button color="success" onClick={otomatikAdresEvent}>Konum Adresimi Kullan</Button>
                     </CardFooter>
                 </Card>
             </GridItem>
