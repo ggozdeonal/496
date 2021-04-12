@@ -94,6 +94,81 @@ export default function ListingPage() {
         });
 
         }, []);
+        const filterErzakEvents = () => {
+          navigator.geolocation.getCurrentPosition(function(position) {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+            const params = {
+               method: 'POST',
+               headers: { 'Content-Type': 'application/json' },
+               body: JSON.stringify({ latitude, longitude })
+             };
+         
+           fetch(`https://bauphi-api.herokuapp.com/api/generic/get-close-events?type=supply`, params)
+           .then((response) => response.json()) 
+           .then((data) => {
+             var tmp = events;
+             if(data.hasOwnProperty('events')){
+             data.events.forEach(event => {
+              tmp = [...tmp, [event.key, event.value.title, event.value.type, event.value.description, event.value.start_time, event.value.end_time, event.value.state, event.value.city, event.value.neighbourhood]]
+             });
+             setEvents(tmp);
+           }
+          else{setEvents([[]])}});
+           });
+          setOpen(null);
+        };
+            
+  const filterBulusmaEvents = () => {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      const latitude = position.coords.latitude;
+      const longitude = position.coords.longitude;
+      const params = {
+         method: 'POST',
+         headers: { 'Content-Type': 'application/json' },
+         body: JSON.stringify({ latitude, longitude })
+       };
+   
+     fetch(`https://bauphi-api.herokuapp.com/api/generic/get-close-events?type=meeting`, params)
+     .then((response) => response.json()) 
+     .then((data) => {
+       var tmp = events;
+       if(data.hasOwnProperty('events')){
+       data.events.forEach(event => {
+        tmp = [...tmp, [event.key, event.value.title, event.value.type, event.value.description, event.value.start_time, event.value.end_time, event.value.state, event.value.city, event.value.neighbourhood]]
+       });
+       setEvents(tmp);
+     }
+    else{setEvents([[]])}});
+     });
+    setOpen(null);
+  };
+
+
+  const [events, setEvents] = React.useState([[]]);
+
+  React.useEffect(() => { 
+      navigator.geolocation.getCurrentPosition(function(position) {
+         const latitude = position.coords.latitude;
+         const longitude = position.coords.longitude;
+         const params = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ latitude, longitude })
+          };
+      
+        fetch(`https://bauphi-api.herokuapp.com/api/generic/get-close-events`, params)
+        .then((response) => response.json()) 
+        .then((data) => {
+          var tmp = events;
+          data.events.forEach(event => {
+           tmp = [...tmp, [event.key, event.value.title, event.value.type, event.value.description, event.value.start_time, event.value.end_time, event.value.state, event.value.city, event.value.neighbourhood]]
+          });
+          setEvents(tmp);
+         });
+        });
+
+        }, []);
 
   return (
     <div>
@@ -154,19 +229,13 @@ export default function ListingPage() {
                       <MenuList role="menu">
                     
                         <MenuItem
-                          onClick={handleClose}
+                          onClick={filterBulusmaEvents}
                           className={classesd.dropdownItem}
                         >
                           Etkinlik-Buluşma
                         </MenuItem>
                         <MenuItem
-                          onClick={handleClose}
-                          className={classesd.dropdownItem}
-                        >
-                          Etkinlik-Bağış
-                        </MenuItem>
-                        <MenuItem
-                          onClick={handleClose}
+                          onClick={filterErzakEvents}
                           className={classesd.dropdownItem}
                         >
                           Etkinlik-Erzak Yardımı
@@ -188,15 +257,13 @@ export default function ListingPage() {
         <Table
           tableHeaderColor="primary"
           tableHead={["Mesafe", "Başlık", "Tür", "Açıklama", "Başlangıç", "Bitiş", "Şehir", "Semt", "Adres"]}
-          tableData={[
-            ["bılıkbılık", "bılıkbılık", "bılıkbılık", "bılıkbılık", "bılıkbılık", "bılıkbılık", "bılıkbılık", "bılıkbılık", "bılıkbılık"],
-
-          ]}
+          tableData={events}
         />
       </CardBody>
     </Card>
   </GridItem>
   </GridContainer>
+  
 
 
 
