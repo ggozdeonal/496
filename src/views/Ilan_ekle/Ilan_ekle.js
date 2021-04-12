@@ -371,6 +371,7 @@ export default function Ilan_ekle_sayfasi() {
                     </CardBody>
                     <CardFooter>
                         <Button color="warning" onClick={handleAddHome}>Ev İlanı Ekle</Button>
+						<Button color="warning" Konum Adresimi Kullan</Button>
                     </CardFooter>
                 </Card>
             </GridItem>
