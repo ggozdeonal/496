@@ -1,6 +1,5 @@
 import React from "react";
 import classNames from "classnames";
-// @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 import MenuItem from "@material-ui/core/MenuItem";
 import MenuList from "@material-ui/core/MenuList";
@@ -9,20 +8,14 @@ import Paper from "@material-ui/core/Paper";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import Hidden from "@material-ui/core/Hidden";
 import Poppers from "@material-ui/core/Popper";
-import Divider from "@material-ui/core/Divider";
-// @material-ui/icons
 import Person from "@material-ui/icons/Person";
 import Notifications from "@material-ui/icons/Notifications";
-
-import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import CustomInput from "components/CustomInput/CustomInput.js";
 import Button from "components/CustomButtons/Button.js";
-
 import styles from "assets/jss/material-dashboard-react/components/headerLinksStyle.js";
 import { userActions } from '../../_actions';
 import { history } from '../../_helpers';
@@ -64,18 +57,11 @@ export default function AdminNavbarLinks() {
     dispatch(userActions.logout());
     history.push("/");
   };
-  const [open, setOpen] = React.useState(false);
   const [openG, setOpenG] = React.useState(false);
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
   const handleClickOpenG = () => {
     setOpenG(true);
   };
-
-
-
 
   return (
     <div>
@@ -120,7 +106,7 @@ export default function AdminNavbarLinks() {
               <Paper>
                 <ClickAwayListener onClickAway={handleCloseNotification}>
                   <MenuList role="menu">
-                    <MenuItem button divider
+                    <MenuItem
                       onClick={handleClickOpenG}
                       className={classes.dropdownItem}
                     ><div>
@@ -132,7 +118,12 @@ export default function AdminNavbarLinks() {
                         <DialogContentText>
                           Mesaj1 3 kişiyiz, 1 hafta konaklamak istiyoruz. İletişim: +90504789654
                         </DialogContentText>
+                        <DialogActions>
+                        <Button onClick={handleCloseNotification} color="danger">
+                          Sil
+                        </Button>
                       
+                      </DialogActions>
                         </DialogContent>
                       <DialogTitle id="form-dialog-title2">Gelen Mesajlarım</DialogTitle>
                       <DialogContent>
@@ -166,39 +157,7 @@ export default function AdminNavbarLinks() {
                   </div>
                       Mesajlarımı görüntüle
                     </MenuItem>
-                    <MenuItem
-                      onClick={handleClickOpen}
-                      className={classes.dropdownItem}
-                    ><div>
                    
-                    <Dialog open={open} onClose={handleCloseNotification} aria-labelledby="form-dialog-title">
-                      <DialogTitle id="form-dialog-title3">Mesaj Gönder</DialogTitle>
-                      <DialogContent>
-                        <DialogContentText>
-                          Kaç kişi olduğunuzdan, ne kadar süre kalmak istediğinizden ve iletişim bilgilerinizden bahsediniz.
-                        </DialogContentText>
-                        <TextField
-                          autoFocus
-                          margin="dense"
-                          id="desc"
-                          label="Mesaj:"
-                          
-                          fullWidth
-                        />
-                      </DialogContent>
-                      <DialogActions>
-                        <Button onClick={handleCloseNotification} color="primary">
-                          İptal
-                        </Button>
-                        <Button onClick={handleCloseNotification} color="primary">
-                          Gönder
-                        </Button>
-                        
-                      </DialogActions>
-                    </Dialog>
-                  </div>
-                      Mesaj gönder
-                    </MenuItem>
                    
                   </MenuList>
                 </ClickAwayListener>
