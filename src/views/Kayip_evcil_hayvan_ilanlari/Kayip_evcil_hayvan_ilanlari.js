@@ -6,16 +6,7 @@ import CardBody from "components/Card/CardBody.js";
 import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";
 import Table from "components/Table/Table.js";
-import Muted from "components/Typography/Muted.js";
 import stylesd from "assets/jss/material-dashboard-react/dropdownStyle.js";
-import MenuList from "@material-ui/core/MenuList";
-import MenuItem from "@material-ui/core/MenuItem";
-import Grow from "@material-ui/core/Grow";
-import Paper from "@material-ui/core/Paper";
-import ClickAwayListener from "@material-ui/core/ClickAwayListener";
-import Poppers from "@material-ui/core/Popper";
-import Button from "components/CustomButtons/Button.js";
-import classNames from "classnames";
 import Icon from "@material-ui/core/Icon";
 import background from "assets/img/dog.jpg";
 
@@ -109,7 +100,7 @@ export default function Kayip_evcil_hayvan_ilanlari_sayfasi() {
       <CardHeader color="warning">
         <h4 className={classes.cardTitleWhite}>Kayıp İlanlarını Listele<Icon>filter_alt</Icon></h4>
         <p className={classes.cardCategoryWhite}>
-          Filtrelenmek istenen şehri ve semti seçiniz. 
+        Kayıp insan/evcil hayvan ilanları listelenir.
         </p>
       </CardHeader>
       <CardBody>
@@ -117,7 +108,7 @@ export default function Kayip_evcil_hayvan_ilanlari_sayfasi() {
         <div style={{ backgroundImage: `url(${background})`,  backgroundRepeat: 'no-repeat', }}>
         <Table
           tableHeaderColor="primary"
-          tableHead={["İletişim", "Şehir", "Semt"]}
+          tableHead={["Fotoğraf", "Telefon", "Başlık", "Açıklama", "İnsan/Evcil Hayvan"]}
           tableData={[
             ["bılıkbılık", "Ankara", "Yenimahalle"],
             ["gdgd", "Csfa", "df"],
