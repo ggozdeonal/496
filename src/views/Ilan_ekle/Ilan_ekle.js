@@ -527,7 +527,7 @@ export default function Ilan_ekle_sayfasi() {
                                         fullWidth: true
                                     }}
                                     inputProps={{
-                                        disabled: (eventSelectedValue === "bagis"),
+                                        disabled: (eventSelectedValue === "Donation/Money"),
                                         name: "addEvent_country",
                                         defaultValue: addEvent_state.addEvent_country,
                                         onChange: addEventHandleChange,
@@ -542,7 +542,7 @@ export default function Ilan_ekle_sayfasi() {
                                         fullWidth: true
                                     }}
                                     inputProps={{
-                                        disabled: (eventSelectedValue === "bagis"),
+                                        disabled: (eventSelectedValue === "Donation/Money"),
                                         name: "addEvent_city",
                                         defaultValue: addEvent_state.addEvent_city,
                                         onChange: addEventHandleChange,
@@ -558,7 +558,7 @@ export default function Ilan_ekle_sayfasi() {
                                         fullWidth: true
                                     }}
                                     inputProps={{
-                                        disabled: (eventSelectedValue === "bagis"),
+                                        disabled: (eventSelectedValue === "Donation/Money"),
                                         name: "addEvent_state",
                                         defaultValue: addEvent_state.addEvent_state,
                                         onChange: addEventHandleChange,
@@ -575,7 +575,7 @@ export default function Ilan_ekle_sayfasi() {
                                         fullWidth: true
                                     }}
                                     inputProps={{
-                                        disabled: (eventSelectedValue === "bagis"),
+                                        disabled: (eventSelectedValue === "Donation/Money"),
                                         name: "addEvent_neighbourhood",
                                         defaultValue: addEvent_state.addEvent_neighbourhood,
                                         onChange: addEventHandleChange,
@@ -612,7 +612,7 @@ export default function Ilan_ekle_sayfasi() {
                                         fullWidth: true
                                     }}
                                     inputProps={{
-                                        disabled: (eventSelectedValue !== "bagis"),
+                                        disabled: (eventSelectedValue !== "Donation/Money"),
                                         name: "addEvent_currency",
                                         defaultValue: addEvent_state.addEvent_currency,
                                         onChange: addEventHandleChange,
@@ -627,7 +627,7 @@ export default function Ilan_ekle_sayfasi() {
                                         fullWidth: true
                                     }}
                                     inputProps={{
-                                        disabled: (eventSelectedValue !== "bagis"),
+                                        disabled: (eventSelectedValue !== "Donation/Money"),
                                         name: "addEvent_amount",
                                         defaultValue: addEvent_state.addEvent_amount,
                                         onChange: addEventHandleChange,
