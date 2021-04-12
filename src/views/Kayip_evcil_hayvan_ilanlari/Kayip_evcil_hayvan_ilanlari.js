@@ -41,58 +41,33 @@ const styles = {
 };
 
 const useStyles = makeStyles(styles);
-const useStylesd = makeStyles(stylesd);
 
 export default function Kayip_evcil_hayvan_ilanlari_sayfasi() {
   const classes = useStyles();
-  const classesd = useStylesd();
+  const [anns, setAnns] = React.useState([[]]);
 
-
-  const [open, setOpen] = React.useState(null);
-  const handleToggle = event => {
-    if (open && open.contains(event.target)) {
-      setOpen(null);
-    } else {
-      setOpen(event.currentTarget);
-    }
+  const params = {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json' },
+    
   };
 
-  const handleClose = () => {
-    setOpen(null);
-  };
-
-  
-  const [open1, setOpen1] = React.useState(null);
-  const handleToggle1 = event => {
-    if (open1 && open1.contains(event.target)) {
-      setOpen1(null);
-    } else {
-      setOpen1(event.currentTarget);
-    }
-  };
-
-  const handleClose1 = () => {
-    setOpen1(null);
-  };
-
-
-  const [open2, setOpen2] = React.useState(null);
-  const handleToggle2 = event => {
-    if (open2 && open2.contains(event.target)) {
-      setOpen2(null);
-    } else {
-      setOpen2(event.currentTarget);
-    }
-  };
-
-  const handleClose2 = () => {
-    setOpen2(null);
-  };
-
+    React.useEffect(() => { 
+        fetch(`https://bauphi-api.herokuapp.com/api/generic/all-announcements`, params)
+        .then((response) => response.json()) 
+        .then((data) => {
+          var tmp = anns;
+          if(data.hasOwnProperty('announcements')){
+            data.announcements.forEach(ann => {
+              tmp = [...tmp, [ann.phone, ann.title, ann.description, ann.isHuman ? "İnsan" : "Evcil Hayvan"]]
+            });
+            setAnns(tmp);
+            }
+          else{setAnns([[]])}
+          });
+  }, []);
   return (
     
-   
-      
     <GridContainer>
     
     <GridItem xs={12} sm={12} md={12}>
@@ -108,19 +83,8 @@ export default function Kayip_evcil_hayvan_ilanlari_sayfasi() {
         <div style={{ backgroundImage: `url(${background})`,  backgroundRepeat: 'no-repeat', }}>
         <Table
           tableHeaderColor="primary"
-          tableHead={["Fotoğraf", "Telefon", "Başlık", "Açıklama", "İnsan/Evcil Hayvan"]}
-          tableData={[
-            ["bılıkbılık", "Ankara", "Yenimahalle"],
-            ["gdgd", "Csfa", "df"],
-            ["gdgd", "Csfa", "df"],
-            ["gdgd", "Csfa", "df"],
-            ["gdgd", "Csfa", "df"],
-            ["gdgd", "Csfa", "df"],
-            ["gdgd", "Csfa", "df"],
-    
- 
-
-          ]}
+          tableHead={["Telefon", "Başlık", "Açıklama", "İnsan/Evcil Hayvan"]}
+          tableData={anns}
         /></div>
       </CardBody>
     </Card>
