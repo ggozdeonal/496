@@ -44,7 +44,7 @@ const useStyles = makeStyles(styles);
 
 export default function Kayip_evcil_hayvan_ilanlari_sayfasi() {
   const classes = useStyles();
-  const [anns, setAnns] = React.useState([[]]);
+  const [anns, setAnns] = React.useState([]);
 
   const params = {
     method: 'GET',
@@ -63,7 +63,7 @@ export default function Kayip_evcil_hayvan_ilanlari_sayfasi() {
             });
             setAnns(tmp);
             }
-          else{setAnns([[]])}
+          else{setAnns([])}
           });
   }, []);
   return (
