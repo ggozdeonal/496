@@ -69,7 +69,7 @@ export default function Ilan_ekle_sayfasi() {
     const [isEmergencyChecked, setEmergencyChecked] = React.useState([]);
     const [eventSelectedValue, setEventSelectedValue] = React.useState(null);
     const [annSelectedValue, setAnnSelectedValue] = React.useState(null);
-
+    const [addrAutoFilled, setAddrAutoFilled] = useState(false);
     const [submitted, setSubmitted] = useState(false);
     const registering = useSelector(state => state.registration.registering);
     const dispatch = useDispatch();
@@ -107,6 +107,14 @@ export default function Ilan_ekle_sayfasi() {
        .then((response) => response.json()) 
        .then((data) => {
          setApi_response({country: data.api_response.country, state: data.api_response.state, city: data.api_response.city, neighbourhood: data.api_response.neighbourhood})
+         setAddrAutoFilled(true)
+         addHome_setState({
+            ...addHome_state,
+            addHome_country: data.api_response.country, 
+            addHome_state: data.api_response.state, 
+            addHome_city: data.api_response.city, 
+            addHome_neighbourhood: data.api_response.neighbourhood
+        });
         });
        });
     };
@@ -246,6 +254,21 @@ export default function Ilan_ekle_sayfasi() {
                                 />
                             </GridItem>
                             <GridItem xs={12} sm={12} md={3}>
+                            {!addrAutoFilled &&
+                                <CustomInput
+                                    labelText="Ülke"
+                                    id="addHome_country"
+                                    formControlProps={{
+                                        fullWidth: true
+                                    }}
+                                    inputProps={{
+                                        name: "addHome_country",
+                                        defaultValue: addHome_state.addHome_country,
+                                        onChange: addHomeHandleChange
+                                    }}
+                                />
+                            }
+                          {addrAutoFilled &&
                                 <CustomInput
                                     labelText="Ülke"
                                     id="addHome_country"
@@ -259,8 +282,10 @@ export default function Ilan_ekle_sayfasi() {
 										value : country
                                     }}
                                 />
+                            }                              
                             </GridItem>
                             <GridItem xs={12} sm={12} md={3}>
+                               {!addrAutoFilled &&
                                 <CustomInput
                                     labelText="Şehir"
                                     id="addHome_city"
@@ -270,12 +295,41 @@ export default function Ilan_ekle_sayfasi() {
                                     inputProps={{
                                         name: "addHome_city",
                                         defaultValue: addHome_state.addHome_city,
-                                        onChange: addHomeHandleChange,
-										value : city
+                                        onChange: addHomeHandleChange
                                     }}
                                 />
+                                }
+                               {addrAutoFilled &&
+                                <CustomInput
+                                    labelText="Şehir"
+                                    id="addHome_city"
+                                    formControlProps={{
+                                        fullWidth: true
+                                    }}
+                                    inputProps={{
+                                        name: "addHome_city",
+                                        defaultValue: addHome_state.addHome_city,
+                                        value : city
+                                    }}
+                                />
+                                }
                             </GridItem>
                             <GridItem xs={12} sm={12} md={3}>
+                            {!addrAutoFilled &&
+                                <CustomInput
+                                    labelText="Semt"
+                                    id="addHome_state"
+                                    formControlProps={{
+                                        fullWidth: true
+                                    }}
+                                    inputProps={{
+                                        name: "addHome_state",
+                                        defaultValue: addHome_state.addHome_state,
+                                        onChange: addHomeHandleChange,
+								
+                                    }}
+                                />
+                            }   {addrAutoFilled &&
                                 <CustomInput
                                     labelText="Semt"
                                     id="addHome_state"
@@ -289,11 +343,28 @@ export default function Ilan_ekle_sayfasi() {
 										value : state
                                     }}
                                 />
+                            }
+
                             </GridItem>
 
                         </GridContainer>
                         <GridContainer>
                             <GridItem xs={12} sm={12} md={8}>
+                            {!addrAutoFilled &&
+                                <CustomInput
+                                    labelText="Adres"
+                                    id="addHome_neighbourhood"
+                                    formControlProps={{
+                                        fullWidth: true
+                                    }}
+                                    inputProps={{
+                                        name: "addHome_neighbourhood",
+                                        defaultValue: addHome_state.addHome_neighbourhood,
+                                        onChange: addHomeHandleChange,
+										
+                                    }}
+                                /> }   
+                                  {addrAutoFilled &&
                                 <CustomInput
                                     labelText="Adres"
                                     id="addHome_neighbourhood"
@@ -306,7 +377,7 @@ export default function Ilan_ekle_sayfasi() {
                                         onChange: addHomeHandleChange,
 										value : neighbourhood
                                     }}
-                                />
+                                /> } 
                             </GridItem>
                             <GridItem xs={12} sm={12} md={2}>
                                 <CustomInput
