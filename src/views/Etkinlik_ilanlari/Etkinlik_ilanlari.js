@@ -155,7 +155,7 @@ export default function Etkinlik_ilanlari_sayfasi() {
       <CardHeader color="warning">
         <h4 className={classes.cardTitleWhite}>Etkinlik İlanlarını Listele<Icon>filter_alt</Icon></h4>
         <p className={classes.cardCategoryWhite}>
-         İlan türünü, filtrelenmek istenen şehri ve semti seçiniz. 
+          Konum erişiminize izin verdiğiniz takdirde size yakın etkinlikler listelenir. 
         </p>
       </CardHeader>
       <CardBody>
