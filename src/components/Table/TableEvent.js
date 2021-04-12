@@ -12,13 +12,7 @@ import IconButton from "@material-ui/core/IconButton";
 import ThumbUpIcon from '@material-ui/icons/ThumbUp';
 import InfoIcon from '@material-ui/icons/Info';
 import ThumbDownIcon from '@material-ui/icons/ThumbDown';
-import TextField from '@material-ui/core/TextField';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Button from "components/CustomButtons/Button.js";
+import Tooltip from "@material-ui/core/Tooltip";
 
 const useStyles = makeStyles(styles);
 
@@ -56,15 +50,35 @@ export default function CustomTable(props) {
             return (
               <TableRow key={key} className={classes.tableBodyRow}>
               <TableCell className={classes.tableCell} key={0}>
-                <IconButton aria-label="ThumbUpIcon" className={classes.tableActionButton}>
+              <Tooltip
+        id="tooltip-katil"
+        title="Etkinliğe Katıl"
+        placement="top"
+        classes={{tooltip:classes.tooltip}}>
+     <IconButton aria-label="ThumbUpIcon" className={classes.tableActionButton}>
                   <ThumbUpIcon className={classes.tableActionButtonIcon + " " + classes.edit}/>
                 </IconButton>
-                <IconButton aria-label="ThumbDownIcon" className={classes.tableActionButton}>
+      </Tooltip>
+      <Tooltip
+        id="tooltip-ayril"
+        title="Etkinlikten Ayrıl"
+        placement="top"
+        classes={{tooltip:classes.tooltip}}>
+    <IconButton aria-label="ThumbDownIcon" className={classes.tableActionButton}>
                   <ThumbDownIcon className={classes.tableActionButtonIcon + " " + classes.edit}/>
                 </IconButton>
-                <IconButton aria-label="InfoIcon" className={classes.tableActionButton}>
+      </Tooltip>
+      <Tooltip
+        id="tooltip-bilgi"
+        title="Etkinlik Bilgileri"
+        placement="top"
+        classes={{tooltip:classes.tooltip}}>
+  <IconButton aria-label="InfoIcon" className={classes.tableActionButton}>
                   <InfoIcon className={classes.tableActionButtonIcon + " " + classes.edit}/>
                 </IconButton>
+      </Tooltip>
+                
+                
               </TableCell>
                 {prop.map((prop, key) => {
                   return (
