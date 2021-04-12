@@ -5,7 +5,7 @@ import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
 import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";
-import Table from "components/Table/Table.js";
+import TableHome from "components/Table/TableHome.js";
 import Icon from "@material-ui/core/Icon";
 import background from "assets/img/home.png";
 
@@ -46,7 +46,7 @@ const useStyles = makeStyles(styles);
 export default function Ev_ilanlari_sayfasi() {
   const classes = useStyles();
 
-  const [homes, setHomes] = React.useState([[]]);
+  const [homes, setHomes] = React.useState([]);
 
   React.useEffect(() => { 
       navigator.geolocation.getCurrentPosition(function(position) {
@@ -61,7 +61,7 @@ export default function Ev_ilanlari_sayfasi() {
         fetch(`https://bauphi-api.herokuapp.com/api/generic/get-close-homes`, params)
         .then((response) => response.json()) 
         .then((data) => {
-          var tmp = homes;
+          var tmp = [];
           data.homes.forEach(home => {
            tmp = [...tmp, [home.key, home.value.state, home.value.city, home.value.neighbourhood]]
           });
@@ -86,7 +86,7 @@ export default function Ev_ilanlari_sayfasi() {
     
 
         <div style={{ backgroundImage: `url(${background})`,  backgroundRepeat: 'no-repeat', }}>
-        <Table
+        <TableHome
           tableHeaderColor="primary"
           tableHead={["Mesafe", "Şehir", "Semt", "Adres"]}
           tableData={homes}
