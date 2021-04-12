@@ -170,6 +170,29 @@ export default function ListingPage() {
 
         }, []);
 
+        const [anns, setAnns] = React.useState([[]]);
+
+  const params = {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json' },
+    
+  };
+
+    React.useEffect(() => { 
+        fetch(`https://bauphi-api.herokuapp.com/api/generic/all-announcements`, params)
+        .then((response) => response.json()) 
+        .then((data) => {
+          var tmp = anns;
+          if(data.hasOwnProperty('announcements')){
+            data.announcements.forEach(ann => {
+              tmp = [...tmp, [ann.phone, ann.title, ann.description, ann.isHuman ? "İnsan" : "Evcil Hayvan"]]
+            });
+            setAnns(tmp);
+            }
+          else{setAnns([[]])}
+          });
+  }, []);
+
   return (
     <div>
     <GridContainer>
@@ -304,19 +327,8 @@ export default function ListingPage() {
         <div style={{ backgroundImage: `url(${backgrounddog})`,  backgroundRepeat: 'no-repeat', }}>
         <Table
           tableHeaderColor="primary"
-          tableHead={["Fotoğraf", "Telefon", "Başlık", "Açıklama", "İnsan/Evcil Hayvan"]}
-          tableData={[
-            ["-", "df", "df", "df", "df"],
-            ["-", "df", "df", "df", "df"],
-            ["-", "df", "df", "df", "df"],
-            ["-", "df", "df", "df", "df"],
-            ["-", "df", "df", "df", "df"],
-            ["-", "df", "df", "df", "df"],
-            ["-", "df", "df", "df", "df"]
-    
- 
-
-          ]}
+          tableHead={["Telefon", "Başlık", "Açıklama", "İnsan/Evcil Hayvan"]}
+          tableData={anns}
         /></div>
       </CardBody>
     </Card>
