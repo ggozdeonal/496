@@ -58,6 +58,9 @@ export default function AdminNavbarLinks() {
   const dispatch = useDispatch();
   const handleCloseProfile = () => {
     setOpenProfile(null);
+  };
+  const handleCloseProfileAndLogout = () => {
+    setOpenProfile(null);
     dispatch(userActions.logout());
     history.push("/");
   };
@@ -245,7 +248,7 @@ export default function AdminNavbarLinks() {
                   <MenuList role="menu">
           
                     <MenuItem
-                      onClick={handleCloseProfile}
+                      onClick={handleCloseProfileAndLogout}
                       className={classes.dropdownItem}
                     >
                       Çıkış Yap
