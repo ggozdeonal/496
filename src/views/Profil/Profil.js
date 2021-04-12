@@ -968,7 +968,7 @@ export default function Profil_sayfasi() {
                                             fullWidth: true
                                         }}
                                         inputProps={{
-                                            disabled: (eventSelectedValue === "bagis"),
+                                            disabled: (eventSelectedValue === "Donation/Money"),
                                             name: "country",
                                             value: userEventsTable.country,
                                             onChange: addEventHandleChange
@@ -983,7 +983,7 @@ export default function Profil_sayfasi() {
                                             fullWidth: true
                                         }}
                                         inputProps={{
-                                            disabled: (eventSelectedValue === "bagis"),
+                                            disabled: (eventSelectedValue === "Donation/Money"),
                                             name: "city",
                                             value: userEventsTable.city,
                                             onChange: addEventHandleChange
@@ -999,7 +999,7 @@ export default function Profil_sayfasi() {
                                             fullWidth: true
                                         }}
                                         inputProps={{
-                                            disabled: (eventSelectedValue === "bagis"),
+                                            disabled: (eventSelectedValue === "Donation/Money"),
                                             name: "state",
                                             value: userEventsTable.state,
                                             onChange: addEventHandleChange
@@ -1016,7 +1016,7 @@ export default function Profil_sayfasi() {
                                             fullWidth: true
                                         }}
                                         inputProps={{
-                                            disabled: (eventSelectedValue === "bagis"),
+                                            disabled: (eventSelectedValue === "Donation/Money"),
                                             name: "neighbourhood",
                                             value: userEventsTable.neighbourhood,
                                             onChange: addEventHandleChange
@@ -1059,7 +1059,7 @@ export default function Profil_sayfasi() {
                                             fullWidth: true
                                         }}
                                         inputProps={{
-                                            disabled: (eventSelectedValue !== "bagis"),
+                                            disabled: (eventSelectedValue !== "Donation/Money"),
                                             name: "currency",
                                             value: userEventsTable.currency,
                                             onChange: addEventHandleChange
@@ -1074,7 +1074,7 @@ export default function Profil_sayfasi() {
                                             fullWidth: true
                                         }}
                                         inputProps={{
-                                            disabled: (eventSelectedValue !== "bagis"),
+                                            disabled: (eventSelectedValue !== "Donation/Money"),
                                             name: "amount",
                                             value: userEventsTable.amount,
                                             onChange: addEventHandleChange
