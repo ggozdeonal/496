@@ -90,6 +90,24 @@ export default function Ilan_ekle_sayfasi() {
             })
         });
     }, []);
+	
+	const otomatikAdres = () => {
+      navigator.geolocation.getCurrentPosition(function(position) {
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
+        const params = {
+           method: 'POST',
+           headers: { 'Content-Type': 'application/json' },
+           body: JSON.stringify({ latitude, longitude })
+         };
+     
+       fetch(`https://bauphi-api.herokuapp.com/api/generic/auto-location`, params)
+       .then((response) => response.json()) 
+       .then((data) => {
+         setApi_response({country: data.api_response.country, state: data.api_response.state, city: data.api_response.city, neighbourhood: data.api_response.neighbourhood})
+        });
+       });
+    };
 
     const [addHome_state, addHome_setState] = React.useState({
         addHome_homeName: "",
@@ -236,6 +254,7 @@ export default function Ilan_ekle_sayfasi() {
                                         name: "addHome_country",
                                         defaultValue: addHome_state.addHome_country,
                                         onChange: addHomeHandleChange,
+										value : country
                                     }}
                                 />
                             </GridItem>
@@ -250,6 +269,7 @@ export default function Ilan_ekle_sayfasi() {
                                         name: "addHome_city",
                                         defaultValue: addHome_state.addHome_city,
                                         onChange: addHomeHandleChange,
+										value : city
                                     }}
                                 />
                             </GridItem>
@@ -264,6 +284,7 @@ export default function Ilan_ekle_sayfasi() {
                                         name: "addHome_state",
                                         defaultValue: addHome_state.addHome_state,
                                         onChange: addHomeHandleChange,
+										value : state
                                     }}
                                 />
                             </GridItem>
@@ -281,6 +302,7 @@ export default function Ilan_ekle_sayfasi() {
                                         name: "addHome_neighbourhood",
                                         defaultValue: addHome_state.addHome_neighbourhood,
                                         onChange: addHomeHandleChange,
+										value : neighbourhood
                                     }}
                                 />
                             </GridItem>
@@ -371,7 +393,7 @@ export default function Ilan_ekle_sayfasi() {
                     </CardBody>
                     <CardFooter>
                         <Button color="warning" onClick={handleAddHome}>Ev İlanı Ekle</Button>
-						<Button color="warning" Konum Adresimi Kullan</Button>
+						<Button color="warning" onClick={otomatikAdres}>Konum Adresimi Kullan</Button>
                     </CardFooter>
                 </Card>
             </GridItem>
