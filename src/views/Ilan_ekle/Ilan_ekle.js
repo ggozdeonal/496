@@ -74,6 +74,8 @@ export default function Ilan_ekle_sayfasi() {
     const registering = useSelector(state => state.registration.registering);
     const dispatch = useDispatch();
     const alert = useSelector(state => state.alert);
+	const [api_response, setApi_response] = React.useState({country: '', state: '', city: '', neighbourhood: ''});
+	const { country, state, city, neighbourhood} = api_response;
 
     React.useEffect(() => {
         navigator.geolocation.getCurrentPosition(function (position) {
