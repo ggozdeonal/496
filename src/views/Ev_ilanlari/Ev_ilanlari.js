@@ -8,6 +8,7 @@ import GridContainer from "components/Grid/GridContainer.js";
 import TableHome from "components/Table/TableHome.js";
 import Icon from "@material-ui/core/Icon";
 import background from "assets/img/home.png";
+import {useSelector} from "react-redux";
 
 const styles = {
   cardCategoryWhite: {
@@ -49,6 +50,8 @@ export default function Ev_ilanlari_sayfasi() {
   const [homes, setHomes] = React.useState([]);
   const [homesDetailed, setHomesDetailed] = React.useState([]);
 
+  const alert = useSelector(state => state.alert);
+
   React.useEffect(() => { 
       navigator.geolocation.getCurrentPosition(function(position) {
          const latitude = position.coords.latitude;
@@ -76,7 +79,11 @@ export default function Ev_ilanlari_sayfasi() {
   React.useEffect(()=> { console.log(homesDetailed) },[homesDetailed])
 
   return (
-  
+      <div>
+        {alert.message &&
+        <div className={`alert ${alert.type}`}>{alert.message}</div>
+        }
+
     <GridContainer>
     <GridItem xs={12} sm={12} md={12}>
     <Card>
@@ -100,6 +107,6 @@ export default function Ev_ilanlari_sayfasi() {
     </Card>
   </GridItem>
   </GridContainer>
- 
+      </div>
   );
 }
