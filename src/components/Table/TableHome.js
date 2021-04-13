@@ -17,6 +17,9 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from "components/CustomButtons/Button.js";
 import Tooltip from "@material-ui/core/Tooltip";
+import {userActions} from "../../_actions";
+import axios from "axios";
+import {useDispatch, useSelector} from "react-redux";
 
 const useStyles = makeStyles(styles);
 
@@ -28,6 +31,9 @@ export default function CustomTable(props) {
     const [messageText, setMessageText] = React.useState("");
     const [selectedHomeIndex, setselectedHomeIndex] = React.useState(-1);
 
+    const dispatch = useDispatch();
+    const alert = useSelector(state => state.alert);
+
     const handleCloseMessage = () => {
         setOpen(false);
 
@@ -37,15 +43,23 @@ export default function CustomTable(props) {
         setselectedHomeIndex(homeIndex);
         setOpen(true);
         console.log("----", homesDetailedCp[homeIndex]);
-    };
+    }
 
     function handleMessageText(evt) {
         setMessageText(evt.target.value);
     }
 
     function handleMessageSend() {
-        console.log(homesDetailedCp[selectedHomeIndex], messageText);
+        console.log(homesDetailedCp[selectedHomeIndex].value.home_id, homesDetailedCp[selectedHomeIndex].value.home_owner, messageText);
+
+        const reqBody = { "home": homesDetailedCp[selectedHomeIndex].value.home_id,
+                    "home_owner": homesDetailedCp[selectedHomeIndex].value.home_owner,
+                    "description": messageText };
+
+        dispatch(userActions.sendOffer(reqBody));
+        setOpen(false);
     }
+
 
     React.useEffect(() => {
         console.log(messageText)
