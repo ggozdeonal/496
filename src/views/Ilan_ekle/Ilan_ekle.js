@@ -82,6 +82,7 @@ export default function Ilan_ekle_sayfasi() {
         navigator.geolocation.getCurrentPosition(function (position) {
             // set home location
             addHome_setState({
+                ...addHome_state,
                 addHome_latitude: position.coords.latitude,
                 addHome_longitude: position.coords.longitude
             })
@@ -186,7 +187,7 @@ export default function Ilan_ekle_sayfasi() {
 
     function addHomeHandleChange(evt) {
         const value = evt.target.value;
-        console.log(value);
+        //console.log(value);
 
         addHome_setState({
             ...addHome_state,
@@ -196,7 +197,7 @@ export default function Ilan_ekle_sayfasi() {
 
     function addEventHandleChange(evt) {
         const value = evt.target.value;
-        console.log(value);
+        //console.log(value);
 
         addEvent_setState({
             ...addEvent_state,
@@ -206,7 +207,7 @@ export default function Ilan_ekle_sayfasi() {
 
     function addAnnouncementHandleChange(evt) {
         const value = evt.target.value;
-        console.log(value);
+        //console.log(value);
 
         addAnnouncement_setState({
             ...addAnnouncement_state,
@@ -217,7 +218,7 @@ export default function Ilan_ekle_sayfasi() {
     const handleAddHome = (e) => {
         e.preventDefault();
 
-        console.log(addHome_state);
+        //console.log(addHome_state);
         setSubmitted(true);
         // TODO: check other fields
         if (addHome_state.addHome_homeName) {
@@ -229,7 +230,7 @@ export default function Ilan_ekle_sayfasi() {
         e.preventDefault();
 
         addEvent_state.addEvent_type = eventSelectedValue;
-        console.log(addEvent_state);
+        //console.log(addEvent_state);
         setSubmitted(true);
         // TODO: check other fields
         if (addEvent_state.addEvent_title) {
@@ -241,7 +242,7 @@ export default function Ilan_ekle_sayfasi() {
         e.preventDefault();
 
         addAnnouncement_state.addAnnouncement_isHuman = (annSelectedValue === "insan");
-        console.log(addAnnouncement_state);
+        //console.log(addAnnouncement_state);
         setSubmitted(true);
         // TODO: check other fields
         if (addAnnouncement_state.addAnnouncement_title) {
@@ -402,7 +403,7 @@ export default function Ilan_ekle_sayfasi() {
                                         name: "addHome_neighbourhood",
                                         defaultValue: addHome_state.addHome_neighbourhood,
                                         onChange: addHomeHandleChange,
-										value : neighbourhood
+										placeholder : neighbourhood
                                     }}
                                 /> } 
                             </GridItem>
@@ -737,7 +738,7 @@ export default function Ilan_ekle_sayfasi() {
                                             name: "addEvent_neighbourhood",
                                             defaultValue: addEvent_state.addEvent_neighbourhood,
                                             onChange: addEventHandleChange,
-                                            value:neighbourhood
+                                            placeholder:neighbourhood
                                         }}
                                     />}
                             </GridItem>
