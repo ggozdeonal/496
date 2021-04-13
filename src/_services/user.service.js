@@ -16,6 +16,7 @@ export const userService = {
     updateAnnouncement,
     deleteAnnouncement,
     getAll,
+    oauthLogin
 };
 
 function login(email, password) {
@@ -34,6 +35,29 @@ function login(email, password) {
 
             return user;
         });
+}
+
+function oauthLogin(email, google_uid){
+    var bodyJson = {
+        "email": email,
+        "google_uid": google_uid
+    }
+
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(bodyJson)
+    }
+
+    return fetch(`https://bauphi-api.herokuapp.com/api/users/google-auth`, requestOptions)
+    .then(handleResponse)
+    .then(user => {
+        // store user details and jwt token in local storage to keep user logged in between page refreshes
+        localStorage.setItem('user', JSON.stringify(user));
+
+        return user;
+    });
+
 }
 
 function logout() {
