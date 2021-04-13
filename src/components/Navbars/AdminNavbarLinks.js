@@ -28,6 +28,7 @@ export default function AdminNavbarLinks() {
   const classes = useStyles();
   const [openNotification, setOpenNotification] = React.useState(null);
   const [openProfile, setOpenProfile] = React.useState(null);
+  const [openG, setOpenG] = React.useState(false);
   const handleClickNotification = event => {
     if (openNotification && openNotification.contains(event.target)) {
       setOpenNotification(null);
@@ -36,11 +37,12 @@ export default function AdminNavbarLinks() {
       setOpenNotification(event.currentTarget);
     
     }
+    setOpenG(false);
   };
   const handleCloseNotification = () => {
     setOpenNotification(null);
-
-  };
+    setOpenG(false);
+  }; 
   const handleClickProfile = event => {
     if (openProfile && openProfile.contains(event.target)) {
       setOpenProfile(null);
@@ -57,7 +59,7 @@ export default function AdminNavbarLinks() {
     dispatch(userActions.logout());
     history.push("/");
   };
-  const [openG, setOpenG] = React.useState(false);
+  
 
   const handleClickOpenG = () => {
     setOpenG(true);
