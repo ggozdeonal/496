@@ -24,6 +24,7 @@ import {userActions} from "../../_actions";
 
 
 import {useDispatch, useSelector} from "react-redux";
+import { Grid } from "@material-ui/core";
 
 
 const styles = {
@@ -494,7 +495,7 @@ export default function Ilan_ekle_sayfasi() {
                     </CardBody>
                     <CardFooter>
                         <Button color="warning" onClick={handleAddHome}>Ev İlanı Ekle</Button>
-						<Button color="warning" onClick={otomatikAdres}>Konum Adresimi Kullan</Button>
+						<Button color="warning" onClick={otomatikAdres}>Konumumu Kullan</Button>
                     </CardFooter>
                 </Card>
             </GridItem>
@@ -564,7 +565,10 @@ export default function Ilan_ekle_sayfasi() {
                             eventSelectedValue === "Meeting"?
                              
                             <div>
+                                
                                 <GridContainer>
+                            
+                            
                             <GridItem xs={12} sm={12} md={4}>
                                 <CustomInput
                                     id="addEvent_startTime"
@@ -774,6 +778,11 @@ export default function Ilan_ekle_sayfasi() {
                                 /></GridItem>
                         </GridContainer>
                         <GridContainer>
+                            <GridItem>
+                                <Button color="success" onClick={otomatikAdresEvent}>Konumumu Kullan</Button>
+                            </GridItem>
+                        </GridContainer>
+                        <GridContainer>
                             <GridItem xs={12} sm={12} md={4}>
                                 <CustomInput
                                     labelText="Acil"
@@ -799,6 +808,7 @@ export default function Ilan_ekle_sayfasi() {
                                     }}
                                 />
                             </GridItem>
+                            
 
 
                         </GridContainer>
@@ -1015,6 +1025,9 @@ export default function Ilan_ekle_sayfasi() {
                                     value: addEvent_state.addEvent_longitude
                                 }}
                                 /></GridItem>
+                                <GridItem>
+                                    <Button color="success" onClick={otomatikAdresEvent}>Konumumu Kullan</Button>
+                                </GridItem>
                         </GridContainer>
                     
                             </div>: 
@@ -1095,7 +1108,6 @@ export default function Ilan_ekle_sayfasi() {
                     </CardBody>
                     <CardFooter>
                         <Button color="success" onClick={handleAddEvent}>Etkinlik İlanı Ekle</Button>
-                        <Button color="success" onClick={otomatikAdresEvent}>Konum Adresimi Kullan</Button>
                     </CardFooter>
                 </Card>
             </GridItem>
