@@ -1,6 +1,6 @@
 import React from "react";
 import classNames from "classnames";
-import { makeStyles } from "@material-ui/core/styles";
+import {makeStyles} from "@material-ui/core/styles";
 import MenuItem from "@material-ui/core/MenuItem";
 import MenuList from "@material-ui/core/MenuList";
 import Grow from "@material-ui/core/Grow";
@@ -17,212 +17,252 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from "components/CustomButtons/Button.js";
 import styles from "assets/jss/material-dashboard-react/components/headerLinksStyle.js";
-import { userActions } from '../../_actions';
-import { history } from '../../_helpers';
+import {userActions} from '../../_actions';
+import {history} from '../../_helpers';
 import {useDispatch} from 'react-redux';
+import axios from "axios";
 
 
 const useStyles = makeStyles(styles);
 
 export default function AdminNavbarLinks() {
-  const classes = useStyles();
-  const [openNotification, setOpenNotification] = React.useState(null);
-  const [openProfile, setOpenProfile] = React.useState(null);
-  const [openG, setOpenG] = React.useState(false);
-  const handleClickNotification = event => {
-    if (openNotification && openNotification.contains(event.target)) {
-      setOpenNotification(null);
+    const classes = useStyles();
+    const [openNotification, setOpenNotification] = React.useState(null);
+    const [openProfile, setOpenProfile] = React.useState(null);
+    const [openG, setOpenG] = React.useState(false);
+    const [listOffersSent, setListOffersSent] = React.useState([]);
 
-    } else {
-      setOpenNotification(event.currentTarget);
-    
+
+    const handleClickNotification = event => {
+        if (openNotification && openNotification.contains(event.target)) {
+            setOpenNotification(null);
+
+        } else {
+            setOpenNotification(event.currentTarget);
+
+        }
+        setOpenG(false);
+    };
+    const handleCloseNotification = () => {
+        setOpenNotification(null);
+        setOpenG(false);
+    };
+    const handleClickProfile = event => {
+        if (openProfile && openProfile.contains(event.target)) {
+            setOpenProfile(null);
+        } else {
+            setOpenProfile(event.currentTarget);
+        }
+    };
+    const dispatch = useDispatch();
+    const handleCloseProfile = () => {
+        setOpenProfile(null);
+    };
+    const handleCloseProfileAndLogout = () => {
+        setOpenProfile(null);
+        dispatch(userActions.logout());
+        history.push("/");
+    };
+
+    const handleClickOpenG = () => {
+        setOpenG(true);
+    };
+
+    function handleDeleteOfferButtonClick(offerIndex)
+    {
+        console.log(listOffersSent[offerIndex]);
     }
-    setOpenG(false);
-  };
-  const handleCloseNotification = () => {
-    setOpenNotification(null);
-    setOpenG(false);
-  }; 
-  const handleClickProfile = event => {
-    if (openProfile && openProfile.contains(event.target)) {
-      setOpenProfile(null);
-    } else {
-      setOpenProfile(event.currentTarget);
-    }
-  };
-  const dispatch = useDispatch();
-  const handleCloseProfile = () => {
-    setOpenProfile(null);
-  };
-  const handleCloseProfileAndLogout = () => {
-    setOpenProfile(null);
-    dispatch(userActions.logout());
-    history.push("/");
-  };
-  
 
-  const handleClickOpenG = () => {
-    setOpenG(true);
-  };
+    React.useEffect(() => {
+        console.log("handleListOffersSent");
 
-  return (
-    <div>
-        <div className={classes.manager}>
-        <Button
-          color={window.innerWidth > 959 ? "transparent" : "white"}
-          justIcon={window.innerWidth > 959}
-          simple={!(window.innerWidth > 959)}
-          aria-owns={openNotification ? "notification-menu-list-grow" : null}
-          aria-haspopup="true"
-          onClick={handleClickNotification}
-          className={classes.buttonLink}
-        >
-          <Notifications className={classes.icons} />
-          
-          <Hidden mdUp implementation="css">
-            <p onClick={handleCloseNotification} className={classes.linkText}>
-              Notification
-            </p>
-          </Hidden>
-        </Button>
-        <Poppers
-          open={Boolean(openNotification)}
-          anchorEl={openNotification}
-          transition
-          disablePortal
-          className={
-            classNames({ [classes.popperClose]: !openNotification }) +
-            " " +
-            classes.popperNav
-          }
-        >
-          {({ TransitionProps, placement }) => (
-            <Grow
-              {...TransitionProps}
-              id="notification-menu-list-grow"
-              style={{
-                transformOrigin:
-                  placement === "bottom" ? "center top" : "center bottom"
-              }}
-            >
-              <Paper>
-                <ClickAwayListener onClickAway={handleCloseNotification}>
-                  <MenuList role="menu">
-                    <MenuItem
-                      onClick={handleClickOpenG}
-                      className={classes.dropdownItem}
-                    ><div>
-                   
-                    <Dialog open={openG} onClose={handleCloseNotification} aria-labelledby="form-dialog-title">
-                    
-                    <DialogTitle id="form-dialog-title">Gönderilen Mesajlarım</DialogTitle>
-                      <DialogContent>
-                        <DialogContentText>
-                          Mesaj1 3 kişiyiz, 1 hafta konaklamak istiyoruz. İletişim: +90504789654
-                        </DialogContentText>
-                        <DialogActions>
-                        <Button onClick={handleCloseNotification} color="danger">
-                          Sil
-                        </Button>
-                      
-                      </DialogActions>
-                        </DialogContent>
-                      <DialogTitle id="form-dialog-title2">Gelen Mesajlarım</DialogTitle>
-                      <DialogContent>
-                        <DialogContentText>
-                          Mesaj1 3 kişiyiz, 1 hafta konaklamak istiyoruz. İletişim: +90504789654
-                        </DialogContentText>
-                        <DialogActions>
-                        <Button onClick={handleCloseNotification} color="danger">
-                          Reddet
-                        </Button>
-                        <Button onClick={handleCloseNotification} color="success">
-                          Kabul Et
-                        </Button>
-                       
-                      </DialogActions>
-                      <DialogContentText>
-                          Mesaj2 2 kişiyiz, 1 hafta konaklamak istiyoruz. İletişim: +90504789654
-                        </DialogContentText>
-                        <DialogActions>
-                        <Button onClick={handleCloseNotification} color="danger">
-                          Reddet
-                        </Button>
-                        <Button onClick={handleCloseNotification} color="success">
-                          Kabul Et
-                        </Button>
-                       
-                      </DialogActions>
-                      </DialogContent>
-                      
-                    </Dialog>
-                  </div>
-                      Mesajlarımı görüntüle
-                    </MenuItem>
-                   
-                   
-                  </MenuList>
-                </ClickAwayListener>
-              </Paper>
-            </Grow>
-          )}
-        </Poppers>
-      </div>
-      <div className={classes.manager}>
-        
-        <Button
-          color={window.innerWidth > 959 ? "transparent" : "white"}
-          justIcon={window.innerWidth > 959}
-          simple={!(window.innerWidth > 959)}
-          aria-owns={openProfile ? "profile-menu-list-grow" : null}
-          aria-haspopup="true"
-          onClick={handleClickProfile}
-          className={classes.buttonLink}
-        >
-          <Person className={classes.icons} />
-          <Hidden mdUp implementation="css">
-            <p className={classes.linkText}>Profile</p>
-          </Hidden>
-        </Button>
-        <Poppers
-          open={Boolean(openProfile)}
-          anchorEl={openProfile}
-          transition
-          disablePortal
-          className={
-            classNames({ [classes.popperClose]: !openProfile }) +
-            " " +
-            classes.popperNav
-          }
-        >
-          {({ TransitionProps, placement }) => (
-            <Grow
-              {...TransitionProps}
-              id="profile-menu-list-grow"
-              style={{
-                transformOrigin:
-                  placement === "bottom" ? "center top" : "center bottom"
-              }}
-            >
-              <Paper>
-                <ClickAwayListener onClickAway={handleCloseProfile}>
-                  <MenuList role="menu">
-          
-                    <MenuItem
-                      onClick={handleCloseProfileAndLogout}
-                      className={classes.dropdownItem}
-                    >
-                      Çıkış Yap
-                    </MenuItem>
-                    
-                  </MenuList>
-                </ClickAwayListener>
-                
-              </Paper>
-            </Grow>
-          )}
-        </Poppers>
-      </div>
-    </div>
-  );
+        let user_id = JSON.parse(localStorage.getItem('user'));
+        user_id = user_id['user']['user_id'];
+
+        axios.get(`https://bauphi-api.herokuapp.com/api/users/${user_id}/interactions/sent-request-list`,
+            {headers: {'Content-Type': 'application/json', 'session_key': 'admin'}})
+            .then((response) => {
+                if (response.data.status === "SUCCESS") {
+                    setListOffersSent(response.data.requests);
+                }
+            })
+    }, []);
+
+    // React.useEffect(()=>{console.log("offers tx", listOffersSent)},[listOffersSent])
+
+    return (
+        <div>
+            <div className={classes.manager}>
+                <Button
+                    color={window.innerWidth > 959 ? "transparent" : "white"}
+                    justIcon={window.innerWidth > 959}
+                    simple={!(window.innerWidth > 959)}
+                    aria-owns={openNotification ? "notification-menu-list-grow" : null}
+                    aria-haspopup="true"
+                    onClick={handleClickNotification}
+                    className={classes.buttonLink}
+                >
+                    <Notifications className={classes.icons}/>
+
+                    <Hidden mdUp implementation="css">
+                        <p onClick={handleCloseNotification} className={classes.linkText}>
+                            Notification
+                        </p>
+                    </Hidden>
+                </Button>
+                <Poppers
+                    open={Boolean(openNotification)}
+                    anchorEl={openNotification}
+                    transition
+                    disablePortal
+                    className={
+                        classNames({[classes.popperClose]: !openNotification}) +
+                        " " +
+                        classes.popperNav
+                    }
+                >
+                    {({TransitionProps, placement}) => (
+                        <Grow
+                            {...TransitionProps}
+                            id="notification-menu-list-grow"
+                            style={{
+                                transformOrigin:
+                                    placement === "bottom" ? "center top" : "center bottom"
+                            }}
+                        >
+                            <Paper>
+                                <ClickAwayListener onClickAway={handleCloseNotification}>
+                                    <MenuList role="menu">
+                                        <MenuItem
+                                            onClick={handleClickOpenG}
+                                            className={classes.dropdownItem}
+                                        >
+                                            <div>
+
+                                                <Dialog open={openG} onClose={handleCloseNotification}
+                                                        aria-labelledby="form-dialog-title">
+
+                                                    <DialogTitle id="form-dialog-title">Gönderilen
+                                                        Mesajlarım</DialogTitle>
+
+                                                    <DialogContent>
+
+                                                    {
+                                                        listOffersSent.map((el, i) =>
+                                                            <div>
+                                                                <DialogContentText key={i}>
+                                                                    {el.description}
+                                                                </DialogContentText>
+                                                                <DialogActions>
+                                                                    <Button onClick={(el) => handleDeleteOfferButtonClick(i)}
+                                                                            color="danger">
+                                                                        Sil
+                                                                    </Button>
+                                                                </DialogActions>
+                                                            </div>
+                                                        )
+                                                    }
+                                                    </DialogContent>
+
+
+                                                    <DialogTitle id="form-dialog-title2">Gelen Mesajlarım</DialogTitle>
+                                                    <DialogContent>
+                                                        <DialogContentText>
+                                                            Mesaj1 3 kişiyiz, 1 hafta konaklamak istiyoruz. İletişim:
+                                                            +90504789654
+                                                        </DialogContentText>
+                                                        <DialogActions>
+                                                            <Button onClick={handleCloseNotification} color="danger">
+                                                                Reddet
+                                                            </Button>
+                                                            <Button onClick={handleCloseNotification} color="success">
+                                                                Kabul Et
+                                                            </Button>
+
+                                                        </DialogActions>
+                                                        <DialogContentText>
+                                                            Mesaj2 2 kişiyiz, 1 hafta konaklamak istiyoruz. İletişim:
+                                                            +90504789654
+                                                        </DialogContentText>
+                                                        <DialogActions>
+                                                            <Button onClick={handleCloseNotification} color="danger">
+                                                                Reddet
+                                                            </Button>
+                                                            <Button onClick={handleCloseNotification} color="success">
+                                                                Kabul Et
+                                                            </Button>
+
+                                                        </DialogActions>
+                                                    </DialogContent>
+
+                                                </Dialog>
+                                            </div>
+                                            Mesajlarımı görüntüle
+                                        </MenuItem>
+
+
+                                    </MenuList>
+                                </ClickAwayListener>
+                            </Paper>
+                        </Grow>
+                    )}
+                </Poppers>
+            </div>
+            <div className={classes.manager}>
+
+                <Button
+                    color={window.innerWidth > 959 ? "transparent" : "white"}
+                    justIcon={window.innerWidth > 959}
+                    simple={!(window.innerWidth > 959)}
+                    aria-owns={openProfile ? "profile-menu-list-grow" : null}
+                    aria-haspopup="true"
+                    onClick={handleClickProfile}
+                    className={classes.buttonLink}
+                >
+                    <Person className={classes.icons}/>
+                    <Hidden mdUp implementation="css">
+                        <p className={classes.linkText}>Profile</p>
+                    </Hidden>
+                </Button>
+                <Poppers
+                    open={Boolean(openProfile)}
+                    anchorEl={openProfile}
+                    transition
+                    disablePortal
+                    className={
+                        classNames({[classes.popperClose]: !openProfile}) +
+                        " " +
+                        classes.popperNav
+                    }
+                >
+                    {({TransitionProps, placement}) => (
+                        <Grow
+                            {...TransitionProps}
+                            id="profile-menu-list-grow"
+                            style={{
+                                transformOrigin:
+                                    placement === "bottom" ? "center top" : "center bottom"
+                            }}
+                        >
+                            <Paper>
+                                <ClickAwayListener onClickAway={handleCloseProfile}>
+                                    <MenuList role="menu">
+
+                                        <MenuItem
+                                            onClick={handleCloseProfileAndLogout}
+                                            className={classes.dropdownItem}
+                                        >
+                                            Çıkış Yap
+                                        </MenuItem>
+
+                                    </MenuList>
+                                </ClickAwayListener>
+
+                            </Paper>
+                        </Grow>
+                    )}
+                </Poppers>
+            </div>
+        </div>
+    );
 }
