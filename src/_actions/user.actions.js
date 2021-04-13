@@ -18,6 +18,7 @@ export const userActions = {
     addAnnouncement,
     updateAnnouncement,
     deleteAnnouncement,
+    sendOffer,
     getAll,
     oauthLogin
 };
@@ -339,6 +340,29 @@ function addAnnouncement(announcement) {
                     dispatch(success());
                     history.push('/ilan_ekle');
                     dispatch(alertActions.success('Announcement addition successful'));
+                },
+                error => {
+                    dispatch(failure(error.toString()));
+                    dispatch(alertActions.error(error.toString()));
+                }
+            );
+    };
+
+    function request(user) { return { type: userConstants.REGISTER_REQUEST, user } }
+    function success(user) { return { type: userConstants.REGISTER_SUCCESS, user } }
+    function failure(error) { return { type: userConstants.REGISTER_FAILURE, error } }
+}
+
+function sendOffer(offer) {
+    return dispatch => {
+        dispatch(request(offer));
+
+        userService.sendOffer(offer)
+            .then(
+                user => {
+                    dispatch(success());
+                    history.push('/ev_ilanlari');
+                    dispatch(alertActions.success('Home offer sent successful'));
                 },
                 error => {
                     dispatch(failure(error.toString()));

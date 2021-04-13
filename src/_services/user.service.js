@@ -15,6 +15,7 @@ export const userService = {
     addAnnouncement,
     updateAnnouncement,
     deleteAnnouncement,
+    sendOffer,
     getAll,
     oauthLogin
 };
@@ -336,6 +337,20 @@ function addAnnouncement(announcement) {
 
     console.log("addAnnouncement request:", requestOptions);
     return fetch(`https://bauphi-api.herokuapp.com/api/users/${user_id}/announcements`, requestOptions).then(handleResponse);
+}
+
+function sendOffer(offer) {
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'session_key': 'admin' },
+        body: JSON.stringify(offer)
+    };
+
+    let user_id = JSON.parse(localStorage.getItem('user'));
+    user_id = user_id['user']['user_id'];
+
+    console.log("add offer request:", requestOptions);
+    return fetch(`https://bauphi-api.herokuapp.com/api/users/${user_id}/interactions/send-request`, requestOptions).then(handleResponse);
 }
 
 function handleResponse(response) {
