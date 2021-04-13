@@ -36,7 +36,7 @@ export default function CustomTable(props) {
 
     const handleCloseMessage = () => {
         setOpen(false);
-
+        setMessageText("");
     };
 
     function handleHomeSelection(homeIndex) {
@@ -58,6 +58,7 @@ export default function CustomTable(props) {
 
         dispatch(userActions.sendOffer(reqBody));
         setOpen(false);
+        setMessageText("");
     }
 
 
