@@ -67,7 +67,7 @@ export default function Ilan_ekle_sayfasi() {
     const [availableForVictims, setAvailableForVictims] = React.useState([]);
     const [availableForAnimals, setAvailableForAnimals] = React.useState([]);
     const [isEmergencyChecked, setEmergencyChecked] = React.useState([]);
-    const [eventSelectedValue, setEventSelectedValue] = React.useState(null);
+    const [eventSelectedValue, setEventSelectedValue] = React.useState("Meeting");
     const [annSelectedValue, setAnnSelectedValue] = React.useState(null);
     const [addrAutoFilled, setAddrAutoFilled] = useState(false);
     const [addrAutoFilledEvent, setAddrAutoFilledEvent] = useState(false);
