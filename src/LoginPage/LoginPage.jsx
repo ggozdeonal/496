@@ -74,8 +74,9 @@ function LoginPage() {
         }
     }
 
-    function loginWithGoogle()
+    function loginWithGoogle(e)
     {
+
         firebase.auth()
         .signInWithPopup(provider)
         .then((result) => {
@@ -87,7 +88,13 @@ function LoginPage() {
             // The signed-in user info.
             var user = result.user;
 
-            console.log(token + "..." + user.email);
+            if(user.email && user.uid){
+                const { from } = location.state || { from: { pathname: "/" } };
+                dispatch(userActions.oauthLogin(user.email, user.uid, from));
+            }
+            
+
+            //console.log(user.toJSON());
             // ...
         }).catch((error) => {
             // Handle Errors here.
