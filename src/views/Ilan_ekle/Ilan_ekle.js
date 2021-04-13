@@ -508,6 +508,7 @@ export default function Ilan_ekle_sayfasi() {
                         </p>
                     </CardHeader>
                     <CardBody>
+                        
                         <GridContainer>
                             <GridItem xs={12} sm={12} md={4}>
                                 <CustomInput
@@ -555,10 +556,19 @@ export default function Ilan_ekle_sayfasi() {
                                     }}
                                 />
                             </GridItem>
+                            
+                            
+                        </GridContainer>
+
+                        {
+                            eventSelectedValue === "Meeting"?
+                             
+                            <div>
+                                <GridContainer>
                             <GridItem xs={12} sm={12} md={4}>
                                 <CustomInput
                                     id="addEvent_startTime"
-                                    labelText="Başlangıç Tarihi"
+                                    //labelText="Başlangıç Tarihi"
                                     formControlProps={{
                                         fullWidth: true
                                     }}
@@ -572,7 +582,7 @@ export default function Ilan_ekle_sayfasi() {
                             </GridItem>
                             <GridItem xs={12} sm={12} md={4}>
                                 <CustomInput
-                                    labelText="Bitiş Tarihi"
+                                    //labelText="Bitiş Tarihi"
                                     id="addEvent_endTime"
                                     formControlProps={{
                                         fullWidth: true
@@ -766,6 +776,286 @@ export default function Ilan_ekle_sayfasi() {
                         <GridContainer>
                             <GridItem xs={12} sm={12} md={4}>
                                 <CustomInput
+                                    labelText="Acil"
+                                    id="emergency"
+                                    formControlProps={{
+                                        fullWidth: true
+                                    }}
+                                    inputProps={{
+                                        disabled: true
+                                    }}
+                                />
+                                <Checkbox
+                                    tabIndex={-1}
+                                    id="addEvent_is_emergency"
+                                    onClick={() => setEmergencyChecked(addEvent_state.addEvent_is_emergency = !addEvent_state.addEvent_is_emergency)}
+                                    checkedIcon={<Check className={classesc.checkedIcon}/>}
+                                    icon={<Check className={classesc.uncheckedIcon}/>}
+                                    classes={{
+                                        isEmergencyChecked: classesc.checked
+                                    }}
+                                    inputProps={{
+                                        disabled: (eventSelectedValue !== "Meeting")
+                                    }}
+                                />
+                            </GridItem>
+
+
+                        </GridContainer>
+                            </div>: 
+                             
+                             eventSelectedValue === "Donation/Supply" ? 
+                             
+                             <div>
+                                <GridContainer>
+                            <GridItem xs={12} sm={12} md={4}>
+                                <CustomInput
+                                    id="addEvent_startTime"
+                                    //labelText="Başlangıç Tarihi"
+                                    formControlProps={{
+                                        fullWidth: true
+                                    }}
+                                    inputProps={{
+                                        type: "date",
+                                        name: "addEvent_startTime",
+                                        defaultValue: addEvent_state.addEvent_startTime,
+                                        onChange: addEventHandleChange,
+                                    }}
+                                />
+                            </GridItem>
+                            <GridItem xs={12} sm={12} md={4}>
+                                <CustomInput
+                                    //labelText="Bitiş Tarihi"
+                                    id="addEvent_endTime"
+                                    formControlProps={{
+                                        fullWidth: true
+                                    }}
+                                    inputProps={{
+                                        type: "date",
+                                        name: "addEvent_endTime",
+                                        defaultValue: addEvent_state.addEvent_endTime,
+                                        onChange: addEventHandleChange,
+                                    }}
+                                />
+                            </GridItem>
+                        </GridContainer>
+                        <GridContainer>
+                            <GridItem xs={12} sm={12} md={12}>
+                                <CustomInput
+                                    labelText="Etkinlik Başlığı"
+                                    id="addEvent_title"
+                                    formControlProps={{
+                                        fullWidth: true
+                                    }}
+                                    inputProps={{
+                                        name: "addEvent_title",
+                                        defaultValue: addEvent_state.addEvent_title,
+                                        onChange: addEventHandleChange,
+                                    }}
+                                />
+                            </GridItem>
+
+                            <GridItem xs={12} sm={12} md={12}>
+                                <CustomInput
+                                    labelText="Açıklama"
+                                    id="addEvent_description"
+                                    formControlProps={{
+                                        fullWidth: true
+                                    }}
+                                    inputProps={{
+                                        name: "addEvent_description",
+                                        defaultValue: addEvent_state.addEvent_description,
+                                        onChange: addEventHandleChange,
+                                    }}
+                                />
+                            </GridItem>
+                        </GridContainer>
+                        <GridContainer>
+                            <GridItem xs={12} sm={12} md={4}>
+                            {!addrAutoFilledEvent &&
+                                <CustomInput
+                                    labelText="Ülke"
+                                    id="addEvent_country"
+                                    formControlProps={{
+                                        fullWidth: true
+                                    }}
+                                    inputProps={{
+                                        disabled: (eventSelectedValue === "Donation/Money"),
+                                        name: "addEvent_country",
+                                        defaultValue: addEvent_state.addEvent_country,
+                                        onChange: addEventHandleChange,
+                                    }}
+                                />}  {addrAutoFilledEvent &&
+                                    <CustomInput
+                                        labelText="Ülke"
+                                        id="addEvent_country"
+                                        formControlProps={{
+                                            fullWidth: true
+                                        }}
+                                        inputProps={{
+                                            disabled: (eventSelectedValue === "Donation/Money"),
+                                            name: "addEvent_country",
+                                            defaultValue: addEvent_state.addEvent_country,
+                                            onChange: addEventHandleChange,
+                                            value : country
+                                        }}
+                                    />}
+                            </GridItem>
+                        
+                            <GridItem xs={12} sm={12} md={4}>
+                            {!addrAutoFilledEvent &&
+                                <CustomInput
+                                    labelText="Şehir"
+                                    id="addEvent_city"
+                                    formControlProps={{
+                                        fullWidth: true
+                                    }}
+                                    inputProps={{
+                                        disabled: (eventSelectedValue === "Donation/Money"),
+                                        name: "addEvent_city",
+                                        defaultValue: addEvent_state.addEvent_city,
+                                        onChange: addEventHandleChange,
+                                    }}
+                                />}{addrAutoFilledEvent &&
+                                    <CustomInput
+                                        labelText="Şehir"
+                                        id="addEvent_city"
+                                        formControlProps={{
+                                            fullWidth: true
+                                        }}
+                                        inputProps={{
+                                            disabled: (eventSelectedValue === "Donation/Money"),
+                                            name: "addEvent_city",
+                                            defaultValue: addEvent_state.addEvent_city,
+                                            onChange: addEventHandleChange,
+                                            value : city
+                                        }}
+                                    />}
+                            </GridItem>
+
+                            <GridItem xs={12} sm={12} md={4}>
+                            {!addrAutoFilledEvent &&
+                                <CustomInput
+                                    labelText="Semt"
+                                    id="addEvent_state"
+                                    formControlProps={{
+                                        fullWidth: true
+                                    }}
+                                    inputProps={{
+                                        disabled: (eventSelectedValue === "Donation/Money"),
+                                        name: "addEvent_state",
+                                        defaultValue: addEvent_state.addEvent_state,
+                                        onChange: addEventHandleChange,
+                                    }}
+                                />} {addrAutoFilledEvent &&
+                                    <CustomInput
+                                        labelText="Semt"
+                                        id="addEvent_state"
+                                        formControlProps={{
+                                            fullWidth: true
+                                        }}
+                                        inputProps={{
+                                            disabled: (eventSelectedValue === "Donation/Money"),
+                                            name: "addEvent_state",
+                                            defaultValue: addEvent_state.addEvent_state,
+                                            onChange: addEventHandleChange,
+                                            value : state
+                                        }}
+                                    />}
+                            </GridItem>
+                        </GridContainer>
+                        <GridContainer>
+                            <GridItem xs={12} sm={12} md={8}>
+                            {!addrAutoFilledEvent &&
+                                <CustomInput
+                                    labelText="Adres"
+                                    id="addEvent_neighbourhood"
+                                    formControlProps={{
+                                        fullWidth: true
+                                    }}
+                                    inputProps={{
+                                        disabled: (eventSelectedValue === "Donation/Money"),
+                                        name: "addEvent_neighbourhood",
+                                        defaultValue: addEvent_state.addEvent_neighbourhood,
+                                        onChange: addEventHandleChange,
+                                    }}
+                                />}{addrAutoFilledEvent &&
+                                    <CustomInput
+                                        labelText="Adres"
+                                        id="addEvent_neighbourhood"
+                                        formControlProps={{
+                                            fullWidth: true
+                                        }}
+                                        inputProps={{
+                                            disabled: (eventSelectedValue === "Donation/Money"),
+                                            name: "addEvent_neighbourhood",
+                                            defaultValue: addEvent_state.addEvent_neighbourhood,
+                                            onChange: addEventHandleChange,
+                                            placeholder:neighbourhood
+                                        }}
+                                    />}
+                            </GridItem>
+                            <GridItem xs={12} sm={12} md={2}>
+                                <CustomInput
+                                    labelText="Enlem"
+                                    id="enlem"
+                                    formControlProps={{
+                                        fullWidth: true
+                                    }} inputProps={{
+                                    value: addEvent_state.addEvent_latitude
+                                }}
+                                /></GridItem>
+                            <GridItem xs={12} sm={12} md={2}>
+                                <CustomInput
+                                    labelText="Boylam"
+                                    id="boylam"
+                                    formControlProps={{
+                                        fullWidth: true
+                                    }} inputProps={{
+                                    value: addEvent_state.addEvent_longitude
+                                }}
+                                /></GridItem>
+                        </GridContainer>
+                    
+                            </div>: 
+                             
+                             <div>
+
+                        <GridContainer>
+                            <GridItem xs={12} sm={12} md={12}>
+                                <CustomInput
+                                    labelText="Etkinlik Başlığı"
+                                    id="addEvent_title"
+                                    formControlProps={{
+                                        fullWidth: true
+                                    }}
+                                    inputProps={{
+                                        name: "addEvent_title",
+                                        defaultValue: addEvent_state.addEvent_title,
+                                        onChange: addEventHandleChange,
+                                    }}
+                                />
+                            </GridItem>
+
+                            <GridItem xs={12} sm={12} md={12}>
+                                <CustomInput
+                                    labelText="Açıklama"
+                                    id="addEvent_description"
+                                    formControlProps={{
+                                        fullWidth: true
+                                    }}
+                                    inputProps={{
+                                        name: "addEvent_description",
+                                        defaultValue: addEvent_state.addEvent_description,
+                                        onChange: addEventHandleChange,
+                                    }}
+                                />
+                            </GridItem>
+                        </GridContainer>
+                        
+                        <GridContainer>
+                            <GridItem xs={12} sm={12} md={4}>
+                                <CustomInput
                                     labelText="Para Birimi"
                                     id="addEvent_currency"
                                     formControlProps={{
@@ -794,34 +1084,12 @@ export default function Ilan_ekle_sayfasi() {
                                     }}
                                 />
                             </GridItem>
-                            <GridItem xs={12} sm={12} md={4}>
-                                <CustomInput
-                                    labelText="Acil"
-                                    id="emergency"
-                                    formControlProps={{
-                                        fullWidth: true
-                                    }}
-                                    inputProps={{
-                                        disabled: true
-                                    }}
-                                />
-                                <Checkbox
-                                    tabIndex={-1}
-                                    id="addEvent_is_emergency"
-                                    onClick={() => setEmergencyChecked(addEvent_state.addEvent_is_emergency = !addEvent_state.addEvent_is_emergency)}
-                                    checkedIcon={<Check className={classesc.checkedIcon}/>}
-                                    icon={<Check className={classesc.uncheckedIcon}/>}
-                                    classes={{
-                                        isEmergencyChecked: classesc.checked
-                                    }}
-                                    inputProps={{
-                                        disabled: (eventSelectedValue !== "Meeting")
-                                    }}
-                                />
-                            </GridItem>
-
+                            
 
                         </GridContainer>
+                            </div>
+                        }
+                        
 
 
                     </CardBody>
