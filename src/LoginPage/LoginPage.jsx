@@ -74,8 +74,9 @@ function LoginPage() {
         }
     }
 
-    function loginWithGoogle()
+    function loginWithGoogle(e)
     {
+
         firebase.auth()
         .signInWithPopup(provider)
         .then((result) => {
@@ -87,7 +88,13 @@ function LoginPage() {
             // The signed-in user info.
             var user = result.user;
 
-            console.log(token + "..." + user.email);
+            if(user.email && user.uid){
+                const { from } = location.state || { from: { pathname: "/" } };
+                dispatch(userActions.oauthLogin(user.email, user.uid, from));
+            }
+            
+
+            //console.log(user.toJSON());
             // ...
         }).catch((error) => {
             // Handle Errors here.
@@ -101,10 +108,7 @@ function LoginPage() {
         });
     }
 
-    function loginWithFacebook()
-    {
-        console.log("Facebook ile giris");
-    }
+   
 
     return (
 
@@ -129,7 +133,6 @@ function LoginPage() {
                     <p className="text-center">Hesabiniza giris yapin</p>
                     <p>
                         <button type="submit" className="btn btn-block btn-google" onClick={loginWithGoogle}><i className="fab fa-google"></i> Google ile Giris </button>
-                        <button type="submit" className="btn btn-block btn-facebook" onClick={loginWithFacebook}><i className="fab fa-facebook-f"></i> Facebook ile Giris </button>
                     </p>
                     <p className="divider-text">
                         <span className="bg-light"> VEYA </span>

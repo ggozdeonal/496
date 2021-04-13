@@ -90,6 +90,7 @@ export default function Ilan_ekle_sayfasi() {
 
             // set event location
             addEvent_setState({
+                ...addEvent_state,
                 addEvent_latitude: position.coords.latitude,
                 addEvent_longitude: position.coords.longitude
             })

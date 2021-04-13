@@ -235,21 +235,48 @@ function addHome(home) {
 }
 
 function addEvent(event) {
-    var event_json = {
-        "start_time": event.addEvent_startTime,
-        "end_time": event.addEvent_endTime,
-        "type": event.addEvent_type,
-        "title": event.addEvent_title,
-        "description": event.addEvent_description,
-        "is_emergency": event.addEvent_is_emergency,
-        "country": event.addEvent_country,
-        "state": event.addEvent_state,
-        "city": event.addEvent_city,
-        "neighbourhood": event.addEvent_neighbourhood,
-        "latitude": event.addEvent_latitude,
-        "longitude": event.addEvent_longitude,
-        "currency": event.addEvent_currency,
-        "amount": event.addEvent_amount
+    var event_json = {}
+    
+    if(event.addEvent_type == "Donation/Money"){
+        event_json = {
+    
+            "type": event.addEvent_type,
+            "title": event.addEvent_title,
+            "description": event.addEvent_description,
+            "currency": event.addEvent_currency,
+            "amount": event.addEvent_amount
+        }
+    }
+    else if(event.addEvent_type == "Donation/Supply"){      
+        event_json = {
+            "start_time": event.addEvent_startTime,
+            "end_time": event.addEvent_endTime,
+            "type": event.addEvent_type,
+            "title": event.addEvent_title,
+            "description": event.addEvent_description,
+            "country": event.addEvent_country,
+            "state": event.addEvent_state,
+            "city": event.addEvent_city,
+            "neighbourhood": event.addEvent_neighbourhood,
+            "latitude": event.addEvent_latitude,
+            "longitude": event.addEvent_longitude
+        }
+    }
+    else{
+        event_json = {
+            "start_time": event.addEvent_startTime,
+            "end_time": event.addEvent_endTime,
+            "type": event.addEvent_type,
+            "title": event.addEvent_title,
+            "description": event.addEvent_description,
+            "is_emergency": event.addEvent_is_emergency,
+            "country": event.addEvent_country,
+            "state": event.addEvent_state,
+            "city": event.addEvent_city,
+            "neighbourhood": event.addEvent_neighbourhood,
+            "latitude": event.addEvent_latitude,
+            "longitude": event.addEvent_longitude
+        }
     }
 
     const requestOptions = {
