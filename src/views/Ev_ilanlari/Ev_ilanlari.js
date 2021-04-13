@@ -47,6 +47,7 @@ export default function Ev_ilanlari_sayfasi() {
   const classes = useStyles();
 
   const [homes, setHomes] = React.useState([]);
+  const [homesDetailed, setHomesDetailed] = React.useState([]);
 
   React.useEffect(() => { 
       navigator.geolocation.getCurrentPosition(function(position) {
@@ -66,11 +67,14 @@ export default function Ev_ilanlari_sayfasi() {
            tmp = [...tmp, [home.key, home.value.state, home.value.city, home.value.neighbourhood]]
           });
           setHomes(tmp);
+          setHomesDetailed(data.homes);
          });
         });
 
         }, []);
-  
+
+  React.useEffect(()=> { console.log(homesDetailed) },[homesDetailed])
+
   return (
   
     <GridContainer>
@@ -90,6 +94,7 @@ export default function Ev_ilanlari_sayfasi() {
           tableHeaderColor="primary"
           tableHead={["Mesafe", "Şehir", "Semt", "Adres"]}
           tableData={homes}
+          homesDetailedCp={homesDetailed}
           /></div>
       </CardBody>
     </Card>

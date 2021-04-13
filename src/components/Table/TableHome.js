@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/core/styles";
+import {makeStyles} from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
@@ -21,119 +21,141 @@ import Tooltip from "@material-ui/core/Tooltip";
 const useStyles = makeStyles(styles);
 
 
-
 export default function CustomTable(props) {
-  const classes = useStyles();
-  const { tableHead, tableData, tableHeaderColor } = props;
-  const [open, setOpen] = React.useState(false);
+    const classes = useStyles();
+    const {tableHead, tableData, tableHeaderColor, homesDetailedCp} = props;
+    const [open, setOpen] = React.useState(false);
+    const [messageText, setMessageText] = React.useState("");
+    const [selectedHomeIndex, setselectedHomeIndex] = React.useState(-1);
 
-  const handleCloseMessage = () => {
-    setOpen(false);
+    const handleCloseMessage = () => {
+        setOpen(false);
 
-  };
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+    };
 
+    function handleHomeSelection(homeIndex) {
+        setselectedHomeIndex(homeIndex);
+        setOpen(true);
+        console.log("----", homesDetailedCp[homeIndex]);
+    };
 
-  return (
-    <div className={classes.tableResponsive}>
-      
-      <Dialog  open={open} onClose={handleCloseMessage} aria-labelledby="form-dialog-title">
-          <DialogTitle id="form-dialog-title3">Mesaj Gönder</DialogTitle>
-          <DialogContent>
-            <DialogContentText>
-              Kaç kişi olduğunuzdan, ne kadar süre kalmak istediğinizden ve iletişim bilgilerinizden bahsediniz.
-            </DialogContentText>
-            <TextField
-              autoFocus
-              margin="dense"
-              id="desc"
-              label="Mesaj:"
-              
-              fullWidth
-            />
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleCloseMessage} color="primary">
-              İptal
-            </Button>
-            <Button onClick={handleCloseMessage} color="primary">
-              Gönder
-            </Button>
-            
-          </DialogActions>
-      </Dialog>    
+    function handleMessageText(evt) {
+        setMessageText(evt.target.value);
+    }
 
-      <Table className={classes.table}>
-        {tableHead !== undefined ? (
-          <TableHead className={classes[tableHeaderColor + "TableHeader"]}>
-            <TableRow className={classes.tableHeadRow}>
-            <TableCell
-                    className={classes.tableCell + " " + classes.tableHeadCell}
-                    key={0}
-                  >
-                    Mesaj
-            </TableCell>
-              {tableHead.map((prop, key) => {console.log(key+1);
-                return (
-                  <TableCell
-                    className={classes.tableCell + " " + classes.tableHeadCell}
-                    key={key+1}
-                  >
-                    {prop}
-                  </TableCell>
-                );
-              })}
-            </TableRow>
-          </TableHead>
-        ) : null}
-        <TableBody>
-          {tableData.map((prop, key) => {
-            return (
-              <TableRow key={key} className={classes.tableBodyRow}>
-              <TableCell className={classes.tableCell} key={0}>
-              <Tooltip
-        id="tooltip-me"
-        title="Mesaj Gönder"
-        placement="top"
-        classes={{tooltip:classes.tooltip}}>
-     <IconButton aria-label="MailOutlineIcon" onClick={handleClickOpen} className={classes.tableActionButton}>
-                  <MailOutlineIcon className={classes.tableActionButtonIcon + " " + classes.edit}/>
-                  
-                </IconButton>
-      </Tooltip>
-              </TableCell>
-                {prop.map((prop, key) => {
-                  return (
-                    <TableCell className={classes.tableCell} key={key+1}>
-                      {prop}
-                    </TableCell>
-                  );
-                })}
-              </TableRow>
-            );
-          })}
-        </TableBody>
-      </Table>
-    </div>
-  );
+    function handleMessageSend() {
+        console.log(homesDetailedCp[selectedHomeIndex], messageText);
+    }
+
+    React.useEffect(() => {
+        console.log(messageText)
+    }, [messageText])
+
+    return (
+        <div className={classes.tableResponsive}>
+
+            <Dialog open={open} onClose={handleCloseMessage} aria-labelledby="form-dialog-title">
+                <DialogTitle id="form-dialog-title3">Mesaj Gönder</DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                        Kaç kişi olduğunuzdan, ne kadar süre kalmak istediğinizden ve iletişim bilgilerinizden
+                        bahsediniz.
+                    </DialogContentText>
+                    <TextField
+                        autoFocus
+                        margin="dense"
+                        id="messageText"
+                        name="messageText"
+                        label="Mesaj:"
+                        fullWidth
+                        value={messageText}
+                        onChange={handleMessageText}
+                    />
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleCloseMessage} color="primary">
+                        İptal
+                    </Button>
+                    <Button onClick={handleMessageSend} color="primary">
+                        Gönder
+                    </Button>
+
+                </DialogActions>
+            </Dialog>
+
+            <Table className={classes.table}>
+                {tableHead !== undefined ? (
+                    <TableHead className={classes[tableHeaderColor + "TableHeader"]}>
+                        <TableRow className={classes.tableHeadRow}>
+                            <TableCell
+                                className={classes.tableCell + " " + classes.tableHeadCell}
+                                key={0}
+                            >
+                                Mesaj
+                            </TableCell>
+                            {tableHead.map((prop, key) => {
+                                console.log(key + 1);
+                                return (
+                                    <TableCell
+                                        className={classes.tableCell + " " + classes.tableHeadCell}
+                                        key={key + 1}
+                                    >
+                                        {prop}
+                                    </TableCell>
+                                );
+                            })}
+                        </TableRow>
+                    </TableHead>
+                ) : null}
+                <TableBody>
+                    {tableData.map((prop, key) => {
+                        return (
+                            <TableRow key={key} className={classes.tableBodyRow}>
+                                <TableCell className={classes.tableCell} key={0}>
+                                    <Tooltip
+                                        id="tooltip-me"
+                                        title="Mesaj Gönder"
+                                        placement="top"
+                                        classes={{tooltip: classes.tooltip}}>
+                                        <IconButton aria-label="MailOutlineIcon"
+                                                    onClick={(tableData) => handleHomeSelection(key)}
+                                                    className={classes.tableActionButton}>
+                                            <MailOutlineIcon
+                                                className={classes.tableActionButtonIcon + " " + classes.edit}/>
+
+                                        </IconButton>
+                                    </Tooltip>
+                                </TableCell>
+                                {prop.map((prop, key) => {
+                                    return (
+                                        <TableCell className={classes.tableCell} key={key + 1}>
+                                            {prop}
+                                        </TableCell>
+                                    );
+                                })}
+                            </TableRow>
+                        );
+                    })}
+                </TableBody>
+            </Table>
+        </div>
+    );
 }
 
 CustomTable.defaultProps = {
-  tableHeaderColor: "gray"
+    tableHeaderColor: "gray"
 };
 
 CustomTable.propTypes = {
-  tableHeaderColor: PropTypes.oneOf([
-    "warning",
-    "primary",
-    "danger",
-    "success",
-    "info",
-    "rose",
-    "gray"
-  ]),
-  tableHead: PropTypes.arrayOf(PropTypes.string),
-  tableData: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string))
+    tableHeaderColor: PropTypes.oneOf([
+        "warning",
+        "primary",
+        "danger",
+        "success",
+        "info",
+        "rose",
+        "gray"
+    ]),
+    tableHead: PropTypes.arrayOf(PropTypes.string),
+    tableData: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string))
 };
