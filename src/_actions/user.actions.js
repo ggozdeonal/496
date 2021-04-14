@@ -361,6 +361,7 @@ function sendOffer(offer) {
             .then(
                 user => {
                     dispatch(success());
+                    history.push('/');
                     history.push('/ev_ilanlari');
                     dispatch(alertActions.success('Home offer sent successful'));
                 },
