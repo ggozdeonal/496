@@ -32,7 +32,6 @@ export default function AdminNavbarLinks() {
     const [openG, setOpenG] = React.useState(false);
     const [listOffersSent, setListOffersSent] = React.useState([]);
     const [listOffersReceived, setListOffersReceived] = React.useState([]);
-    const [buttonColor, setButtonColor] = React.useState("success");
 
 
     const handleClickNotification = event => {
@@ -84,6 +83,8 @@ export default function AdminNavbarLinks() {
                 if (response.data.status === "SUCCESS") {
                     let filteredArray = listOffersSent.filter(item => item !== listOffersSent[offerIndex])
                     setListOffersSent(filteredArray);
+                    loadOffersSent();
+                    loadOffersReceived();
                 }
                 console.log(response);
             })
@@ -93,20 +94,18 @@ export default function AdminNavbarLinks() {
     {
         console.log("handleAcceptOffer", listOffersReceived[offerIndex]);
 
-        let home_id = listOffersReceived[offerIndex].home
-        let victim_id = listOffersReceived[offerIndex].victim
         let user_id = JSON.parse(localStorage.getItem('user'));
         user_id = user_id['user']['user_id'];
+        var postData = { home: listOffersReceived[offerIndex].home, victim: listOffersReceived[offerIndex].victim };
+        let axiosConfig = { headers: {'Content-Type': 'application/json', 'session_key': 'admin' } };
 
         axios.patch(`https://bauphi-api.herokuapp.com/api/users/${user_id}/interactions/accept-request`,
-            {headers: {'Content-Type': 'application/json', 'session_key': 'admin'},
-            body: {"home": home_id, "victim": victim_id}})
-
+            postData, axiosConfig)
             .then((response) => {
                 if (response.data.status === "SUCCESS") {
-                    setButtonColor("primary");
-                    // let filteredArray = listOffersSent.filter(item => item !== listOffersSent[offerIndex])
-                    // setListOffersSent(filteredArray);
+                    loadOffersReceived();
+                    // history.push("/");
+                    // history.push("/ev_ilanlari");
                 }
                 console.log(response);
             })
@@ -114,21 +113,53 @@ export default function AdminNavbarLinks() {
 
     function handleRejectOffer(offerIndex)
     {
-        console.log("handleRejectOffer", offerIndex);
-        // console.log(listOffersSent[offerIndex]);
-        //
-        // let home_id = listOffersSent[offerIndex].home
-        // let user_id = JSON.parse(localStorage.getItem('user'));
-        // user_id = user_id['user']['user_id'];
-        //
-        // axios.delete(`https://bauphi-api.herokuapp.com/api/users/${user_id}/interactions/delete-request/${home_id}`,
-        //     {headers: {'Content-Type': 'application/json', 'session_key': 'admin'}})
-        //     .then((response) => {
-        //         if (response.data.status === "SUCCESS") {
-        //             let filteredArray = listOffersSent.filter(item => item !== listOffersSent[offerIndex])
-        //             setListOffersSent(filteredArray);
-        //         }
-        //     })
+        console.log("handleRejectOffer", listOffersReceived[offerIndex]);
+
+        let user_id = JSON.parse(localStorage.getItem('user'));
+        user_id = user_id['user']['user_id'];
+        var postData = { home: listOffersReceived[offerIndex].home, victim: listOffersReceived[offerIndex].victim };
+        let axiosConfig = { headers: {'Content-Type': 'application/json', 'session_key': 'admin' } };
+
+        axios.patch(`https://bauphi-api.herokuapp.com/api/users/${user_id}/interactions/reject-request`,
+            postData, axiosConfig)
+            .then((response) => {
+                if (response.data.status === "SUCCESS") {
+                    loadOffersReceived();
+                    // history.push("/");
+                    // history.push("/ev_ilanlari");
+                    // let filteredArray = listOffersSent.filter(item => item !== listOffersSent[offerIndex])
+                    // setListOffersSent(filteredArray);
+                }
+                console.log(response);
+            })
+    }
+
+    function loadOffersSent()
+    {
+        let user_id = JSON.parse(localStorage.getItem('user'));
+        user_id = user_id['user']['user_id'];
+
+        axios.get(`https://bauphi-api.herokuapp.com/api/users/${user_id}/interactions/sent-request-list`,
+            {headers: {'Content-Type': 'application/json', 'session_key': 'admin'}})
+            .then((response) => {
+                if (response.data.status === "SUCCESS") {
+                    setListOffersSent(response.data.requests);
+                }
+            })
+    }
+
+    function loadOffersReceived()
+    {
+        let user_id = JSON.parse(localStorage.getItem('user'));
+        user_id = user_id['user']['user_id'];
+
+        axios.get(`https://bauphi-api.herokuapp.com/api/users/${user_id}/interactions/received-request-list`,
+            {headers: {'Content-Type': 'application/json', 'session_key': 'admin'}})
+            .then((response) => {
+                if (response.data.status === "SUCCESS") {
+                    setListOffersReceived(response.data.requests);
+                }
+            })
     }
 
     React.useEffect(() => {
@@ -248,12 +279,18 @@ export default function AdminNavbarLinks() {
                                                                         {el.description}
                                                                     </DialogContentText>
                                                                     <DialogActions>
-                                                                        <Button onClick={(el) => handleRejectOffer(i)} color="danger">
-                                                                            Reddet
+                                                                        {listOffersReceived[i].results != "Accepted" &&
+                                                                        <Button onClick={(el) => handleRejectOffer(i)}
+                                                                                color="danger">
+                                                                            {listOffersReceived[i].results == "Rejected" ? "Reddedildi" : "Reddet"}
                                                                         </Button>
-                                                                        <Button onClick={(el) => handleAcceptOffer(i)} color={buttonColor}>
-                                                                            Kabul Et
+                                                                        }
+                                                                        {listOffersReceived[i].results != "Rejected" &&
+                                                                        <Button onClick={(el) => handleAcceptOffer(i)}
+                                                                                color={listOffersReceived[i].results == "Accepted" ? "info" : "success"}>
+                                                                            {listOffersReceived[i].results == "Accepted" ? "Kabul Edildi" : "Kabul Et"}
                                                                         </Button>
+                                                                        }
                                                                     </DialogActions>
                                                                 </div>
                                                             )
