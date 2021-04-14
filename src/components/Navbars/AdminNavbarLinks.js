@@ -71,6 +71,19 @@ export default function AdminNavbarLinks() {
     function handleDeleteOfferButtonClick(offerIndex)
     {
         console.log(listOffersSent[offerIndex]);
+
+        let home_id = listOffersSent[offerIndex].home
+        let user_id = JSON.parse(localStorage.getItem('user'));
+        user_id = user_id['user']['user_id'];
+
+        axios.delete(`https://bauphi-api.herokuapp.com/api/users/${user_id}/interactions/delete-request/${home_id}`,
+            {headers: {'Content-Type': 'application/json', 'session_key': 'admin'}})
+            .then((response) => {
+                if (response.data.status === "SUCCESS") {
+                    let filteredArray = listOffersSent.filter(item => item !== listOffersSent[offerIndex])
+                    setListOffersSent(filteredArray);
+                }
+            })
     }
 
     React.useEffect(() => {
