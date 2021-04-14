@@ -31,6 +31,8 @@ export default function AdminNavbarLinks() {
     const [openProfile, setOpenProfile] = React.useState(null);
     const [openG, setOpenG] = React.useState(false);
     const [listOffersSent, setListOffersSent] = React.useState([]);
+    const [listOffersReceived, setListOffersReceived] = React.useState([]);
+    const [buttonColor, setButtonColor] = React.useState("success");
 
 
     const handleClickNotification = event => {
@@ -83,7 +85,50 @@ export default function AdminNavbarLinks() {
                     let filteredArray = listOffersSent.filter(item => item !== listOffersSent[offerIndex])
                     setListOffersSent(filteredArray);
                 }
+                console.log(response);
             })
+    }
+
+    function handleAcceptOffer(offerIndex)
+    {
+        console.log("handleAcceptOffer", listOffersReceived[offerIndex]);
+
+        let home_id = listOffersReceived[offerIndex].home
+        let victim_id = listOffersReceived[offerIndex].victim
+        let user_id = JSON.parse(localStorage.getItem('user'));
+        user_id = user_id['user']['user_id'];
+
+        axios.patch(`https://bauphi-api.herokuapp.com/api/users/${user_id}/interactions/accept-request`,
+            {headers: {'Content-Type': 'application/json', 'session_key': 'admin'},
+            body: {"home": home_id, "victim": victim_id}})
+
+            .then((response) => {
+                if (response.data.status === "SUCCESS") {
+                    setButtonColor("primary");
+                    // let filteredArray = listOffersSent.filter(item => item !== listOffersSent[offerIndex])
+                    // setListOffersSent(filteredArray);
+                }
+                console.log(response);
+            })
+    }
+
+    function handleRejectOffer(offerIndex)
+    {
+        console.log("handleRejectOffer", offerIndex);
+        // console.log(listOffersSent[offerIndex]);
+        //
+        // let home_id = listOffersSent[offerIndex].home
+        // let user_id = JSON.parse(localStorage.getItem('user'));
+        // user_id = user_id['user']['user_id'];
+        //
+        // axios.delete(`https://bauphi-api.herokuapp.com/api/users/${user_id}/interactions/delete-request/${home_id}`,
+        //     {headers: {'Content-Type': 'application/json', 'session_key': 'admin'}})
+        //     .then((response) => {
+        //         if (response.data.status === "SUCCESS") {
+        //             let filteredArray = listOffersSent.filter(item => item !== listOffersSent[offerIndex])
+        //             setListOffersSent(filteredArray);
+        //         }
+        //     })
     }
 
     React.useEffect(() => {
@@ -101,7 +146,22 @@ export default function AdminNavbarLinks() {
             })
     }, []);
 
-    // React.useEffect(()=>{console.log("offers tx", listOffersSent)},[listOffersSent])
+    React.useEffect(() => {
+        console.log("handleListOffersReceived");
+
+        let user_id = JSON.parse(localStorage.getItem('user'));
+        user_id = user_id['user']['user_id'];
+
+        axios.get(`https://bauphi-api.herokuapp.com/api/users/${user_id}/interactions/received-request-list`,
+            {headers: {'Content-Type': 'application/json', 'session_key': 'admin'}})
+            .then((response) => {
+                if (response.data.status === "SUCCESS") {
+                    setListOffersReceived(response.data.requests);
+                }
+            })
+    }, []);
+
+    React.useEffect(()=>{console.log("offers rcv", listOffersReceived)},[listOffersReceived])
 
     return (
         <div>
@@ -180,32 +240,24 @@ export default function AdminNavbarLinks() {
 
                                                     <DialogTitle id="form-dialog-title2">Gelen Mesajlarım</DialogTitle>
                                                     <DialogContent>
-                                                        <DialogContentText>
-                                                            Mesaj1 3 kişiyiz, 1 hafta konaklamak istiyoruz. İletişim:
-                                                            +90504789654
-                                                        </DialogContentText>
-                                                        <DialogActions>
-                                                            <Button onClick={handleCloseNotification} color="danger">
-                                                                Reddet
-                                                            </Button>
-                                                            <Button onClick={handleCloseNotification} color="success">
-                                                                Kabul Et
-                                                            </Button>
 
-                                                        </DialogActions>
-                                                        <DialogContentText>
-                                                            Mesaj2 2 kişiyiz, 1 hafta konaklamak istiyoruz. İletişim:
-                                                            +90504789654
-                                                        </DialogContentText>
-                                                        <DialogActions>
-                                                            <Button onClick={handleCloseNotification} color="danger">
-                                                                Reddet
-                                                            </Button>
-                                                            <Button onClick={handleCloseNotification} color="success">
-                                                                Kabul Et
-                                                            </Button>
-
-                                                        </DialogActions>
+                                                        {
+                                                            listOffersReceived.map((el, i) =>
+                                                                <div>
+                                                                    <DialogContentText key={i}>
+                                                                        {el.description}
+                                                                    </DialogContentText>
+                                                                    <DialogActions>
+                                                                        <Button onClick={(el) => handleRejectOffer(i)} color="danger">
+                                                                            Reddet
+                                                                        </Button>
+                                                                        <Button onClick={(el) => handleAcceptOffer(i)} color={buttonColor}>
+                                                                            Kabul Et
+                                                                        </Button>
+                                                                    </DialogActions>
+                                                                </div>
+                                                            )
+                                                        }
                                                     </DialogContent>
 
                                                 </Dialog>
