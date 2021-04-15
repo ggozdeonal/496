@@ -46,11 +46,11 @@ function login(username, password, from) {
 }
 
 
-function oauthLogin(email, google_uid, from){
+function oauthLogin(token, from){
     return dispatch => {
-        dispatch(request({email}));
+        dispatch(request({token}));
 
-        userService.oauthLogin(email, google_uid)
+        userService.oauthLogin(token)
         .then(
             user => {
                 dispatch(success(user));

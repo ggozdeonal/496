@@ -20,6 +20,7 @@ import "firebase/analytics";
 // Add the Firebase products that you want to use
 import "firebase/auth";
 import "firebase/firestore";
+import { DirectionsOutlined } from '@material-ui/icons';
 
 const firebaseConfig = {
     apiKey: "AIzaSyANQzjmvAokWtm7N_NbgqVIx6rPTXyCD1w",
@@ -85,12 +86,11 @@ function LoginPage() {
 
             // This gives you a Google Access Token. You can use it to access the Google API.
             var token = credential.accessToken;
-            // The signed-in user info.
-            var user = result.user;
 
-            if(user.email && user.uid){
+            console.log(token)
+            if(token){
                 const { from } = location.state || { from: { pathname: "/" } };
-                dispatch(userActions.oauthLogin(user.email, user.uid, from));
+                dispatch(userActions.oauthLogin(token, from));
             }
             
 
@@ -100,6 +100,7 @@ function LoginPage() {
             // Handle Errors here.
             var errorCode = error.code;
             var errorMessage = error.message;
+            console.log(errorMessage)
             // The email of the user's account used.
             var email = error.email;
             // The firebase.auth.AuthCredential type that was used.

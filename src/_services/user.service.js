@@ -38,10 +38,9 @@ function login(email, password) {
         });
 }
 
-function oauthLogin(email, google_uid){
+function oauthLogin(token){
     var bodyJson = {
-        "email": email,
-        "google_uid": google_uid
+        "access_token": token,
     }
 
     const requestOptions = {
