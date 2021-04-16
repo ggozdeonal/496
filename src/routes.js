@@ -3,12 +3,14 @@ import Person from "@material-ui/icons/Person";
 import Home from "@material-ui/icons/House";
 import Events from "@material-ui/icons/Event";
 import Pets from "@material-ui/icons/Pets";
+import FlashOn from "@material-ui/icons/FlashOn";
 import Anasayfa from "views/Anasayfa/Anasayfa.js";
 import Profil from "views/Profil/Profil.js";
 import Ilan_ekle from "views/Ilan_ekle/Ilan_ekle.js";
 import Etkinlik_ilanlari from "views/Etkinlik_ilanlari/Etkinlik_ilanlari.js";
 import Ev_ilanlari from "views/Ev_ilanlari/Ev_ilanlari.js";
 import Kayip_evcil_hayvan_ilanlari from "views/Kayip_evcil_hayvan_ilanlari/Kayip_evcil_hayvan_ilanlari.js";
+import Deprem_listesi from "views/Ekstra/Deprem_listesi";
 
 
 const dashboardRoutes = [
@@ -39,14 +41,14 @@ const dashboardRoutes = [
   
   {
     path: "/ev_ilanlari",
-    name: "Ev İlanları",
+    name: "Evler",
     icon: Home,
     component: Ev_ilanlari,
     layout: "/admin"
   },
   {
     path: "/etkinlik_ilanlari",
-    name: "Etkinlik İlanları",
+    name: "Etkinlikler",
 
     icon: Events,
     component: Etkinlik_ilanlari,
@@ -59,6 +61,15 @@ const dashboardRoutes = [
     name: "Kayıp İlanları",
     icon: Pets,
     component: Kayip_evcil_hayvan_ilanlari,
+    layout: "/admin"
+  },
+
+
+  {
+    path: "/yakin_depremler",
+    name: "Yakın Depremler",
+    icon: FlashOn,
+    component: Deprem_listesi,
     layout: "/admin"
   }
   
