@@ -6,6 +6,7 @@ import Pets from "@material-ui/icons/Pets";
 import FlashOn from "@material-ui/icons/FlashOn";
 import AttachMoney from "@material-ui/icons/AttachMoney";
 import Help from "@material-ui/icons/Help";
+import NotListedLocation from "@material-ui/icons/NotListedLocation";
 import Anasayfa from "views/Anasayfa/Anasayfa.js";
 import Profil from "views/Profil/Profil.js";
 import Ilan_ekle from "views/Ilan_ekle/Ilan_ekle.js";
@@ -62,7 +63,7 @@ const dashboardRoutes = [
   {
     path: "/kayip_ilanlari",
     name: "Kayıp İlanları",
-    icon: Help,
+    icon: NotListedLocation,
     component: Kayip_evcil_hayvan_ilanlari,
     layout: "/admin"
   },

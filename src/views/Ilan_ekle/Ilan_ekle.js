@@ -1116,9 +1116,9 @@ export default function Ilan_ekle_sayfasi() {
             <GridItem xs={12} sm={12} md={12}>
                 <Card>
                     <CardHeader color="primary">
-                        <h4 className={classes.cardTitleWhite}>Kayıp İlanları Ekle</h4>
+                        <h4 className={classes.cardTitleWhite}>Kayıp İlanı Ekle</h4>
                         <p className={classes.cardCategoryWhite}>
-                            Kayıp evcil hayvan ilanı için gerekli bilgileri giriniz.
+                            Kayıp ilanı için gerekli bilgileri giriniz. İlanınızın yakınınız için veya evcil hayvanınız için olup olmadığını aşağıda vurgulayınız.
                         </p>
                     </CardHeader>
                     <CardBody>
@@ -1209,10 +1209,9 @@ export default function Ilan_ekle_sayfasi() {
 
                         </GridContainer>
 
-                        <Button color="rose" round><Icon>add_photo_alternate</Icon> Fotoğraf Ekle</Button>
                     </CardBody>
                     <CardFooter>
-                        <Button color="primary" onClick={handleAddAnnouncement} >Kayıp Evcil Hayvan İlanı Ekle</Button>
+                        <Button color="primary" onClick={handleAddAnnouncement} >Kayıp İlanı Ekle</Button>
                     </CardFooter>
                 </Card>
             </GridItem>

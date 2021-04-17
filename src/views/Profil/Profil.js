@@ -16,6 +16,8 @@ import Events from "@material-ui/icons/Event";
 import Pets from "@material-ui/icons/Pets";
 import Edit from "@material-ui/icons/Edit";
 import Close from "@material-ui/icons/Close";
+import NotListedLocation from "@material-ui/icons/NotListedLocation";
+
 // core components
 import Tabs from "components/CustomTabs/CustomTabs.js";
 import Table from "components/Table/Table.js";
@@ -644,8 +646,8 @@ export default function Profil_sayfasi() {
                         )
                     },
                     {
-                        tabName: "Kayıp Pet İlanlarım",
-                        tabIcon: Pets,
+                        tabName: "Kayıp İlanlarım",
+                        tabIcon: NotListedLocation,
                         tabContent: (
                             <Table
                                 tableHead={["Duyurular", "Duyuru Guncelle", "Duyuru Sil"]}
@@ -1215,7 +1217,6 @@ export default function Profil_sayfasi() {
 
                             </GridContainer>
 
-                            <Button color="rose" round><Icon>add_photo_alternate</Icon> Fotoğraf Ekle</Button>
                         </CardBody>
                         <CardFooter>
                             <Button color="info" onClick={handleUpdateAnnouncement}>Kayıp İlanımı Güncelle</Button>

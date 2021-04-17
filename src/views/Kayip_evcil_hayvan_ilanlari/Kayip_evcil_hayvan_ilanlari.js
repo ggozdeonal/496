@@ -44,7 +44,8 @@ const useStyles = makeStyles(styles);
 
 export default function Kayip_evcil_hayvan_ilanlari_sayfasi() {
   const classes = useStyles();
-  const [anns, setAnns] = React.useState([]);
+  const [annsRelative, setAnnsRelative] = React.useState([]);
+  const [annsPet, setAnnsPet] = React.useState([]);
 
   const params = {
     method: 'GET',
@@ -56,14 +57,24 @@ export default function Kayip_evcil_hayvan_ilanlari_sayfasi() {
         fetch(`https://bauphi-api.herokuapp.com/api/generic/all-announcements`, params)
         .then((response) => response.json()) 
         .then((data) => {
-          var tmp = anns;
+          var tmp1 = annsRelative;
+          var tmp2 = annsPet;
           if(data.hasOwnProperty('announcements')){
             data.announcements.forEach(ann => {
-              tmp = [...tmp, [ann.phone, ann.title, ann.description, ann.isHuman ? "İnsan" : "Evcil Hayvan"]]
+              if(ann.isHuman){
+                tmp1 = [...tmp1, [ann.phone, ann.title, ann.description]]
+                setAnnsRelative(tmp1);
+              }
+              else{
+                tmp2 = [...tmp2, [ann.phone, ann.title, ann.description]]
+                setAnnsPet(tmp2);
+              }
             });
-            setAnns(tmp);
             }
-          else{setAnns([])}
+          else{
+            setAnnsRelative([])
+            setAnnsPet([])
+          }
           });
   }, []);
   return (
@@ -72,10 +83,38 @@ export default function Kayip_evcil_hayvan_ilanlari_sayfasi() {
     
     <GridItem xs={12} sm={12} md={12}>
     <Card>
-      <CardHeader color="warning">
-        <h4 className={classes.cardTitleWhite}>Kayıp İlanlarını Listele<Icon>filter_alt</Icon></h4>
+      <CardHeader color="danger">
+        <h4 className={classes.cardTitleWhite}>Kayıp Yakınlar<Icon>filter_alt</Icon></h4>
         <p className={classes.cardCategoryWhite}>
-        Kayıp insan/evcil hayvan ilanları listelenir.
+        Yayınlanan kayıp yakın ilanlarını görüntüleyebilirsiniz.
+        </p>
+      </CardHeader>
+      <CardBody>
+      
+        <div>
+        <Table
+          tableHeaderColor="primary"
+          tableHead={["Telefon", "Başlık", "Açıklama"]}
+          tableData={annsRelative}
+        /></div>
+      </CardBody>
+    </Card>
+  </GridItem>
+
+
+
+
+
+
+
+
+  <GridItem xs={12} sm={12} md={12}>
+    <Card>
+      <CardHeader color="warning">
+        <h4 className={classes.cardTitleWhite}>Kayıp Evcil Hayvanlar<Icon>filter_alt</Icon></h4>
+        <p className={classes.cardCategoryWhite}>
+        Yayınlanan kayıp evcil hayvan ilanlarını görüntüleyebilirsiniz.
+
         </p>
       </CardHeader>
       <CardBody>
@@ -83,8 +122,8 @@ export default function Kayip_evcil_hayvan_ilanlari_sayfasi() {
         <div style={{ backgroundImage: `url(${background})`,  backgroundRepeat: 'no-repeat', }}>
         <Table
           tableHeaderColor="primary"
-          tableHead={["Telefon", "Başlık", "Açıklama", "İnsan/Evcil Hayvan"]}
-          tableData={anns}
+          tableHead={["Telefon", "Başlık", "Açıklama"]}
+          tableData={annsPet}
         /></div>
       </CardBody>
     </Card>
