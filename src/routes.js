@@ -74,14 +74,6 @@ const dashboardRoutes = [
     icon: FlashOn,
     component: Deprem_listesi,
     layout: "/admin"
-  },
-  
-  {
-    path: "/harita",
-    name: "Harita",
-    icon: MapIcon,
-    component: Goster,
-    layout: "/admin"
   }
  
 ];
