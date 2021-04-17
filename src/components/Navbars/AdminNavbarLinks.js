@@ -31,7 +31,10 @@ export default function AdminNavbarLinks() {
     const [openProfile, setOpenProfile] = React.useState(null);
     const [openG, setOpenG] = React.useState(false);
     const [listOffersSent, setListOffersSent] = React.useState([]);
+    const [listOffersResulted, setListOffersResulted] = React.useState([]);
     const [listOffersReceived, setListOffersReceived] = React.useState([]);
+    const [homeOwner, setHomeOwner] = React.useState({});
+    const [showInfo, setShowInfo] = React.useState(false);
 
 
     const handleClickNotification = event => {
@@ -82,12 +85,59 @@ export default function AdminNavbarLinks() {
             .then((response) => {
                 if (response.data.status === "SUCCESS") {
                     let filteredArray = listOffersSent.filter(item => item !== listOffersSent[offerIndex])
+                    filteredArray = filteredArray.filter(item => item.results === "Pending")
+                    let filteredArray2 = listOffersSent.filter(item => item !== listOffersSent[offerIndex])
+                    filteredArray2 = filteredArray2.filter(item => item.results === "Accepted")
                     setListOffersSent(filteredArray);
+                    setListOffersResulted(filteredArray2);
                     loadOffersSent();
                     loadOffersReceived();
                 }
                 console.log(response);
             })
+    }
+
+    function handleDeleteResultedOfferButtonClick(offerIndex)
+    {
+        console.log(listOffersResulted[offerIndex]);
+
+        let home_id = listOffersResulted[offerIndex].home
+        let user_id = JSON.parse(localStorage.getItem('user'));
+        user_id = user_id['user']['user_id'];
+
+        axios.delete(`https://bauphi-api.herokuapp.com/api/users/${user_id}/interactions/delete-request/${home_id}`,
+            {headers: {'Content-Type': 'application/json', 'session_key': 'admin'}})
+            .then((response) => {
+                if (response.data.status === "SUCCESS") {
+                    let filteredArray2 = listOffersSent.filter(item => item !== listOffersResulted[offerIndex])
+                    filteredArray2 = filteredArray2.filter(item => item.results === "Accepted")
+                    setListOffersResulted(filteredArray2);
+                }
+                console.log(response);
+            })
+    }
+
+    function handleProvideInfo(offerIndex)
+    {
+        console.log(listOffersSent[offerIndex]);
+
+        let user_id = listOffersResulted[offerIndex].home_owner
+
+        axios.get(`https://bauphi-api.herokuapp.com/api/users/${user_id}`,
+            {headers: {'Content-Type': 'application/json', 'session_key': 'admin'}})
+            .then((response) => {
+                if (response.data.status === "SUCCESS") {
+                    let user = response.data.user;
+                    setHomeOwner(user);
+                    setShowInfo(true);
+                }
+                console.log(response);
+            })
+    }
+
+    function handleCloseInfoDialog() {
+        setShowInfo(false)
+        setHomeOwner({})
     }
 
     function handleAcceptOffer(offerIndex)
@@ -143,7 +193,10 @@ export default function AdminNavbarLinks() {
             {headers: {'Content-Type': 'application/json', 'session_key': 'admin'}})
             .then((response) => {
                 if (response.data.status === "SUCCESS") {
-                    setListOffersSent(response.data.requests);
+                    let filteredArray = response.data.requests.filter(item => item.results === "Pending")
+                    setListOffersSent(filteredArray);
+                    let filteredArray2 = response.data.requests.filter(item => item.results === "Accepted")
+                    setListOffersResulted(filteredArray2);
                 }
             })
     }
@@ -172,7 +225,10 @@ export default function AdminNavbarLinks() {
             {headers: {'Content-Type': 'application/json', 'session_key': 'admin'}})
             .then((response) => {
                 if (response.data.status === "SUCCESS") {
-                    setListOffersSent(response.data.requests);
+                    let filteredArray = response.data.requests.filter(item => item.results === "Pending")
+                    setListOffersSent(filteredArray);
+                    let filteredArray2 = response.data.requests.filter(item => item.results === "Accepted")
+                    setListOffersResulted(filteredArray2);
                 }
             })
     }, []);
@@ -243,15 +299,81 @@ export default function AdminNavbarLinks() {
                                         >
                                             <div>
 
+                                            <Dialog open={showInfo} onClose={handleCloseInfoDialog}
+                                                        aria-labelledby="form-dialog-title">
+
+                                                    <DialogTitle id="form-dialog-title">Ev Sahibinin İletişim Bilgileri</DialogTitle>
+
+                                                    <DialogContent>
+
+                                                    <DialogContentText>
+                                                        <div>
+                                                        Adı: {homeOwner.name}
+                                                        </div>
+                                                        <div>
+                                                        Telefon Numarası: {homeOwner.phone}
+                                                        </div>
+                                                        <div>
+                                                        Email: {homeOwner.email}
+                                                        </div>
+                                                    </DialogContentText>
+                                                    
+                                                    <Button onClick={handleCloseInfoDialog}
+                                                                            color="danger">
+                                                                        Kapat
+                                                    </Button>
+                                                    </DialogContent>
+                                                    
+
+                                                </Dialog>
+
                                                 <Dialog open={openG} onClose={handleCloseNotification}
                                                         aria-labelledby="form-dialog-title">
 
-                                                    <DialogTitle id="form-dialog-title">Gönderilen
-                                                        Mesajlarım</DialogTitle>
+                                                    <DialogTitle id="form-dialog-title">Kabul Edilen İsteklerim</DialogTitle>
+
+                                                    <DialogContent>
+                                                    
+                                                    {
+                                                        listOffersResulted.length === 0 ? 
+                                                    <DialogContentText>
+                                                        Kabul edilen bir isteğiniz bulunmuyor.
+                                                    </DialogContentText>
+                                                    :
+                                                    
+                                                    listOffersResulted.map((el, i) =>
+                                                        <div>
+                                                            <DialogContentText key={i}>
+                                                                {el.description}
+                                                            </DialogContentText>
+                                                            <DialogActions>
+                                                                <Button onClick={(el) => handleProvideInfo(i)}
+                                                                        color="secondary">
+                                                                    İletişim
+                                                                </Button>
+                                                                <Button onClick={(el) => handleDeleteResultedOfferButtonClick(i)}
+                                                                        color="danger">
+                                                                    Sil
+                                                                </Button>
+                                                            </DialogActions>
+                                                        </div>
+                                                    )
+                                                    
+                                                    }
+
+                                                    
+                                                    </DialogContent>
+
+                                                    <DialogTitle id="form-dialog-title">Gönderilen İstekler</DialogTitle>
 
                                                     <DialogContent>
 
                                                     {
+                                                        listOffersSent.length === 0 ? 
+                                                        <DialogContentText>
+                                                            Gönderilen bir isteğiniz bulunmuyor.
+                                                        </DialogContentText>
+                                                        :
                                                         listOffersSent.map((el, i) =>
                                                             <div>
                                                                 <DialogContentText key={i}>
@@ -266,34 +388,39 @@ export default function AdminNavbarLinks() {
                                                             </div>
                                                         )
                                                     }
+                                                    
                                                     </DialogContent>
 
 
-                                                    <DialogTitle id="form-dialog-title2">Gelen Mesajlarım</DialogTitle>
+                                                    <DialogTitle id="form-dialog-title2">Gelen İstekler</DialogTitle>
                                                     <DialogContent>
-
                                                         {
+                                                            listOffersReceived.length === 0 ?
+                                                            <DialogContentText>
+                                                                Gelen bir isteğiniz bulunmuyor.
+                                                            </DialogContentText>
+                                                            :
                                                             listOffersReceived.map((el, i) =>
-                                                                <div>
-                                                                    <DialogContentText key={i}>
-                                                                        {el.description}
-                                                                    </DialogContentText>
-                                                                    <DialogActions>
-                                                                        {listOffersReceived[i].results != "Accepted" &&
-                                                                        <Button onClick={(el) => handleRejectOffer(i)}
-                                                                                color="danger">
-                                                                            {listOffersReceived[i].results == "Rejected" ? "Reddedildi" : "Reddet"}
-                                                                        </Button>
-                                                                        }
-                                                                        {listOffersReceived[i].results != "Rejected" &&
-                                                                        <Button onClick={(el) => handleAcceptOffer(i)}
-                                                                                color={listOffersReceived[i].results == "Accepted" ? "info" : "success"}>
-                                                                            {listOffersReceived[i].results == "Accepted" ? "Kabul Edildi" : "Kabul Et"}
-                                                                        </Button>
-                                                                        }
-                                                                    </DialogActions>
-                                                                </div>
-                                                            )
+                                                            <div>
+                                                                <DialogContentText key={i}>
+                                                                    {el.description}
+                                                                </DialogContentText>
+                                                                <DialogActions>
+                                                                    {listOffersReceived[i].results != "Accepted" &&
+                                                                    <Button onClick={(el) => handleRejectOffer(i)}
+                                                                            color="danger">
+                                                                        {listOffersReceived[i].results == "Rejected" ? "Reddedildi" : "Reddet"}
+                                                                    </Button>
+                                                                    }
+                                                                    {listOffersReceived[i].results != "Rejected" &&
+                                                                    <Button onClick={(el) => handleAcceptOffer(i)}
+                                                                            color={listOffersReceived[i].results == "Accepted" ? "info" : "success"}>
+                                                                        {listOffersReceived[i].results == "Accepted" ? "Kabul Edildi" : "Kabul Et"}
+                                                                    </Button>
+                                                                    }
+                                                                </DialogActions>
+                                                            </div>
+                                                        )
                                                         }
                                                     </DialogContent>
 
