@@ -66,8 +66,9 @@ export default function Ev_ilanlari_sayfasi() {
         .then((response) => response.json()) 
         .then((data) => {
           var tmp = [];
+          
           data.homes.forEach(home => {
-           tmp = [...tmp, [home.key, home.value.state, home.value.city, home.value.neighbourhood]]
+           tmp = [...tmp, [home.key + " km", home.value.state, home.value.city, home.value.neighbourhood]]
           });
           setHomes(tmp);
           setHomesDetailed(data.homes);

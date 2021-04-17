@@ -25,7 +25,7 @@ export default function CustomTable(props) {
   const classes = useStyles();
   const { tableHead, tableData, tableHeaderColor } = props;
   const [open, setOpen] = React.useState(false);
-
+  
   const handleCloseInfo = () => {
     setOpen(false);
 

@@ -9,6 +9,7 @@ import TableCell from "@material-ui/core/TableCell";
 import styles from "assets/jss/material-dashboard-react/components/tableStyle.js";
 import IconButton from "@material-ui/core/IconButton";
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
+import Room from '@material-ui/icons/Room';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -20,6 +21,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 import {userActions} from "../../_actions";
 import axios from "axios";
 import {useDispatch, useSelector} from "react-redux";
+import Harita from "../../views/Harita/Harita";
 
 const useStyles = makeStyles(styles);
 
@@ -30,6 +32,27 @@ export default function CustomTable(props) {
     const [open, setOpen] = React.useState(false);
     const [messageText, setMessageText] = React.useState("");
     const [selectedHomeIndex, setselectedHomeIndex] = React.useState(-1);
+
+    const [isMapOpen, setMapOpen] = React.useState(false);
+    const [selectedMapIndex, setselectedMapIndex] = React.useState(-1);
+    const [selectedLat, setSelectedLat] = React.useState(0);
+    const [selectedLon, setSelectedLon] = React.useState(0);
+    const [selectedAddress, setSelectedAddress] = React.useState("");
+
+    const handleCloseMap = () => {
+        setMapOpen(false);
+        setMessageText("");
+    };
+
+    function handleMapSelection(homeIndex) {
+        setselectedMapIndex(homeIndex);
+        setSelectedLat(homesDetailedCp[homeIndex].value.latitude)
+        setSelectedLon(homesDetailedCp[homeIndex].value.longitude)
+        setSelectedAddress(homesDetailedCp[homeIndex].value.city + ", " + homesDetailedCp[homeIndex].value.neighbourhood)
+        setMapOpen(true);
+        console.log("----", homesDetailedCp[homeIndex]);
+    }
+
 
     const dispatch = useDispatch();
     const alert = useSelector(state => state.alert);
@@ -98,6 +121,23 @@ export default function CustomTable(props) {
                 </DialogActions>
             </Dialog>
 
+            <Dialog open={isMapOpen} onClose={handleCloseMap} aria-labelledby="form-dialog-title" maxWidth="lg" fullWidth>
+                <DialogTitle id="form-dialog-title3">Harita Gösterimi</DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                    {selectedAddress}
+                    </DialogContentText>
+                    <Harita lat={selectedLat} lon={selectedLon} zoom={12} />
+                    
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleCloseMap} color="primary">
+                        Geri
+                    </Button>
+
+                </DialogActions>
+            </Dialog>
+
             <Table className={classes.table}>
                 {tableHead !== undefined ? (
                     <TableHead className={classes[tableHeaderColor + "TableHeader"]}>
@@ -119,6 +159,12 @@ export default function CustomTable(props) {
                                     </TableCell>
                                 );
                             })}
+                            <TableCell
+                                className={classes.tableCell + " " + classes.tableHeadCell}
+                                key={1}
+                            >
+                                Haritada Göster
+                            </TableCell>
                         </TableRow>
                     </TableHead>
                 ) : null}
@@ -148,6 +194,21 @@ export default function CustomTable(props) {
                                         </TableCell>
                                     );
                                 })}
+                                <TableCell className={classes.tableCell} key={0}>
+                                    <Tooltip
+                                        id="tooltip-me"
+                                        title="Konumu Göster"
+                                        placement="top"
+                                        classes={{tooltip: classes.tooltip}}>
+                                        <IconButton aria-label="Room"
+                                                    onClick={(tableData) => handleMapSelection(key)}
+                                                    className={classes.tableActionButton}>
+                                            <Room
+                                                className={classes.tableActionButtonIcon + " " + classes.edit}/>
+
+                                        </IconButton>
+                                    </Tooltip>
+                                </TableCell>
                             </TableRow>
                         );
                     })}

@@ -87,7 +87,7 @@ export default function Etkinlik_ilanlari_sayfasi() {
        var tmp = [];
        if(data.hasOwnProperty('events')){
        data.events.forEach(event => {
-        tmp = [...tmp, [event.key, event.value.title, event.value.type, event.value.description, event.value.start_time, event.value.end_time, event.value.state, event.value.city, event.value.neighbourhood]]
+        tmp = [...tmp, [event.key + " km", event.value.title, event.value.type, event.value.description, event.value.start_time, event.value.end_time, event.value.state, event.value.city, event.value.neighbourhood]]
        });
        setEvents(tmp);
      }
@@ -112,7 +112,7 @@ export default function Etkinlik_ilanlari_sayfasi() {
        var tmp = [];
        if(data.hasOwnProperty('events')){
        data.events.forEach(event => {
-        tmp = [...tmp, [event.key, event.value.title, event.value.type, event.value.description, event.value.start_time, event.value.end_time, event.value.state, event.value.city, event.value.neighbourhood]]
+        tmp = [...tmp, [event.key + " km", event.value.title, event.value.type, event.value.description, event.value.start_time, event.value.end_time, event.value.state, event.value.city, event.value.neighbourhood]]
        });
        setEvents(tmp);
      }
@@ -139,7 +139,7 @@ export default function Etkinlik_ilanlari_sayfasi() {
         .then((data) => {
           var tmp = [];
           data.events.forEach(event => {
-           tmp = [...tmp, [event.key, event.value.title, event.value.type, event.value.description, event.value.start_time, event.value.end_time, event.value.state, event.value.city, event.value.neighbourhood]]
+           tmp = [...tmp, [event.key + " km", event.value.title, event.value.type, event.value.description, event.value.start_time, event.value.end_time, event.value.state, event.value.city, event.value.neighbourhood]]
           });
           setEvents(tmp);
          });
