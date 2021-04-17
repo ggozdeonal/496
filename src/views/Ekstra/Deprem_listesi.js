@@ -86,18 +86,19 @@ export default function Deprem_listesi() {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ latitude, longitude })
           };
-      
+
         fetch(`https://bauphi-api.herokuapp.com/api/generic/last-earthquakes`, params)
         .then((response) => response.json()) 
         .then((data) => {
           var tmp = [];
-          data.earthquakes.forEach(earthquake => {
-            
-            tmp = [...tmp, [earthquake.distance || "Bilinmiyor", earthquake.magnitude, earthquake.location, earthquake.depth, earthquake.date]]
-            
-            
-           
-          });
+
+          if (data.status !== "FAILURE")
+          {
+            data.earthquakes.forEach(earthquake => {
+              tmp = [...tmp, [earthquake.distance || "Bilinmiyor", earthquake.magnitude, earthquake.location, earthquake.depth, earthquake.date]]
+            });
+          }
+
           setEvents(tmp);
          });
         }, function(error){
